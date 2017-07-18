@@ -19,8 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home')
 
-//Route::resource('acc-mgr', 'AccountManagerController');
-
 Route::get('acc-mgr', 'AccountManagerController@index');
 Route::get('acc-mgr/create', 'AccountManagerController@create');
 Route::post('acc-mgr/store', 'AccountManagerController@store');
@@ -34,6 +32,13 @@ Route::get('pelanggan/create','PelangganController@create');
 Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
 Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
 Route::get('pelanggan','PelangganController@index');
+
+Route::post('tambahlayanan','LayananController@store');
+Route::post('editlayanan','LayananController@save');
+Route::get('layanan/create','LayananController@create');
+Route::get('layanan/edit/{id}','LayananController@edit');
+Route::get('layanan/delete/{id}','LayananController@delete');
+Route::get('layanan','LayananController@index');
 
 Route::post('tambahperusahaan','AnakPerusahaanController@store');
 Route::post('editperusahaan','AnakPerusahaanController@save');
