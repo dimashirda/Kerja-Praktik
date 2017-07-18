@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')
 
 //Route::resource('acc-mgr', 'AccountManagerController');
 
@@ -27,3 +27,10 @@ Route::post('acc-mgr/store', 'AccountManagerController@store');
 Route::get('acc-mgr/edit/{id}', 'AccountManagerController@edit');
 Route::post('acc-mgr/update', 'AccountManagerController@update');
 Route::get('acc-mgr/delete/{id}', 'AccountManagerController@delete');
+
+Route::post('tambahpelanggan','PelangganController@store');
+Route::post('editpelanggan','PelangganController@save');
+Route::get('pelanggan/create','PelangganController@create');
+Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
+Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
+Route::get('pelanggan','PelangganController@index');
