@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('tambahpelanggan','PelangganController@store');
+Route::post('editpelanggan','PelangganController@save');
+Route::get('pelanggan/create','PelangganController@create');
+Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
+Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
+Route::get('pelanggan','PelangganController@index');
