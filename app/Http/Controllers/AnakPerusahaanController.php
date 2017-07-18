@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Anak_perusahaans;
+use App\Anak_perusahaan;
 
 use Illuminate\Http\Request;
 
@@ -20,18 +20,37 @@ class AnakPerusahaanController extends Controller
     }
     public function store(request $req)
     {
-    	$a = new Anak_perusahaans();
+    	$a = new Anak_perusahaan();
 
-    	$a->id_perusahaan = $req->input('id_peru');
-		$a->nama_perusahaan = $req->input('nama_peru');
-		$a->tlp_perusahaan = $req->input('tlp_peru');
-		$a->email_perusahaan = $req->input('email_peru');
+    	$a->id_perusahaan = $req->input('id_anakperu');
+		$a->nama_perusahaan = $req->input('nama_anakperu');
+		$a->tlp_perusahaan = $req->input('tlp_anakperu');
+		$a->email_perusahaan = $req->input('email_anakperu');
 
 		$a->save();
-		return redirect ('an_perusahaan');
+		return redirect ('anak_perusahaans');
     }
-    public function save()
+    public function edit($id_perusahaan)
     {
-
+    	$plg = Anak_perusahaan::find($id_perusahaan);
+    	//dd($plg);
+    	return view('anak_perusahaans.edit',['anak_perusahaans' => $plg]);
+    }
+    public function save(Request $data)
+    {	
+    	//dd($data);
+    	$edit = Anak_perusahaan::where('id_perusahaan',$data['id_anakperu'])->first();
+    	//dd($edit);
+    	$edit->nama_pelanggan = $data['nama_anakperu'];
+    	$edit->tlp_pelanggan = $data['tlp_anakperu'];
+    	$edit->email_pelanggan = $data['email_anakperu'];
+    	$edit->save();
+    	return redirect('anak_perusahaans');
+    }
+    public function delete($id_perusahaan)
+    {
+    	$del = Anak_perusahaan::find($id_perusahaan);
+    	$del->delete();
+    	return redirect ('anak_perusahaans');
     }
 }

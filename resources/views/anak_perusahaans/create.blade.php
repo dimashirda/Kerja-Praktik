@@ -1,22 +1,14 @@
-<div class="input-field col s12">
-                    <i class="material-icons prefix">person</i>
-                    <input id="nama" type="text" class="validate" name="nama" value="" required>
-                    <label for="icon_prefix">ID_Perusahaan</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">email</i>
-                    <input id="email" type="text" class="validate" name="email" value="" required>
-                    <label for="icon_prefix">Nama_perusahaan</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">phone</i>
-                    <input id="telepon" type="text" class="validate" name="telepon" value="" required>
-                    <label for="icon_prefix">Telepon</label>
-                </div>
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">phone</i>
-                    <input id="telepon" type="text" class="validate" name="telepon" value="" required>
-                    <label for="icon_prefix">Email_perusahaan</label>
-                </div>
+<html>
+	<head>
+		<body>
+			<form action="{{url('/tambahperusahaan')}}" method="POST">
+			{{ csrf_field() }}
+				<input type="text" name="id_anakperu" required>
+				<input type="text" name="nama_anakperu" required>
+				<input type="text" name="tlp_anakperu" required>
+				<input type="text" name="email_anakperu" required>
+				<button type="submit">save</button>
+			</form>
+		</body>
+	</head>
+</html>
