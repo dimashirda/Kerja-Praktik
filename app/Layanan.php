@@ -13,4 +13,8 @@ class Layanan extends Model
     'id_layanan', 'nama_layanan', 'deskripsi'
     ];
 
+    public function layanan_kontrak(){
+    	return $this->hasMany('App\Layanan_kontrak', 'id_layanan');
+    }
+
 }

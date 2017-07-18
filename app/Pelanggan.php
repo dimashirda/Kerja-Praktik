@@ -13,4 +13,8 @@ class Pelanggan extends Model
     'nipnas', 'nama_pelanggan', 'tlp_pelanggan', 'email_pelanggan'
     ];
 
+    public function pelanggan_detil(){
+    	return $this->hasMany('App\Detil_kontrak', 'nipnas');
+    }
+
 }

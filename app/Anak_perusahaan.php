@@ -12,4 +12,8 @@ class Anak_perusahaan extends Model
     protected $fillable = [
     'id_perusahaan', 'nama_perusahaan', 'tlp_perusahaan', 'email_perusahaan'
     ];
+
+      public function perusahaan_detil(){
+    	return $this->hasMany('App\Detil_kontrak', 'id_perusahaan');
+    }
 }
