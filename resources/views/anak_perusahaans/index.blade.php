@@ -18,5 +18,5 @@
 </table></div>
 @else
 <div class="alert alert-warning">
-<i class=fa fa-exclamation-triangle"></i> DATA TIDAK DITEMUKAN</div>
+<i class=fa fa-exclamation-triangle"></i> DATA</div>
 @endif

@@ -30,4 +30,8 @@ class AnakPerusahaanController extends Controller
 		$a->save();
 		return redirect ('an_perusahaan');
     }
+    public function save()
+    {
+
+    }
 }
