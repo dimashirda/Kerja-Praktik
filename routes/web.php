@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('anakperusahaan','AnakPerusahaanController');
 Route::post('tambahpelanggan','PelangganController@store');
 Route::post('editpelanggan','PelangganController@save');
 Route::get('pelanggan/create','PelangganController@create');
