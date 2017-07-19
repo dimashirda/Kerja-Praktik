@@ -26,18 +26,29 @@ public function upload() {
       $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
       if($extension == "pdf")
       {
+<<<<<<< HEAD
         $fileName = rand(11111,99999).'.'.$extension; // renameing image
         Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
         // sending back with message
         Session::flash('success', 'Upload successfully'); 
         return Redirect::to('upload');
+=======
+      $fileName = rand(11111,99999).'.'.$extension; // renameing image
+      Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+      // sending back with message
+      Session::flash('success', 'Upload successfully'); 
+      return Redirect::to('upload');
+>>>>>>> 266d11c1a4485f17aaeae5b7ee0c669749b9d28f
       }
       else
       {
         Session::flash('error', 'uploaded file is not valid');
         return Redirect::to('upload');
       }
+<<<<<<< HEAD
       
+=======
+>>>>>>> 266d11c1a4485f17aaeae5b7ee0c669749b9d28f
     }
     else {
       // sending back with error message.
