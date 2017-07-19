@@ -19,6 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/admin', 'AdminControllers@index')->name('admin');
+Route::get('/upload', 'DetilKontrakController@index')->name('upload');
+
+
 Route::get('acc-mgr', 'AccountManagerController@index');
 Route::get('acc-mgr/create', 'AccountManagerController@create');
 Route::post('acc-mgr/store', 'AccountManagerController@store');
@@ -51,3 +55,4 @@ Route::get('upload', function() {
   return View::make('anak_perusahaans.upload');
 });
 Route::post('apply/upload', 'ApplyController@upload');
+
