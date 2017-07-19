@@ -50,3 +50,9 @@ Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
 Route::get('anak_perusahaans/edit/{id_perusahaan}','AnakPerusahaanController@edit');
 Route::get('anak_perusahaans/delete/{id_perusahaan}','AnakPerusahaanController@delete');
 Route::get('anak_perusahaans','AnakPerusahaanController@index');
+
+Route::get('upload', function() {
+  return View::make('anak_perusahaans.upload');
+});
+Route::post('apply/upload', 'ApplyController@upload');
+
