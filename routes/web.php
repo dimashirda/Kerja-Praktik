@@ -33,6 +33,13 @@ Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
 Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
 Route::get('pelanggan','PelangganController@index');
 
+Route::post('tambahkontrak','DetilKontrakController@store');
+Route::post('editkontrak','DetilKontrakController@save');
+Route::get('kontrak/create','DetilKontrakController@create');
+Route::get('kontrak/edit/{nipnas}','DetilKontrakController@edit');
+Route::get('kontrak/delete/{nipnas}','DetilKontrakController@delete');
+Route::get('kontrak','DetilKontrakController@index');
+
 Route::post('tambahlayanan','LayananController@store');
 Route::post('editlayanan','LayananController@save');
 Route::get('layanan/create','LayananController@create');
