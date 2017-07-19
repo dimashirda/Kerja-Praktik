@@ -21,7 +21,7 @@
                                 <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control select2">
+                                    <select class="form-control select2" data-placeholder="Pilih Pelanggan">
                                         <option>a</option>
                                         <option>b</option>
                                     </select>
@@ -48,7 +48,7 @@
                                 <label for="AccMgr" class="col-sm-2 control-label">Account Manager</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control select2">
+                                    <select class="select2 form-control">
                                         <option>a</option>
                                         <option>b</option>
                                     </select>
@@ -95,44 +95,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="SLG" class="col-sm-2 control-label">SLG </label>
+                                <label for="SLG" class="col-sm-2 control-label">SLG (%)</label>
 
                                 <div class="col-sm-10">
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        95%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        97%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        98%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        98.5%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        99%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        99.5%
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                        99.95%
-                                    </label>
-                                    <br>
+                                    <input type="number" step="0.01" max="100" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
