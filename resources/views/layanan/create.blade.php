@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('adminlte::page')
 
 @section('title', 'SIKontrak')
@@ -46,3 +47,18 @@
         });
     </script>
 @stop
+=======
+<html>
+	<head>
+		<body>
+			<form action="{{url('/tambahlayanan')}}" method="POST">
+			{{ csrf_field() }}
+				<input type="hidden" name="id" required>
+				<input type="text" name="nama" required>
+				<input type="text" name="desk" required>
+				<button type="submit">save</button>
+			</form>
+		</body>
+	</head>
+</html>
+>>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
