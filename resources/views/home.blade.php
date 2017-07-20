@@ -36,8 +36,9 @@
                         <thead>
                             <tr>
                                 <th>Anak Perusahaan</th>
-                                <th>Kontrak Awal</th>
-                                <th>Kontak Akhir</th>
+                                <th>Nama Kontrak</th>
+                                <th>Mulai Kontrak</th>
+                                <th>Akhir Kontrak</th>
                                 <th>Jenis Layanan</th>
                                 <th>SLG (%)</th>
                                 <th>Dokumen</th>
@@ -53,6 +54,7 @@
                                 <td>F</td>
                                 <td>G</td>
                                 <td>H</td>
+                                <td>I</td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,7 +65,6 @@
 
     <script>
         $(function () {
-            $('#example1').DataTable()
             $('#example1').DataTable({
                 'paging'      : true,
                 'lengthChange': false,

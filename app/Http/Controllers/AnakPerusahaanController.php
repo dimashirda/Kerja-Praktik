@@ -1,4 +1,28 @@
 <?php
+<<<<<<< HEAD
+/**
+ * Created by PhpStorm.
+ * User: Sabila
+ * Date: 7/19/2017
+ * Time: 1:19 PM
+ */
+
+namespace App\Http\Controllers;
+
+
+class AnakPerusahaanController
+{
+    public function index()
+    {
+        return view('anak_perusahaans.index');
+    }
+
+    public function create()
+    {
+        return view('anak_perusahaans.create');
+    }
+}
+=======
 
 namespace App\Http\Controllers;
 
@@ -54,3 +78,4 @@ class AnakPerusahaanController extends Controller
     	return redirect ('anak_perusahaans');
     }
 }
+>>>>>>> d12e427d68594c67f92910c0271fc1524aafe117

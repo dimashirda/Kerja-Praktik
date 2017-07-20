@@ -1,4 +1,26 @@
 <?php
+<<<<<<< HEAD
+/**
+ * Created by PhpStorm.
+ * User: Sabila
+ * Date: 7/19/2017
+ * Time: 2:29 PM
+ */
+
+namespace App\Http\Controllers;
+
+
+class AccountManagerController
+{
+    public function index()
+    {
+        return view('account_manager.index');
+    }
+
+    public function create()
+    {
+        return view('account_manager.create');
+=======
 
 namespace App\Http\Controllers;
 
@@ -71,5 +93,6 @@ class AccountManagerController extends Controller
     	// $del = account_manager::find($accm);
     	// $del->delete();
     	return redirect ('acc-mgr');
+>>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
     }
 }
