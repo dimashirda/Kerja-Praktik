@@ -41,12 +41,12 @@ Route::get('acc-mgr/edit/{id}', 'AccountManagerController@edit');
 Route::post('acc-mgr/update', 'AccountManagerController@update');
 Route::get('acc-mgr/delete/{id}', 'AccountManagerController@delete');
 
-Route::post('tambahpelanggan','PelangganController@store');
-Route::post('editpelanggan','PelangganController@save');
+Route::post('admin/pelanggan/store','PelangganController@store');
+Route::post('admin/pelanggan/edit/{nipnas}','PelangganController@save');
 Route::get('pelanggan/create','PelangganController@create');
-Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
-Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
-Route::get('pelanggan','PelangganController@index');
+//Route::get('admin/pelanggan/edit}','PelangganController@edit');
+Route::get('admin/pelanggan/delete/{nipnas}','PelangganController@delete');
+//Route::get('pelanggan','PelangganController@index');
 
 Route::post('tambahkontrak','DetilKontrakController@store');
 Route::post('editkontrak','DetilKontrakController@save');

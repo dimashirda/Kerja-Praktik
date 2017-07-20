@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <br>
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover example">
                         <thead>
                         <tr>
                             <th>No.</th>
@@ -84,10 +84,10 @@
     </div>
     <script>
         $(function () {
-            $('#example1').DataTable({
+            $(".example").DataTable({
                 'paging'      : true,
                 'lengthChange': false,
-                'searching'   : true,
+                'searching'   : false,
                 'ordering'    : true,
                 'info'        : true,
                 'autoWidth'   : false
@@ -113,7 +113,7 @@
 				<a href="layanan/delete/{{$l->id_layanan}}"> hapus data </a>
 				<br>
 			@endforeach
-		@else 
+		@else
 			<h1>ga ada apa apa</h1>
 		@endif
 		</body>

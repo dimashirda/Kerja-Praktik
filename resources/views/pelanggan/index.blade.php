@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('adminlte::page')
 
 @section('title', 'SIKontrak')
@@ -39,24 +38,32 @@
                         </div>
                     </div>
                     <br>
-                    <table id="example1" class="table table-bordered table-hover">
+                    @if(count($pelanggan) > 0)
+                        <?php $i=1 ?>
+                    <table class="table table-bordered table-hover example">
                         <thead>
                         <tr>
+                            <th>No.</th>
                             <th>NIPNAS</th>
                             <th>Pelanggan</th>
-                            <th>Email</th>
                             <th>No. Telepon</th>
+                            <th>Email</th>
                             <th colspan="2">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                            <td>D</td>
+                            @foreach($pelanggan as $p)
+                                <tr>
+                                    <td><?php echo $i; ?></td>
+                                    <td>{{$p->nipnas}}</td>
+                                    <td>{{$p->nama_pelanggan}}</td>
+                                    <td>{{$p->tlp_pelanggan}}</td>
+                                    <td>{{$p->email_pelanggan}}</td>
+                                <?php $i++; ?>
+                            @endforeach
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                <button type="button" class="btn btn-default " data-toggle="modal" data-target="#modal-default">
                                     Edit
                                 </button>
                             </td>
@@ -64,122 +71,102 @@
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
+
                             </td>
 
                         </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="modal-default" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Edit Data Pelanggan</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="NIPNAS" class="col-sm-2 control-label">NIPNAS</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="NIPNAS" disabled>
-                                </div>
+                <div id="modal-default" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Edit Data Pelanggan</h4>
                             </div>
-                            <div class="form-group">
-                                <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
+                            <div class="modal-body">
+                                <form class="form-horizontal" method="post" action="{{url('/admin/pelanggan/edit', $p->nipnas)}}">
+                                    {{ csrf_field() }}
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="NIPNAS" class="col-sm-2 control-label">NIPNAS</label>
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Pelanggan">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="EmailPelanggan" class="col-sm-2 control-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control nipnas" name="nipnas" value="{{$p->nipnas}}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
 
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="TlpPelanggan" class="col-sm-2 control-label">No. Telepon</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control name" name="name" value="{{$p->nama_pelanggan}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="EmailPelanggan" class="col-sm-2 control-label">Email</label>
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="No. Telepon">
-                                </div>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control email" name="email" value="{{$p->email_pelanggan}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="TlpPelanggan" class="col-sm-2 control-label">No. Telepon</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control tlp" name="tlp" value="{{$p->tlp_pelanggan}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success pull-right">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="modal-danger" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Hapus Data</h4>
+                <div id="modal-danger" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hapus Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Anda yakin ingin menghapus pelanggan ini?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <a href="{{url('admin/pelanggan/delete', $p->nipnas)}}">
+                                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Anda yakin ingin menghapus pelanggan ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
-                </div>
+                @else
+                    <p>Data tidak ditemukan</p>
+                @endif
             </div>
         </div>
     </div>
-    <script>
-        $(function () {
-            $('#example1').DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : true,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
+<script>
+    $(function () {
+        $(".example").DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
         })
-    </script>
+    })
+</script>
 @stop
-=======
-<html>
-	<head>
-		<body>
-		<a href="{{url('pelanggan/create')}}" class="btn btn-primary">Create nih</a>
-		<br>
-		<br>
-		@if(count($pelanggan) > 0)
-			<?php $i=1 ?>
-			@foreach($pelanggan as $p)
-				<tr>
-				<td><?php echo $i; ?></td>
-				<td>{{$p->nipnas}}</td>
-				<td>{{$p->nama_pelanggan}}</td>
-				<td>{{$p->tlp_pelanggan}}</td>
-				<td>{{$p->email_pelanggan}}</td>
-				</tr>
-				<?php $i++; ?>
-				<a href="pelanggan/edit/{{$p->nipnas}}"> edit data </a>
-				<a href="pelanggan/delete/{{$p->nipnas}}"> hapus data </a>
-				<br>
-			@endforeach
-		@else 
-			<h1>ga ada apa apa</h1>
-		@endif
-		</body>
-	</head>
-</html>
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
+

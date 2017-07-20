@@ -1,28 +1,4 @@
 <?php
-<<<<<<< HEAD
-/**
- * Created by PhpStorm.
- * User: Sabila
- * Date: 7/19/2017
- * Time: 11:18 AM
- */
-
-namespace App\Http\Controllers;
-
-
-class PelangganController
-{
-    public function index()
-    {
-        return view('pelanggan.index');
-    }
-
-    public function create()
-    {
-        return view('pelanggan.create');
-    }
-}
-=======
 
 namespace App\Http\Controllers;
 
@@ -50,7 +26,7 @@ class PelangganController extends Controller
     	$pelanggan->tlp_pelanggan = $request->input('tlp');
     	$pelanggan->email_pelanggan = $request->input('email');
     	$pelanggan->save();
-    	return redirect('/pelanggan');
+    	return redirect('/admin/pelanggan');
     }
     public function edit($nipnas)
     {
@@ -58,23 +34,24 @@ class PelangganController extends Controller
     	//dd($plg);
     	return view('pelanggan.edit',['pelanggan' => $plg]);
     }
-    public function save(Request $data)
+    public function save(Request $data, $nipnas)
     {	
     	//dd($data);
-    	$edit = pelanggan::where('nipnas',$data['nipnas'])->first();
-    	//dd($edit);
-    	$edit->nama_pelanggan = $data['nama'];
+        echo $nipnas;
+        $edit = pelanggan::where('nipnas',$nipnas)->first();
+//
+    	$edit->nama_pelanggan = $data['name'];
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/pelanggan');
+    	return redirect('/admin/pelanggan');
     }
     public function delete($nipnas)
     {
     	$del = pelanggan::find($nipnas);
     	$del->delete();
-    	return redirect ('/pelanggan');
+    	return redirect ('/admin/pelanggan');
     }
 }
  
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
+

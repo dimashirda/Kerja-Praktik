@@ -1,28 +1,4 @@
 <?php
-<<<<<<< HEAD
-/**
- * Created by PhpStorm.
- * User: Sabila
- * Date: 7/19/2017
- * Time: 1:57 PM
- */
-
-namespace App\Http\Controllers;
-
-
-class LayananController
-{
-    public function index()
-    {
-        return view('layanan.index');
-    }
-
-    public function create()
-    {
-        return view('layanan.create');
-    }
-}
-=======
 
 namespace App\Http\Controllers;
 
@@ -75,4 +51,4 @@ class LayananController extends Controller
     	return redirect ('/layanan');
     }
 }
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
+
