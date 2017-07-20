@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', 'AdminControllers@index')->name('admin');
-<<<<<<< HEAD
+
 Route::get('/admin/upload', 'DetilKontrakController@index')->name('upload');
 Route::get('/admin/pelanggan', 'PelangganController@index')->name('pelanggan');
 Route::get('/admin/pelanggan/create', 'PelangganController@create')->name('addplg');
@@ -30,7 +30,7 @@ Route::get('/admin/layanan', 'LayananController@index')->name('layanan');
 Route::get('/admin/layanan/create', 'LayananController@create')->name('addlyn');
 Route::get('/admin/accmgr', 'AccountManagerController@index')->name('accmgr');
 Route::get('/admin/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
-=======
+
 Route::get('/upload', 'DetilKontrakController@index')->name('upload');
 
 
@@ -48,6 +48,13 @@ Route::get('pelanggan/edit/{nipnas}','PelangganController@edit');
 Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
 Route::get('pelanggan','PelangganController@index');
 
+Route::post('tambahkontrak','DetilKontrakController@store');
+Route::post('editkontrak','DetilKontrakController@save');
+Route::get('kontrak/create','DetilKontrakController@create');
+Route::get('kontrak/edit/{nipnas}','DetilKontrakController@edit');
+Route::get('kontrak/delete/{nipnas}','DetilKontrakController@delete');
+Route::get('kontrak','DetilKontrakController@index');
+
 Route::post('tambahlayanan','LayananController@store');
 Route::post('editlayanan','LayananController@save');
 Route::get('layanan/create','LayananController@create');
@@ -61,4 +68,11 @@ Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
 Route::get('anak_perusahaans/edit/{id_perusahaan}','AnakPerusahaanController@edit');
 Route::get('anak_perusahaans/delete/{id_perusahaan}','AnakPerusahaanController@delete');
 Route::get('anak_perusahaans','AnakPerusahaanController@index');
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
+
+
+Route::get('upload', function() {
+  return View::make('anak_perusahaans.upload');
+});
+Route::post('apply/upload', 'ApplyController@upload');
+
+
