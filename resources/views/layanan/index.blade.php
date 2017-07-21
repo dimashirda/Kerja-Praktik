@@ -9,7 +9,6 @@
 				<tr>
 				<td>{{$l->id_layanan}}</td>
 				<td>{{$l->nama_layanan}}</td>
-				<td>{{$l->deskripsi}}</td>
 				</tr>
 				<a href="layanan/edit/{{$l->id_layanan}}"> edit data </a>
 				<a href="layanan/delete/{{$l->id_layanan}}"> hapus data </a>

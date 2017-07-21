@@ -23,7 +23,7 @@ class LayananController extends Controller
     	$layanan = new layanan;
     	$layanan->id_layanan = $request->input('id');
     	$layanan->nama_layanan = $request->input('nama');
-    	$layanan->deskripsi = $request->input('desk');
+    	//$layanan->deskripsi = $request->input('desk');
     	$layanan->save();
     	return redirect('/layanan');
     }
@@ -39,7 +39,7 @@ class LayananController extends Controller
     	$edit = layanan::where('id_layanan',$data['id'])->first();
     	//dd($edit);
     	$edit->nama_layanan = $data['nama'];
-    	$edit->deskripsi = $data['desk'];
+    	//$edit->deskripsi = $data['desk'];
     	//$edit->email_pelanggan = $data['email'];
     	$edit->save();
     	return redirect('/layanan');

@@ -731,16 +731,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.28",
+            "version": "v5.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb"
+                "reference": "4f7588c744eb15e49544c99c6ee90d5598b0b50b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/442511fc62121085d184355e4f964c88942bbecb",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4f7588c744eb15e49544c99c6ee90d5598b0b50b",
+                "reference": "4f7588c744eb15e49544c99c6ee90d5598b0b50b",
                 "shasum": ""
             },
             "require": {
@@ -856,7 +856,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-06-30T13:43:07+00:00"
+            "time": "2017-07-19T13:26:57+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1536,23 +1536,23 @@
         },
         {
             "name": "santigarcor/laratrust",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/santigarcor/laratrust.git",
-                "reference": "941f7761e9a813fd6ae7d189712a541a47977847"
+                "reference": "82c850ddc21a912c345a82e6d9c2c120d6fe8720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/941f7761e9a813fd6ae7d189712a541a47977847",
-                "reference": "941f7761e9a813fd6ae7d189712a541a47977847",
+                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/82c850ddc21a912c345a82e6d9c2c120d6fe8720",
+                "reference": "82c850ddc21a912c345a82e6d9c2c120d6fe8720",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "~5.2",
-                "illuminate/console": "~5.2",
-                "illuminate/database": "~5.2",
-                "illuminate/support": "~5.2",
+                "illuminate/cache": "~5.1",
+                "illuminate/console": "~5.1",
+                "illuminate/database": "~5.1",
+                "illuminate/support": "^5.1.40",
                 "kkszymanowski/traitor": "^0.2.0",
                 "php": ">=5.5.9"
             },
@@ -1600,7 +1600,7 @@
                 "rbac",
                 "roles"
             ],
-            "time": "2017-07-11T17:37:04+00:00"
+            "time": "2017-07-18T18:23:10+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
