@@ -10,7 +10,7 @@ class LayananController extends Controller
 {
     public function index()
     {
-    	$layanan = DB::table('layanans')->oldest()->get();
+    	$layanan = DB::table('layanans')->oldest()->paginate(25);
     	return view('layanan.index',['layanan' => $layanan]);
     }
     public function create()

@@ -10,7 +10,7 @@ class PelangganController extends Controller
 {
     public function index()
     {
-    	$pelanggan = DB::table('pelanggans')->get();
+    	$pelanggan = DB::table('pelanggans')->paginate(25);
     	return view('pelanggan.index',['pelanggan' => $pelanggan]);
     }
     public function create()
@@ -45,9 +45,9 @@ class PelangganController extends Controller
     	$edit->save();
     	return redirect('/admin/pelanggan');
     }
-    public function delete(Request $data)
+    public function delete($nipnas)
     {
-    	$del = pelanggan::where('nipnas',$data['nipnas']);
+    	$del = pelanggan::where('nipnas',$nipnas);
     	$del->delete();
     	return redirect ('/admin/pelanggan');
     }

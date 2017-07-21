@@ -39,7 +39,7 @@
                     </div>
                     <br>
                     @if($acc->count())
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -57,12 +57,12 @@
                             <td>{{ $a->tlp_am }}</td>
                             <td>{{ $a->email_am }}</td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_am}}" data-name="{{$a->nama_am}}" data-telp="{{$a->tlp_am}}" data-email="{{$a->email_am}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_am}}" data-id="{{$a->id_am}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
                             </td>
@@ -80,40 +80,40 @@
                                 <h4 class="modal-title">Edit Data Account Manager</h4>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal" method="post" action="{{url('admin/accmgr/edit', $a->id_am)}}">
+                                <form class="form-horizontal" method="post" id="form-edit">
                                     {{csrf_field()}}
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAccMgr" class="col-sm-2 control-label">ID Account Manager</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="id_accm" value="{{$a->id_am}}" disabled>
+                                                <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="nama_accm" value="{{$a->nama_am}}">
+                                                <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="tlp_accm" value="{{$a->tlp_am}}">
+                                                <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="EmailAccMgr" class="col-sm-2 control-label">Email</label>
 
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" name="email_accm" value="{{$a->email_am}}">
+                                                <input type="email" class="form-control" name="email_accm" id="emailaccmgr">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-success pull-right">Simpan</button>
                                     </div>
                                 </form>
@@ -130,11 +130,13 @@
                                 <h4 class="modal-title">Hapus Data</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Anda yakin ingin menghapus layanan ini?</p>
+                                <p id="show-name"></p>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn btn-success pull-right">Hapus</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <a id="del-btn">
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -146,15 +148,25 @@
         </div>
     </div>
     <script>
-        $(function () {
-            $('#example1').DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : true,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
+        $(document).on("click", ".edit-button", function(){
+            var id_accmgr = $(this).data('id');
+            var nama_accmgr = $(this).data('name');
+            var email_accmgr = $(this).data('email');
+            var tlp_accmgr = $(this).data('telp');
+            $("#idaccmgr").val(id_accmgr);
+            $("#namaaccmgr").val(nama_accmgr);
+            $("#emailaccmgr").val(email_accmgr);
+            $("#tlpaccmgr").val(tlp_accmgr);
+
+            $("#form-edit").attr('action','{{url('/admin/accmgr/edit')}}' + '/' + id_accmgr);
+        })
+
+        $(document).on("click",".delete-button", function () {
+            var id_accmgr = $(this).data('id');
+            var nama_accmgr = $(this).data('name');
+            $("#del-btn").attr('href','{{url('admin/accmgr/delete')}}' + '/' + id_accmgr);
+            $("#show-name").html('Anda yakin ingin menghapus Account Manager ' + nama_accmgr + '?')
+
         })
     </script>
 @stop

@@ -35,17 +35,17 @@ Route::get('/upload', 'DetilKontrakController@index')->name('upload');
 
 
 //Route::get('acc-mgr', 'AccountManagerController@index');
-Route::get('acc-mgr/create', 'AccountManagerController@create');
+//Route::get('acc-mgr/create', 'AccountManagerController@create');
 Route::post('admin/accmgr/store', 'AccountManagerController@store');
 //Route::get('admin/accmgr/edit/{id}', 'AccountManagerController@edit');
 Route::post('admin/accmgr/edit/{id}', 'AccountManagerController@update');
-Route::get('acc-mgr/delete/{id}', 'AccountManagerController@delete');
+Route::get('admin/accmgr/delete/{id}', 'AccountManagerController@delete');
 
 Route::post('admin/pelanggan/store','PelangganController@store');
 Route::post('admin/pelanggan/edit/{nipnas}','PelangganController@save');
 Route::get('pelanggan/create','PelangganController@create');
 //Route::get('admin/pelanggan/edit}','PelangganController@edit');
-Route::get('admin/pelanggan/delete','PelangganController@delete');
+Route::get('admin/pelanggan/delete/{nipnas}','PelangganController@delete');
 //Route::get('pelanggan','PelangganController@index');
 
 Route::post('tambahkontrak','DetilKontrakController@store');

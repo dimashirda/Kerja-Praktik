@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <br>
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Anak Perusahaan</th>
@@ -64,15 +64,6 @@
     </div>
 
     <script>
-        $(function () {
-            $('#example1').DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : false,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
-        })
+
     </script>
 @stop

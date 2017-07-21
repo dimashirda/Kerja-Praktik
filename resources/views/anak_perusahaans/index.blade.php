@@ -39,7 +39,7 @@
                     </div>
                     <br>
                     @if($acc->count())
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -57,12 +57,12 @@
                             <td>{{ $a->tlp_perusahaan }}</td>
                             <td>{{ $a->email_perusahaan }}</td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_perusahaan}}" data-name="{{$a->nama_perusahaan}}" data-telp="{{$a->tlp_perusahaan}}" data-email="{{$a->email_perusahaan}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_perusahaan}}" data-id="{{$a->id_perusahaan}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
                             </td>
@@ -80,35 +80,35 @@
                                 <h4 class="modal-title">Edit Data Anak Perusahaan</h4>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal" method="post" action="{{url('admin/perusahaan/edit', $a->id_perusahaan)}}">
+                                <form class="form-horizontal" method="post" id="form-edit">
                                    {{ csrf_field() }}
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDPerusahaan" class="col-sm-2 control-label">ID Perusahaan</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" value="{{$a->id_perusahaan}}" name="id_anakperu" disabled>
+                                                <input type="text" class="form-control" id="idprshn" name="id_anakperu" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Perusahaan</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control"value="{{$a->nama_perusahaan}}" name="nama_anakperu">
+                                                <input type="text" class="form-control" id="namaprshn" name="nama_anakperu">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="EmailPerusahaan" class="col-sm-2 control-label">Email</label>
 
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" value="{{$a->email_perusahaan}}" name="email_anakperu">
+                                                <input type="email" class="form-control" id="emailprshn" name="email_anakperu">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpPerusahaan" class="col-sm-2 control-label">No. Telepon</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" value="{{$a->tlp_perusahaan}}" name="tlp_anakperu">
+                                                <input type="text" class="form-control" id="tlpprshn" name="tlp_anakperu">
                                             </div>
                                         </div>
                                     </div>
@@ -131,12 +131,12 @@
                                 <h4 class="modal-title">Hapus Data</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Anda yakin ingin menghapus perusahaan ini?</p>
+                                <p id="show-name"></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <a href="{{url('admin/perusahaan/delete', $a->id_perusahaan)}}">
-                                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
+                                <a id="del-btn">
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
                                 </a>
                             </div>
                         </div>
@@ -150,15 +150,25 @@
     </div>
 
     <script>
-        $(function () {
-            $('#example1').DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : true,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
+        $(document).on("click", ".edit-button", function(){
+            var id_perusahaan = $(this).data('id');
+            var nama_perusahaan = $(this).data('name');
+            var email_perusahaan = $(this).data('email');
+            var tlp_perusahaan = $(this).data('telp');
+            $("#idprshn").val(id_perusahaan);
+            $("#namaprshn").val(nama_perusahaan);
+            $("#emailprshn").val(email_perusahaan);
+            $("#tlpprshn").val(tlp_perusahaan);
+
+            $("#form-edit").attr('action','{{url('/admin/perusahaan/edit')}}' + '/' + id_perusahaan);
+        });
+
+        $(document).on("click",".delete-button", function () {
+            var id_perusahaan = $(this).data('id')
+            var nama_perusahaan = $(this).data('name');
+            $("#del-btn").attr('href','{{url('admin/perusahaan/delete')}}' + '/' + id_perusahaan)
+            $("#show-name").html('Anda yakin ingin menghapus perusahaan ' + nama_perusahaan + '?')
+
         })
     </script>
 @stop

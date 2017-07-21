@@ -11,7 +11,7 @@ class AnakPerusahaanController extends Controller
 {
     public function index()
     {
-    	$acc = DB::table('anak_perusahaans')->oldest()->get();
+    	$acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
     	return view('anak_perusahaans.index',['acc'=>$acc]);
     }
     public function create()
@@ -49,7 +49,7 @@ class AnakPerusahaanController extends Controller
     }
     public function delete($id_perusahaan)
     {
-    	$del = Anak_perusahaan::find($id_perusahaan);
+    	$del = Anak_perusahaan::where('id_perusahaan',$id_perusahaan);
     	$del->delete();
     	return redirect ('/admin/perusahaan');
     }

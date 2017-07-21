@@ -39,8 +39,8 @@
                     </div>
                     <br>
                     @if(count($pelanggan) > 0)
-                        <?php $i=1 ?>
-                    <table class="table table-bordered table-hover example">
+                        <?php $no=1 ?>
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>No.</th>
@@ -55,19 +55,19 @@
                         <tr>
                             @foreach($pelanggan as $p)
                                 <tr>
-                                    <td><?php echo $i; ?></td>
+                                    <td><?php echo $no; ?></td>
                                     <td>{{$p->nipnas}}</td>
                                     <td>{{$p->nama_pelanggan}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
                                     <td>{{$p->email_pelanggan}}</td>
-                                <?php $i++; ?>
+                                <?php $no++; ?>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
+                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
                             </td>
@@ -75,6 +75,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                        {{$pelanggan->render()}}
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
@@ -85,7 +86,7 @@
                                 <h4 class="modal-title">Edit Data Pelanggan</h4>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal" method="post" action="{{url('/admin/pelanggan/edit', $p->nipnas)}}">
+                                <form class="form-horizontal" method="post" action="" id="form-edit">
                                     {{ csrf_field() }}
                                     <div class="box-body">
                                         <div class="form-group">
@@ -136,13 +137,13 @@
                                 <h4 class="modal-title">Hapus Data</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Anda yakin ingin menghapus pelanggan ini?</p>
+                                <p id="show-name"></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <form action="{{url('admin/pelanggan/delete')}}">
-                                    <button type="submit" id="delete-name" class="btn btn-success pull-right">Hapus</button>
-                                </form>
+                                <a id="del-btn">
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                </a>
 
                             </div>
                         </div>
@@ -155,17 +156,6 @@
         </div>
     </div>
 <script>
-    $(function () {
-        $(".example").DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-        })
-    });
-
     $(document).on("click", ".edit-button", function(){
         var id_pelanggan = $(this).data('id');
         var nama_pelanggan = $(this).data('name');
@@ -175,11 +165,15 @@
         $("#namaplg").val(nama_pelanggan);
         $("#emailplg").val(email_pelanggan);
         $("#tlpplg").val(tlp_pelanggan);
+
+        $("#form-edit").attr('action','{{url('/admin/pelanggan/edit')}}' + '/' + id_pelanggan);
     });
 
     $(document).on("click",".delete-button", function () {
         var id_pelanggan = $(this).data('id');
-        $("#nipnas").val(id_pelanggan);
+        var nama_pelanggan = $(this).data('name');
+        $("#del-btn").attr('href','{{url('admin/pelanggan/delete')}}' + '/' + id_pelanggan);
+        $("#show-name").html('Anda yakin ingin menghapus pelanggan ' + nama_pelanggan + '?')
 
     })
 </script>

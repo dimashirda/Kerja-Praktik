@@ -69,9 +69,10 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-bordered table-hover example">
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
+                            <th width="30px">No.</th>
                             <th>ID</th>
                             <th>Layanan</th>
                             <th>Action</th>
@@ -80,12 +81,14 @@
                         <tbody>
                         @foreach($layanan as $l)
                         <tr>
+                            <td width="30px">{{$i}}</td>
                             <td>{{$l->id_layanan}}</td>
                             <td>{{$l->nama_layanan}}</td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">Hapus</button>
+                                <button type="button" class="btn btn-danger delete-button" data-name="{{$l->nama_layanan}}" data-id="{{$l->id_layanan}}" data-toggle="modal" data-target="#modal-danger">Hapus</button>
                             </td>
                         </tr>
+                            <?php $i++;?>
                         @endforeach
                         </tbody>
                     </table>
@@ -99,11 +102,11 @@
                                 <h4 class="modal-title">Hapus Data</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Anda yakin ingin menghapus layanan ini?</p>
+                                <p id="show-name"></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <a href="{{url('admin/layanan/delete', $l->id_layanan)}}">
+                                <a id="del-btn">
                                     <button type="submit" class="btn btn-success pull-right">Hapus</button>
                                 </a>
                             </div>
@@ -118,15 +121,12 @@
     </div>
 
     <script>
-        $(function () {
-            $(".example").DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : false,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
+        $(document).on("click",".delete-button", function () {
+            var id_layanan = $(this).data('id')
+            var nama_layanan = $(this).data('name')
+            $("#del-btn").attr('href','{{url('admin/layanan/delete')}}' + '/' + id_layanan)
+            $("#show-name").html('Anda yakin ingin menghapus layanan ' + nama_layanan + '?')
+
         })
     </script>
 @stop
