@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('adminlte::page')
 
 @section('title', 'SIKontrak')
@@ -39,6 +38,7 @@
                         </div>
                     </div>
                     <br>
+                    @if($acc->count())
                     <table id="example1" class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -50,11 +50,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($acc as $a)
                         <tr>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                            <td>D</td>
+                            <td>{{ $a->id_am }}</td>
+                            <td>{{ $a->nama_am }}</td>
+                            <td>{{ $a->tlp_am }}</td>
+                            <td>{{ $a->email_am }}</td>
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
                                     Edit
@@ -65,71 +66,82 @@
                                     Hapus
                                 </button>
                             </td>
-
                         </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="modal-default" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Edit Data Account Manager</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Perusahaan">
-                                </div>
+                <div id="modal-default" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Edit Data Account Manager</h4>
                             </div>
-                            <div class="form-group">
-                                <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
+                            <div class="modal-body">
+                                <form class="form-horizontal" method="post" action="{{url('admin/accmgr/edit', $a->id_am)}}">
+                                    {{csrf_field()}}
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="IDAccMgr" class="col-sm-2 control-label">ID Account Manager</label>
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="No. Telepon">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="EmailAccMgr" class="col-sm-2 control-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="id_accm" value="{{$a->id_am}}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="nama_accm" value="{{$a->nama_am}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="tlp_accm" value="{{$a->tlp_am}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="EmailAccMgr" class="col-sm-2 control-label">Email</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="email_accm" value="{{$a->email_am}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                <div id="modal-danger" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hapus Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Anda yakin ingin menghapus layanan ini?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-success pull-right">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="modal-danger" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Hapus Data</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Anda yakin ingin menghapus layanan ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
-                </div>
+                @else
+                    <p>Data tidak ditemukan</p>
+                @endif
             </div>
         </div>
     </div>
@@ -146,33 +158,4 @@
         })
     </script>
 @stop
-=======
-@if($acc->count())
-<div class="table-responsive">
-<table class="table table-bordered table-striped table-hover table-condensed tfix">
- <thead align="center"> <tr> 
- <td><b>ID Acc Manager</b></td> 
- <td><b>Nama Acc Manager</b></td> 
- <td><b>Tlp Acc Manager</b></td>
- <td><b>Email Acc Manager</b></td>
- <td colspan="2"><b>MENU</b></td>
- </tr></thead>
-@foreach($acc as $a)
- <tr>
- 	<td>{{ $a->id_am }}</td>
- 	<td>{{ $a->nama_am }}</td>
- 	<td>{{ $a->tlp_am }}</td>
- 	<td>{{ $a->email_am }}</td>
- 	<td>
- 		<a href="acc-mgr/edit/{{$a->id_am}}">edit</a>
- 		<a href="acc-mgr/delete/{{$a->id_am}}">hapus</a>
- 	</td>
- </tr>
-@endforeach
-</table>
-</div>
-@else
- <div class="alert alert-warning">
- <i class="fa fa-exclamation-triangle"></i> Data Acc Mgr tidak ditemukan</div>
-@endif
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117
+

@@ -28,7 +28,7 @@ class AnakPerusahaanController extends Controller
 		$a->email_perusahaan = $req->input('email_anakperu');
 
 		$a->save();
-		return redirect ('anak_perusahaans');
+		return redirect ('/admin/perusahaan');
     }
     public function edit($id_perusahaan)
     {
@@ -36,21 +36,21 @@ class AnakPerusahaanController extends Controller
     	//dd($plg);
     	return view('anak_perusahaans.edit',['anak_perusahaans' => $plg]);
     }
-    public function save(Request $data)
+    public function save(Request $data, $id_perusahaan)
     {	
     	//dd($data);
-    	$edit = Anak_perusahaan::where('id_perusahaan',$data['id_anakperu'])->first();
+    	$edit = Anak_perusahaan::where('id_perusahaan',$id_perusahaan)->first();
     	//dd($edit);
-    	$edit->nama_pelanggan = $data['nama_anakperu'];
-    	$edit->tlp_pelanggan = $data['tlp_anakperu'];
-    	$edit->email_pelanggan = $data['email_anakperu'];
+    	$edit->nama_perusahaan = $data['nama_anakperu'];
+    	$edit->tlp_perusahaan = $data['tlp_anakperu'];
+    	$edit->email_perusahaan = $data['email_anakperu'];
     	$edit->save();
-    	return redirect('anak_perusahaans');
+    	return redirect('/admin/perusahaan');
     }
     public function delete($id_perusahaan)
     {
     	$del = Anak_perusahaan::find($id_perusahaan);
     	$del->delete();
-    	return redirect ('anak_perusahaans');
+    	return redirect ('/admin/perusahaan');
     }
 }

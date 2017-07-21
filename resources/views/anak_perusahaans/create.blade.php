@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 @extends('adminlte::page')
 
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Pelanggan</h1>
+    <h1>Anak Perusahaan</h1>
 @stop
 
 @section('content')
@@ -12,40 +11,49 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Tambah Pelanggan</h3>
+                    <h3 class="box-title">Tambah Anak Perusahaan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="{{url('admin/perusahaan/store')}}" method="post">
+                        {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="NIPNAS" class="col-sm-2 control-label">Nama Perusahaan</label>
+                                <label for="IDPerusahaan" class="col-sm-2 control-label">ID Perusahaan</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Perusahaan">
+                                    <input type="text" class="form-control" placeholder="ID Perusahaan" name="id_anakperu">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="EmailPelanggan" class="col-sm-2 control-label">Email</label>
+                                <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Perusahaan</label>
 
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input type="text" class="form-control" placeholder="Nama Perusahaan" name="nama_anakperu">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="TlpPelanggan" class="col-sm-2 control-label">No. Telepon</label>
+                                <label for="EmailPerusahaan" class="col-sm-2 control-label">Email</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="No. Telepon">
+                                    <input type="email" class="form-control" placeholder="Email" name="email_anakperu">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TlpPerusahaan" class="col-sm-2 control-label">No. Telepon</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="No. Telepon" name="tlp_anakperu">
                                 </div>
                             </div>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-default">Batal</button>
                             <a href="{{route('perusahaan')}}">
-                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <button type="button" class="btn btn-default">Batal</button>
                             </a>
+                            <button type="submit" class="btn btn-success pull-right">Simpan</button>
+
 
                         </div>
                         <!-- /.box-footer -->
@@ -55,25 +63,4 @@
         </div>
     </div>
 
-    <script>
-        $('#datepicker').datepicker({
-            autoclose: true
-        });
-    </script>
 @stop
-=======
-<html>
-	<head>
-		<body>
-			<form action="{{url('/tambahperusahaan')}}" method="POST">
-			{{ csrf_field() }}
-				<input type="text" name="id_anakperu" required>
-				<input type="text" name="nama_anakperu" required>
-				<input type="text" name="tlp_anakperu" required>
-				<input type="text" name="email_anakperu" required>
-				<button type="submit">save</button>
-			</form>
-		</body>
-	</head>
-</html>
->>>>>>> d12e427d68594c67f92910c0271fc1524aafe117

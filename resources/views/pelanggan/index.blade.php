@@ -61,20 +61,18 @@
                                     <td>{{$p->tlp_pelanggan}}</td>
                                     <td>{{$p->email_pelanggan}}</td>
                                 <?php $i++; ?>
-                            @endforeach
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default " data-toggle="modal" data-target="#modal-default">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
-
                             </td>
-
                         </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -94,33 +92,33 @@
                                             <label for="NIPNAS" class="col-sm-2 control-label">NIPNAS</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control nipnas" name="nipnas" value="{{$p->nipnas}}" disabled>
+                                                <input type="text" class="form-control" id="idplg" name="nipnas" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control name" name="name" value="{{$p->nama_pelanggan}}">
+                                                <input type="text" class="form-control" id="namaplg"  name="name">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="EmailPelanggan" class="col-sm-2 control-label">Email</label>
 
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control email" name="email" value="{{$p->email_pelanggan}}">
+                                                <input type="email" class="form-control" id="emailplg" name="email">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpPelanggan" class="col-sm-2 control-label">No. Telepon</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control tlp" name="tlp" value="{{$p->tlp_pelanggan}}">
+                                                <input type="text" class="form-control" id="tlpplg" name="tlp">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-success pull-right">Simpan</button>
                                     </div>
                                 </form>
@@ -141,10 +139,10 @@
                                 <p>Anda yakin ingin menghapus pelanggan ini?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <a href="{{url('admin/pelanggan/delete', $p->nipnas)}}">
-                                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
-                                </a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <form action="{{url('admin/pelanggan/delete')}}">
+                                    <button type="submit" id="delete-name" class="btn btn-success pull-right">Hapus</button>
+                                </form>
 
                             </div>
                         </div>
@@ -166,6 +164,23 @@
             'info'        : true,
             'autoWidth'   : false
         })
+    });
+
+    $(document).on("click", ".edit-button", function(){
+        var id_pelanggan = $(this).data('id');
+        var nama_pelanggan = $(this).data('name');
+        var email_pelanggan = $(this).data('email');
+        var tlp_pelanggan = $(this).data('telp');
+        $("#idplg").val(id_pelanggan);
+        $("#namaplg").val(nama_pelanggan);
+        $("#emailplg").val(email_pelanggan);
+        $("#tlpplg").val(tlp_pelanggan);
+    });
+
+    $(document).on("click",".delete-button", function () {
+        var id_pelanggan = $(this).data('id');
+        $("#nipnas").val(id_pelanggan);
+
     })
 </script>
 @stop

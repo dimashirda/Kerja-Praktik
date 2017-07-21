@@ -31,7 +31,7 @@ class AccountManagerController extends Controller
     	$acc->email_am = $req->input('email_accm');
 
     	$acc->save();
-    	return redirect ('acc-mgr');
+    	return redirect ('/admin/accmgr');
     }
 
     public function edit($id)
