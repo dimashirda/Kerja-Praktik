@@ -44,8 +44,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Perusahaan</th>
-                            <th>Email</th>
                             <th>No. Telepon</th>
+                            <th>Email</th>
                             <th colspan="2">Action</th>
                         </tr>
                         </thead>

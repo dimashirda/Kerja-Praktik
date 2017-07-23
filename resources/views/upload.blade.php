@@ -48,7 +48,7 @@
                                 <label for="AccMgr" class="col-sm-2 control-label">Account Manager</label>
 
                                 <div class="col-sm-10">
-                                    <select class="select2 form-control">
+                                    <select class="form-control select2">
                                         <option>a</option>
                                         <option>b</option>
                                     </select>
@@ -88,7 +88,7 @@
                                 <label for="JenisLayanan" class="col-sm-2 control-label">Jenis Layanan</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control select2"  multiple="multiple" data-placeholder="Jenis Layanan">
+                                    <select class="form-control select2" multiple="multiple" data-placeholder="Jenis Layanan">
                                         <option>a</option>
                                         <option>b</option>
                                     </select>

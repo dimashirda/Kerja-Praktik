@@ -70,6 +70,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                        {{$acc->render()}}
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
