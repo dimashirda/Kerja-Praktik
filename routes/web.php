@@ -51,9 +51,11 @@ Route::get('admin/pelanggan/delete/{nipnas}','PelangganController@delete');
 Route::post('tambahkontrak','DetilKontrakController@store');
 Route::post('editkontrak','DetilKontrakController@save');
 Route::get('kontrak/create','DetilKontrakController@create');
-Route::get('kontrak/edit/{nipnas}','DetilKontrakController@edit');
-Route::get('kontrak/delete/{nipnas}','DetilKontrakController@delete');
+Route::get('kontrak/edit/{id_detil}','DetilKontrakController@edit');
+Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
 Route::get('kontrak','DetilKontrakController@index');
+Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
+Route::get('searchkontrak','DetilKontrakController@search');
 
 Route::post('admin/layanan/create','LayananController@store');
 Route::post('editlayanan','LayananController@save');

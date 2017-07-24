@@ -1,21 +1,22 @@
 <html>
 	<head>
 		<body>
-			<form action="{{url('/tambahkontrak')}}" method="POST">
-			{{ csrf_field() }}
+		{!! Form::open(array('url'=>'/tambahkontrak','method'=>'POST', 'files'=>true)) !!}
+				{{ csrf_field() }}
+				<input type="hidden" name="id" required>
 				Nama Kontrak
-				<input type="text" name="nama">
-				<select name="id_perusahaan"> Nama Anak Perusahaan
+				<input type="text" name="nama" required>
+				<select name="id_perusahaan" required> Nama Anak Perusahaan
 					@foreach($ap as $np)
 					<option value="{{$np->id_perusahaan}}">{{$np->nama_perusahaan}}</option>
 					@endforeach
 				</select>
-				<select name="id_am"> Nama Manager
+				<select name="id_am" required> Nama Manager
 					@foreach($am as $nm)
 					<option value="{{$nm->id_am}}">{{$nm->nama_am}}</option>
 					@endforeach
 				</select>
-				<select name="nipnas"> Nama Pelanggan
+				<select name="nipnas" required> Nama Pelanggan
 					@foreach($plg as $nplg)
 					<option value="{{$nplg->nipnas}}">{{$nplg->nama_pelanggan}}</option>
 					@endforeach
@@ -24,13 +25,16 @@
 				<input type="date" name="tgl_mulai">
 				tanggal selesai
 				<input type="date" name="tgl_selesai">
+				<br>
 				@foreach($lyn as $nlyn)
-					<input type="checkbox" name="{{$nlyn->id_layanan}}">{{$nlyn->nama_layanan}}<br>
+					<input type="checkbox" value="{{$nlyn->id_layanan}}" name="name[]">
+					{{$nlyn->nama_layanan}}<br>
 				@endforeach
-				<input type="number" name="slg">
-				<input type="text" name="nama_dokumen">
+				<input type="number" name="slg" required>
+				<!-- <input type="file" name="image" required> -->
+				{!! Form::file('image') !!}
 				<button type="submit">Create Kontrak</button> 
-			</form>
+			{!! Form::close() !!}
 		</body>
 	</head>
 </html>
