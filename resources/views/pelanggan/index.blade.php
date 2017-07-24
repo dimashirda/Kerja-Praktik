@@ -32,6 +32,25 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+
+                <form action="{{url('admin/pelanggan')}}" method="get" role="search">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="example1_filter" class="form-inline">
+                                    <div class="form-group">
+                                        <label>Search by:
+                                            <select name="kategori" class="form-control input-sm">
+                                                <option value="nama">Nama Pelanggan</option>
+                                                <option value="nipnas">nipnas</option>
+                                            </select>
+                                            <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addplg')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
