@@ -731,16 +731,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.28",
+            "version": "v5.4.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb"
+                "reference": "b9a64955f4278f45ac348a6e000b5ecc85da167a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/442511fc62121085d184355e4f964c88942bbecb",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b9a64955f4278f45ac348a6e000b5ecc85da167a",
+                "reference": "b9a64955f4278f45ac348a6e000b5ecc85da167a",
                 "shasum": ""
             },
             "require": {
@@ -856,20 +856,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-06-30T13:43:07+00:00"
+            "time": "2017-07-19T19:26:19+00:00"
         },
         {
             "name": "laravel/tinker",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "7eb2e281395131897407285672ef5532e87e17f9"
+                "reference": "203978fd67f118902acff95925847e70b72e3daf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/7eb2e281395131897407285672ef5532e87e17f9",
-                "reference": "7eb2e281395131897407285672ef5532e87e17f9",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/203978fd67f118902acff95925847e70b72e3daf",
+                "reference": "203978fd67f118902acff95925847e70b72e3daf",
                 "shasum": ""
             },
             "require": {
@@ -919,7 +919,7 @@
                 "laravel",
                 "psysh"
             ],
-            "time": "2017-06-01T16:31:26+00:00"
+            "time": "2017-07-13T13:11:05+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -1536,23 +1536,23 @@
         },
         {
             "name": "santigarcor/laratrust",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/santigarcor/laratrust.git",
-                "reference": "941f7761e9a813fd6ae7d189712a541a47977847"
+                "reference": "82c850ddc21a912c345a82e6d9c2c120d6fe8720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/941f7761e9a813fd6ae7d189712a541a47977847",
-                "reference": "941f7761e9a813fd6ae7d189712a541a47977847",
+                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/82c850ddc21a912c345a82e6d9c2c120d6fe8720",
+                "reference": "82c850ddc21a912c345a82e6d9c2c120d6fe8720",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "~5.2",
-                "illuminate/console": "~5.2",
-                "illuminate/database": "~5.2",
-                "illuminate/support": "~5.2",
+                "illuminate/cache": "~5.1",
+                "illuminate/console": "~5.1",
+                "illuminate/database": "~5.1",
+                "illuminate/support": "^5.1.40",
                 "kkszymanowski/traitor": "^0.2.0",
                 "php": ">=5.5.9"
             },
@@ -1600,7 +1600,7 @@
                 "rbac",
                 "roles"
             ],
-            "time": "2017-07-11T17:37:04+00:00"
+            "time": "2017-07-18T18:23:10+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
