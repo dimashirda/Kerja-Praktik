@@ -32,6 +32,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+
                 <form action="{{url('admin/pelanggan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
