@@ -40,7 +40,7 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Account Manager</option>
-                                                <option value="ID">ID Account Manager</option>
+                                                <option value="ID">NIK Account Manager</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
@@ -61,7 +61,7 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>NIK AM</th>
                             <th>Nama</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
@@ -104,7 +104,7 @@
                                     {{csrf_field()}}
                                     <div class="box-body">
                                         <div class="form-group">
-                                            <label for="IDAccMgr" class="col-sm-2 control-label">ID Account Manager</label>
+                                            <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
 
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
