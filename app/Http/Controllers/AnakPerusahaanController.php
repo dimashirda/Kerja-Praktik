@@ -17,19 +17,22 @@ class AnakPerusahaanController extends Controller
         $category = \Request::get('kategori');
         if($category == "nama")
         {
-            $accs = DB::table('anak_perusahaans')
+            $acc = DB::table('anak_perusahaans')
             ->where('nama_perusahaan','like','%'.$search.'%')
             ->orderBy('nama_perusahaan')
             ->paginate(5);
         }
         elseif($category == "ID")
         {
-            $accs = DB::table('anak_perusahaans')
+            $acc = DB::table('anak_perusahaans')
             ->where('id_perusahaan','like','%'.$search.'%')
             ->orderBy('id_perusahaan')
             ->paginate(5);
         }
-    	$acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
+        else
+        {
+            $acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
+        }
     	return view('anak_perusahaans.index',['acc'=>$acc]);
       
     }
