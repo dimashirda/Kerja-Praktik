@@ -11,6 +11,7 @@ class AnakPerusahaanController extends Controller
 {
     public function index()
     {
+
     	//$acc = DB::table('anak_perusahaans')->oldest()->get();
         $search = \Request::get('search');
         $category = \Request::get('kategori');
@@ -28,7 +29,9 @@ class AnakPerusahaanController extends Controller
             ->orderBy('id_perusahaan')
             ->paginate(5);
         }
-    	return view('anak_perusahaans.index',['acc'=>$accs]);
+    	$acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
+    	return view('anak_perusahaans.index',['acc'=>$acc]);
+      
     }
     public function create()
     {
@@ -44,7 +47,7 @@ class AnakPerusahaanController extends Controller
 		$a->email_perusahaan = $req->input('email_anakperu');
 
 		$a->save();
-		return redirect ('anak_perusahaans');
+		return redirect ('/admin/perusahaan');
     }
     public function edit($id_perusahaan)
     {
@@ -52,21 +55,21 @@ class AnakPerusahaanController extends Controller
     	//dd($plg);
     	return view('anak_perusahaans.edit',['anak_perusahaans' => $plg]);
     }
-    public function save(Request $data)
+    public function save(Request $data, $id_perusahaan)
     {	
     	//dd($data);
-    	$edit = Anak_perusahaan::where('id_perusahaan',$data['id_anakperu'])->first();
+    	$edit = Anak_perusahaan::where('id_perusahaan',$id_perusahaan)->first();
     	//dd($edit);
     	$edit->nama_perusahaan = $data['nama_anakperu'];
     	$edit->tlp_perusahaan = $data['tlp_anakperu'];
     	$edit->email_perusahaan = $data['email_anakperu'];
     	$edit->save();
-    	return redirect('anak_perusahaans');
+    	return redirect('/admin/perusahaan');
     }
     public function delete($id_perusahaan)
     {
-    	$del = Anak_perusahaan::find($id_perusahaan);
+    	$del = Anak_perusahaan::where('id_perusahaan',$id_perusahaan);
     	$del->delete();
-    	return redirect ('anak_perusahaans');
+    	return redirect ('/admin/perusahaan');
     }
 }

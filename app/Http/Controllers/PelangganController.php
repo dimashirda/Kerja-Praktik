@@ -10,7 +10,7 @@ class PelangganController extends Controller
 {
     public function index()
     {
-    	$pelanggan = DB::table('pelanggans')->oldest()->get();
+    	$pelanggan = DB::table('pelanggans')->paginate(25);
     	return view('pelanggan.index',['pelanggan' => $pelanggan]);
     }
     public function create()
@@ -26,7 +26,7 @@ class PelangganController extends Controller
     	$pelanggan->tlp_pelanggan = $request->input('tlp');
     	$pelanggan->email_pelanggan = $request->input('email');
     	$pelanggan->save();
-    	return redirect('/pelanggan');
+    	return redirect('/admin/pelanggan');
     }
     public function edit($nipnas)
     {
@@ -34,22 +34,23 @@ class PelangganController extends Controller
     	//dd($plg);
     	return view('pelanggan.edit',['pelanggan' => $plg]);
     }
-    public function save(Request $data)
+    public function save(Request $data, $nipnas)
     {	
     	//dd($data);
-    	$edit = pelanggan::where('nipnas',$data['nipnas'])->first();
-    	//dd($edit);
-    	$edit->nama_pelanggan = $data['nama'];
+        $edit = pelanggan::where('nipnas',$nipnas)->first();
+//
+    	$edit->nama_pelanggan = $data['name'];
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/pelanggan');
+    	return redirect('/admin/pelanggan');
     }
     public function delete($nipnas)
     {
-    	$del = pelanggan::find($nipnas);
+    	$del = pelanggan::where('nipnas',$nipnas);
     	$del->delete();
-    	return redirect ('/pelanggan');
+    	return redirect ('/admin/pelanggan');
     }
 }
  
+

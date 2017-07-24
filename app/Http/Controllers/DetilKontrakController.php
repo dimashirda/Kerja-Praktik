@@ -31,7 +31,7 @@ class DetilKontrakController extends Controller
         $pluckacc = Account_manager::pluck('id_am','nama_am'); 
     	$pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
     	$pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
-    	return view('detil_kontrak.index',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap, 
+    	return view('upload',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
             'dk'=>$dk]);
     }
 

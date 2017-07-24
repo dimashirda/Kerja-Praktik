@@ -11,7 +11,7 @@ class AccountManagerController extends Controller
 {
 	public function index()
 	{
-		$acc = DB::table('Account_managers')->oldest()->get();
+		$acc = DB::table('Account_managers')->oldest()->paginate(25);
 		return view('account_manager.index', ['acc' => $acc]);
 	}
 
@@ -31,7 +31,7 @@ class AccountManagerController extends Controller
     	$acc->email_am = $req->input('email_accm');
 
     	$acc->save();
-    	return redirect ('acc-mgr');
+    	return redirect ('/admin/accmgr');
     }
 
     public function edit($id)
@@ -41,7 +41,7 @@ class AccountManagerController extends Controller
     	return view ('account_manager.edit', ['acc' => $acc]);
     }
 
-    public function update(Request $req)
+    public function update(Request $req, $id_accmgr)
     {
     	$id = $req->input('id_accm');
     	$nama = $req->input('nama_accm');
@@ -55,21 +55,22 @@ class AccountManagerController extends Controller
     	// $edit->save();
 
     	DB::table('account_managers')
-    		->where('id_am', $id)
+    		->where('id_am', $id_accmgr)
     		->update(['nama_am' => $nama,
     				'tlp_am' => $tlp,
     				'email_am' => $email]);
-    	return redirect ('acc-mgr');
+    	return redirect ('/admin/accmgr');
     }
 
-    public function delete($id)
+    public function delete($id_accmgr)
     {
     	DB::table('account_managers')
-    		->where('id_am', $id)
+    		->where('id_am', $id_accmgr)
     		->delete();
 
     	// $del = account_manager::find($accm);
     	// $del->delete();
-    	return redirect ('acc-mgr');
+    	return redirect ('/admin/accmgr');
+
     }
 }

@@ -1,39 +1,174 @@
-@if($acc->count())
-<a href="{{url('anak_perusahaans/create')}}" class="btn btn-primary">Create nih</a>
+@extends('adminlte::page')
 
-{!! Form::open(['method'=>'GET','url'=>'anak_perusahaans','class'=>'navbar-form navbar-left','role'=>'search'])  !!}
+@section('title', 'SIKontrak')
 
-            <div class="input-group custom-search-form">
-            	<select name='kategori'>
-            	<option value='ID'>ID</option>
-            	<option value='nama'>NAMA</option>
-                <input type="text" class="form-control" name="search" placeholder="Search...">
-                <span class="input-group-btn">
-    <button class="btn btn-default-sm" type="submit">
-        <i class="fa fa-search">i
-    </button>
-</span>
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
 
-<div class="table-responsive">
-<table class="table table-bordered table-striped table-hover table-condensed tfix">
-	<thead align="center"><tr>
-	<td><b>ID_perusahaan</b></td>
-	<td><b>nama_perusahaan</b></td>
-	<td><b>tlp_perusahaan</b></td>
-	<td><b>email_perusahaan</b></td>
-	</tr></thead>
-@foreach($acc as $a)
-<tr>
-<td>{{ $a->id_perusahaan }}</td>
-<td>{{ $a->nama_perusahaan }}</td>
-<td>{{ $a->tlp_perusahaan }}</td>
-<td>{{ $a->email_perusahaan }}</td>
-<td><a href="anak_perusahaans/edit/{{$a->id_perusahaan}}"> edit data </a>
-				<a href="anak_perusahaans/delete/{{$a->id_perusahaan}}"> hapus data </a></td></tr>
-@endforeach
-</table></div>
-<?php echo $acc->render();?>
-@else
-<div class="alert alert-warning">
-<i class=fa fa-exclamation-triangle"></i> DATA TIDAK ADA</div>
-@endif
+
+
+@section('content')
+    <style>
+        .example-modal .modal {
+            position: relative;
+            top: auto;
+            bottom: auto;
+            right: auto;
+            left: auto;
+            display: block;
+            z-index: 1;
+        }
+
+        .example-modal .modal {
+            background: transparent !important;
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Data Anak Perusahaan</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{route('addprshn')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                        </div>
+                    </div>
+                    <br>
+                    @if($acc->count())
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama Perusahaan</th>
+                            <th>No. Telepon</th>
+                            <th>Email</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($acc as $a)
+                        <tr>
+                            <td>{{ $a->id_perusahaan }}</td>
+                            <td>{{ $a->nama_perusahaan }}</td>
+                            <td>{{ $a->tlp_perusahaan }}</td>
+                            <td>{{ $a->email_perusahaan }}</td>
+                            <td align="center" width="30px">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_perusahaan}}" data-name="{{$a->nama_perusahaan}}" data-telp="{{$a->tlp_perusahaan}}" data-email="{{$a->email_perusahaan}}">
+                                    Edit
+                                </button>
+                            </td>
+                            <td align="center" width="30px">
+                                <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_perusahaan}}" data-id="{{$a->id_perusahaan}}" data-toggle="modal" data-target="#modal-danger">
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div id="modal-default" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Edit Data Anak Perusahaan</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" method="post" id="form-edit">
+                                   {{ csrf_field() }}
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="IDPerusahaan" class="col-sm-2 control-label">ID Perusahaan</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="idprshn" name="id_anakperu" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Perusahaan</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="namaprshn" name="nama_anakperu">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="EmailPerusahaan" class="col-sm-2 control-label">Email</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" id="emailprshn" name="email_anakperu">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="TlpPerusahaan" class="col-sm-2 control-label">No. Telepon</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="tlpprshn" name="tlp_anakperu">
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modal-danger" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hapus Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="show-name"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <a id="del-btn">
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @else
+                    <p>Data tidak ditemukan</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).on("click", ".edit-button", function(){
+            var id_perusahaan = $(this).data('id');
+            var nama_perusahaan = $(this).data('name');
+            var email_perusahaan = $(this).data('email');
+            var tlp_perusahaan = $(this).data('telp');
+            $("#idprshn").val(id_perusahaan);
+            $("#namaprshn").val(nama_perusahaan);
+            $("#emailprshn").val(email_perusahaan);
+            $("#tlpprshn").val(tlp_perusahaan);
+
+            $("#form-edit").attr('action','{{url('/admin/perusahaan/edit')}}' + '/' + id_perusahaan);
+        });
+
+        $(document).on("click",".delete-button", function () {
+            var id_perusahaan = $(this).data('id')
+            var nama_perusahaan = $(this).data('name');
+            $("#del-btn").attr('href','{{url('admin/perusahaan/delete')}}' + '/' + id_perusahaan)
+            $("#show-name").html('Anda yakin ingin menghapus perusahaan ' + nama_perusahaan + '?')
+
+        })
+    </script>
+@stop

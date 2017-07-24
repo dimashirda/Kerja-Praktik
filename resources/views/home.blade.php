@@ -32,12 +32,15 @@
                         </div>
                     </div>
                     <br>
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th>NIPNAS</th>
+                                <th>Pelanggan</th>
                                 <th>Anak Perusahaan</th>
-                                <th>Kontrak Awal</th>
-                                <th>Kontak Akhir</th>
+                                <th>Nama Kontrak</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Akhir</th>
                                 <th>Jenis Layanan</th>
                                 <th>SLG (%)</th>
                                 <th>Dokumen</th>
@@ -50,9 +53,12 @@
                                 <td>B</td>
                                 <td>C</td>
                                 <td>D</td>
+                                <td>E</td>
                                 <td>F</td>
                                 <td>G</td>
                                 <td>H</td>
+                                <td>I</td>
+                                <td>J</td>
                             </tr>
                         </tbody>
                     </table>
@@ -62,16 +68,6 @@
     </div>
 
     <script>
-        $(function () {
-            $('#example1').DataTable()
-            $('#example1').DataTable({
-                'paging'      : true,
-                'lengthChange': false,
-                'searching'   : true,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
-            })
-        })
+
     </script>
 @stop
