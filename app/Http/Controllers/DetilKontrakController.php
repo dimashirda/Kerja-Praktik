@@ -157,9 +157,13 @@ class DetilKontrakController extends Controller
         $search1 = $request->input('search1');
         $search2 = $request->input('search2');
         if ($kategori == 'ap') {
-                $hasil = DB::table('Anak_perusahaans')
+                $query = DB::table('Anak_perusahaans')
                     ->where('nama_perusahaan','like','%'.$search1.'%')
                     ->orderBy('nama_perusahaan');
+                $idnow = $query->id_detil;
+                $hasil = DB::table('Detil_kontraks')
+                    ->where('id_detil','=',$idnow)->get();
+                
         }
         else if ($kategori == 'nama') {
             $hasil = DB::table('Detil_kontraks')
