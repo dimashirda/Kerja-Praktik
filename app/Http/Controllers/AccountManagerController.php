@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class AccountManagerController extends Controller
 {
+	public function index()
+	{
+		$acc = DB::table('Account_managers')->oldest()->paginate(25);
+		return view('account_manager.index', ['acc' => $acc]);
+	}
     public function index()
     {
         //$acc = DB::table('anak_perusahaans')->oldest()->get();

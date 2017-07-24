@@ -24,7 +24,10 @@ Route::get('/admin/layanan', 'LayananController@index')->name('layanan');
 Route::get('/admin/layanan/create', 'LayananController@create')->name('addlyn');
 Route::get('/admin/accmgr', 'AccountManagerController@index')->name('accmgr');
 Route::get('/admin/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
+
 Route::get('/upload', 'DetilKontrakController@index')->name('upload');
+
+
 //Route::get('acc-mgr', 'AccountManagerController@index');
 //Route::get('acc-mgr/create', 'AccountManagerController@create');
 Route::post('admin/accmgr/store', 'AccountManagerController@store');
@@ -37,6 +40,7 @@ Route::get('pelanggan/create','PelangganController@create');
 //Route::get('admin/pelanggan/edit}','PelangganController@edit');
 Route::get('admin/pelanggan/delete/{nipnas}','PelangganController@delete');
 //Route::get('pelanggan','PelangganController@index');
+
 Route::post('tambahkontrak','DetilKontrakController@store');
 Route::post('editkontrak','DetilKontrakController@save');
 Route::get('kontrak/create','DetilKontrakController@create');
@@ -45,18 +49,28 @@ Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
 Route::get('kontrak','DetilKontrakController@index');
 Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
 Route::get('searchkontrak','DetilKontrakController@search');
+
 Route::post('admin/layanan/create','LayananController@store');
 Route::post('editlayanan','LayananController@save');
 //Route::get('admin/layanan/create','LayananController@create');
 Route::get('layanan/edit/{id}','LayananController@edit');
 Route::get('admin/layanan/delete/{id}','LayananController@delete');
 Route::get('admin/layanan','LayananController@index');
+
 Route::post('admin/perusahaan/store','AnakPerusahaanController@store');
 Route::post('admin/perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
 Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
 //Route::get('admin/perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@edit');
 Route::get('admin/perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
 Route::get('anak_perusahaans','AnakPerusahaanController@index');
+
+
+// Route::get('upload', function() {
+//   return View::make('anak_perusahaans.upload');
+// });
+// Route::post('apply/upload', 'ApplyController@upload');
+
+
 Route::get('upload', function() {
   return View::make('anak_perusahaans.upload');
 });
