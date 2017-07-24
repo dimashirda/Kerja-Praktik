@@ -172,4 +172,33 @@ class DetilKontrakController extends Controller
                 ->where('tgl_selesai')
         }
 */  }
+    public function notif()
+    {
+        $datenow = date('Y-m-d');
+        $date = date('Y-m-d', strtotime("+30 days"));
+        //dd($date);
+        /*$query = DB::table('Detil_kontraks')
+                ->whereBetween('tgl_selesai',[$datenow,$date])->get();*/
+         $dk = DB::table('Detil_kontraks')
+                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                ->get();
+        $dt = DB::table('layanan_kontraks')
+                ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
+                ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
+                ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])                
+                ->get();
+
+        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
+        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
+        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
+        $pluckly = layanan::pluck('id_layanan','nama_layanan');
+        return view('detil_kontrak.index',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap, 
+            'dk'=>$dk, 'dt'=>$dt]);
+
+//        dd($query);
+    }
 }
