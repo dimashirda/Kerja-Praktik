@@ -10,9 +10,29 @@ class LayananController extends Controller
 {
     public function index()
     {
-    	$layanan = DB::table('layanans')->oldest()->paginate(25);
-    	return view('layanan.index',['layanan' => $layanan]);
+        $search = \Request::get('search');
+        $category = \Request::get('kategori');
+        if($category == "nama")
+        {
+            $layanan = DB::table('layanans')
+            ->where('nama_layanan','like','%'.$search.'%')
+            ->orderBy('nama_layanan')
+            ->paginate(25);
+        }
+        elseif($category == "ID")
+        {
+            $layanan = DB::table('layanans')
+            ->where('id_layanan','like','%'.$search.'%')
+            ->orderBy('id_layanan')
+            ->paginate(25);
+        }
+        else
+        {
+            $layanan = DB::table('layanans')->oldest()->paginate(25);
+        }
+        return view('layanan.index',['layanan'=>$layanan]);
     }
+    
     public function create()
     {
     	return view('layanan.create');

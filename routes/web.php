@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,11 +9,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
 
 Route::get('/home', 'DetilKontrakController@index')->name('home');
@@ -22,6 +19,7 @@ Route::get('/home', 'DetilKontrakController@index')->name('home');
 Route::get('/admin', 'AdminControllers@index')->name('admin');
 
 Route::get('/admin/upload', 'DetilKontrakController@create')->name('upload');
+
 Route::get('/admin/pelanggan', 'PelangganController@index')->name('pelanggan');
 Route::get('/admin/pelanggan/create', 'PelangganController@create')->name('addplg');
 Route::get('/admin/perusahaan', 'AnakPerusahaanController@index')->name('perusahaan');
@@ -40,7 +38,6 @@ Route::post('admin/accmgr/store', 'AccountManagerController@store');
 //Route::get('admin/accmgr/edit/{id}', 'AccountManagerController@edit');
 Route::post('admin/accmgr/edit/{id}', 'AccountManagerController@update');
 Route::get('admin/accmgr/delete/{id}', 'AccountManagerController@delete');
-
 Route::post('admin/pelanggan/store','PelangganController@store');
 Route::post('admin/pelanggan/edit/{nipnas}','PelangganController@save');
 Route::get('pelanggan/create','PelangganController@create');
@@ -72,9 +69,13 @@ Route::get('admin/perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@d
 Route::get('anak_perusahaans','AnakPerusahaanController@index');
 
 
+// Route::get('upload', function() {
+//   return View::make('anak_perusahaans.upload');
+// });
+// Route::post('apply/upload', 'ApplyController@upload');
+
+
 Route::get('upload', function() {
   return View::make('anak_perusahaans.upload');
 });
 Route::post('apply/upload', 'ApplyController@upload');
-
-

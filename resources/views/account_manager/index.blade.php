@@ -32,6 +32,25 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+                    <form action="{{url('admin/accmgr')}}" method="get" role="search">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="example1_filter" class="form-inline">
+                                    <div class="form-group">
+                                        <label>Search by:
+                                            <select name="kategori" class="form-control input-sm">
+                                                <option value="nama">Nama Account Manager</option>
+                                                <option value="ID">NIK Account Manager</option>
+                                            </select>
+                                            <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addaccmgr')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
@@ -42,7 +61,7 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>NIK AM</th>
                             <th>Nama</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
@@ -85,8 +104,7 @@
                                     {{csrf_field()}}
                                     <div class="box-body">
                                         <div class="form-group">
-                                            <label for="IDAccMgr" class="col-sm-2 control-label">ID Account Manager</label>
-
+                                            <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
