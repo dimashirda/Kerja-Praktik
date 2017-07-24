@@ -5,6 +5,8 @@
 		<a href="{{url('kontrak/create')}}" class="btn btn-primary">Create nih</a>
 		<br>
 		<br>
+		<a href="{{url('kontrak/notifikasi')}}" class="btn btn-primary">Kontrak akan habis</a>
+		<br><br> 
 		{!! Form::open(['method'=>'GET','url'=>'/searchkontrak','class'=>'navbar-form navbar-left','role'=>'search'])  !!}
 
             <div class="input-group custom-search-form">
