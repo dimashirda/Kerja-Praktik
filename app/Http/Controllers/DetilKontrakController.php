@@ -163,11 +163,13 @@ class DetilKontrakController extends Controller
         if ($kategori == 'ap') {
                 $query = DB::table('Anak_perusahaans')
                     ->where('nama_perusahaan','like','%'.$search1.'%')
-                    ->orderBy('nama_perusahaan');
-                $idnow = $query->id_detil;
+                    ->get();
+                dd($query);
+                $idnow[] = $query->id_perusahaan;
+                //dd($idnow);
                 $hasil = DB::table('Detil_kontraks')
-                    ->where('id_detil','=',$idnow)->get();
-                
+                    ->where('Detil_kontraks.id_perusahaan','=',$idnow)->get();
+                dd($hasil);
         }
         else if ($kategori == 'nama') {
             $hasil = DB::table('Detil_kontraks')
@@ -179,11 +181,12 @@ class DetilKontrakController extends Controller
                 ->where('nama_am','like','%'.$search1.'%')
                 ->orderBy('id_detil');
         }
-/*        else{
-            $hasil = DB::('Detil_kontraks')
-                ->where('tgl_selesai')
+        else{
+            $hasil = DB::table('Detil_kontraks')
+                ->where('tgl_selesai','<=',$search2)
+                ->orderBy('tgl_selesai');
         }
-*/  }
+  }
     public function notif()
     {
         $datenow = date('Y-m-d');

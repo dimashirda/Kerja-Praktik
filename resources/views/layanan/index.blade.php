@@ -50,6 +50,7 @@
                             </div>
                         </div>
                     </form>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-layanan"><i class="fa fa-plus-circle"></i> Tambah baru</button>
