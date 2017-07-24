@@ -10,8 +10,27 @@ class PelangganController extends Controller
 {
     public function index()
     {
-    	$pelanggan = DB::table('pelanggans')->paginate(25);
-    	return view('pelanggan.index',['pelanggan' => $pelanggan]);
+        $search = \Request::get('search');
+        $category = \Request::get('kategori');
+        if($category == "nama")
+        {
+            $pelanggan = DB::table('pelanggans')
+            ->where('nama_pelanggan','like','%'.$search.'%')
+            ->orderBy('nama_pelanggan')
+            ->paginate(25);
+        }
+        elseif($category == "nipnas")
+        {
+            $pelanggan = DB::table('pelanggans')
+            ->where('nipnas','like','%'.$search.'%')
+            ->orderBy('nipnas')
+            ->paginate(25);
+        }
+        else
+        {
+            $pelanggan = DB::table('pelanggans')->oldest()->paginate(25);
+        }
+        return view('pelanggan.index',['pelanggan'=>$pelanggan]);
     }
     public function create()
     {

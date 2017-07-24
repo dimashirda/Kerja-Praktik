@@ -20,14 +20,14 @@ class AnakPerusahaanController extends Controller
             $acc = DB::table('anak_perusahaans')
             ->where('nama_perusahaan','like','%'.$search.'%')
             ->orderBy('nama_perusahaan')
-            ->paginate(5);
+            ->paginate(25);
         }
         elseif($category == "ID")
         {
             $acc = DB::table('anak_perusahaans')
             ->where('id_perusahaan','like','%'.$search.'%')
             ->orderBy('id_perusahaan')
-            ->paginate(5);
+            ->paginate(25);
         }
         else
         {
