@@ -74,7 +74,7 @@ Route::get('anak_perusahaans','AnakPerusahaanController@index');
 //   return View::make('anak_perusahaans.upload');
 // });
 // Route::post('apply/upload', 'ApplyController@upload');
-
+Route::get('admin/pelanggan/search', 'SearchController@pelanggan');
 
 Route::get('upload', function() {
   return View::make('anak_perusahaans.upload');
