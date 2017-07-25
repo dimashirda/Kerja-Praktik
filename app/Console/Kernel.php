@@ -4,6 +4,7 @@ namespace App\Console;
 
 use DB;
 use Notifikasi;
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,21 +16,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        $schedule->call(function(){
-            $datenow = date('Y-m-d');
-            $date = date('Y-m-d', strtotime("+30 days"));
-            $query = DB::table('Detil_kontraks')
-                    ->select('*')
-                    ->where('tgl_selesai','<=',$date)
-                    ->get();
-            //$final = array();
-            foreach ($query as $tmp) {
-                $notif = new Notifikasi;
-                $notif->id_detil = $tmp->id_detil;
-                $notif->flag = '0';
-                $notif->save();
-            }
-        })->everyMinute();
+
+
+        \App\Console\Commands\Inspire::class,
+
     ];
 
     /**
@@ -42,6 +32,12 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->call(function(){
+        $datenow = date('Y-m-d');
+        $date = date('Y-m-d', strtotime("+30 days"));
+        $query = DB::table('Detil_kontraks')
+                ->whereBetween('tgl_selesai',[$datenow,$date])->get();        
+        })->command('reminders:send')->everyFiveMinutes();
     }
 
     /**

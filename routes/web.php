@@ -10,13 +10,13 @@
 |
 */
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Auth::routes();
 
 Route::get('/home', 'DetilKontrakController@index')->name('home');
 
-Route::get('/admin', 'AdminControllers@index')->name('admin');
+//Route::get('/admin', 'AdminControllers@index')->name('admin');
 
 Route::get('/admin/upload', 'DetilKontrakController@create')->name('upload');
 

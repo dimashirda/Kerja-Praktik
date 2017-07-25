@@ -51,11 +51,13 @@
                         </div>
                     </form>
                     <br>
+                    @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addaccmgr')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
+                    @endif
                     <br>
                     @if($acc->count())
                     <table class="table table-bordered table-hover">
@@ -65,7 +67,9 @@
                             <th>Nama</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
+                            @if(Auth::User()->role == 1)
                             <th colspan="2">Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +79,7 @@
                             <td>{{ $a->nama_am }}</td>
                             <td>{{ $a->tlp_am }}</td>
                             <td>{{ $a->email_am }}</td>
+                            @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_am}}" data-name="{{$a->nama_am}}" data-telp="{{$a->tlp_am}}" data-email="{{$a->email_am}}">
                                     Edit
@@ -85,6 +90,7 @@
                                     Hapus
                                 </button>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>
