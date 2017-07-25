@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Pelanggan</h1>
 @stop
 
 
@@ -58,13 +58,11 @@
                         </div>
                     </div>
                     <br>
-                    <div id="sukses">yey</div>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
                     <table id="tabel" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>No.</th>
                             <th>NIPNAS</th>
                             <th>Pelanggan</th>
                             <th>No. Telepon</th>
@@ -76,7 +74,6 @@
                         <tr>
                             @foreach($pelanggan as $p)
                                 <tr>
-                                    <td><?php echo $no; ?></td>
                                     <td>{{$p->nipnas}}</td>
                                     <td>{{$p->nama_pelanggan}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
@@ -219,7 +216,7 @@
             return false;
         })
     });
-    
+
 </script>
 @stop
 

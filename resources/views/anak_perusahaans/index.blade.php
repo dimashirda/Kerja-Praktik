@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Anak Perusahaan</h1>
 @stop
 
 @section('content')
