@@ -25,6 +25,8 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
+                ->get();
+        return $this->render($dk);
     }
     public function create()
     {   
@@ -215,7 +217,7 @@ class DetilKontrakController extends Controller
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
         $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
         $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        return view('detil_kontrak.index',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap, 
+        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
             'dk'=>$dk, 'dt'=>$dt]);
     }
     public function notif()

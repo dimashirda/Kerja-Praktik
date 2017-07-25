@@ -121,12 +121,6 @@
             }
         }
 
-        $("#grid").bootgrid({
-            searchSettings: {
-                delay: 100,
-                characters: 3
-            }
-        });
 
     </script>
 @stop
