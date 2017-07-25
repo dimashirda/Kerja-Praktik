@@ -32,23 +32,6 @@ class DetilKontrakController extends Controller
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
                 ->get();        
-        /*$query = DB::table('Detil_kontraks')
-        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am');
-        $plg = DB::table('Detil_kontraks')
-        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas');
-        $ap = DB::table('Detil_kontraks')
-        ->join()('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-            'Anak_perusahaans.id_perusahaan');
-
-                ->get();
-    	/*$query = DB::table('Detil_kontraks')
-    	->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am');
-    	$plg = DB::table('Detil_kontraks')
-    	->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas');
-    	$ap = DB::table('Detil_kontraks')
-    	->join()('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-    		'Anak_perusahaans.id_perusahaan');
-    	*/
 
         $pluckacc = Account_manager::pluck('id_am','nama_am'); 
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');

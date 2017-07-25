@@ -31,6 +31,6 @@ class Detil_kontrak extends Model
     }
 
     public function detil_notifikasi(){
-        return $this->hasMany('App\Notifikasi', 'id_detil')
+        return $this->hasMany('App\Notifikasi', 'id_detil');
     }
 }
