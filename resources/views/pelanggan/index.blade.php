@@ -58,7 +58,6 @@
                         </div>
                     </div>
                     <br>
-                    <div id="sukses">yey</div>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
                     <table id="tabel" class="table table-bordered table-hover">
