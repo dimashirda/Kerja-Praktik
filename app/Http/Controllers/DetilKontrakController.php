@@ -25,8 +25,6 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
-                ->get();
-       return $this->render($dk);
     }
     public function create()
     {   
@@ -34,7 +32,8 @@ class DetilKontrakController extends Controller
         $am = DB::table('Account_managers')->select('id_am','nama_am')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
         $lyn = DB::table('Layanans')->select('id_layanan','nama_layanan')->get();
-        return view('detil_kontrak.create',['ap'=>$ap, 'am'=>$am, 'plg'=>$plg, 'lyn'=>$lyn]);
+    	return view('upload',['ap'=>$ap, 'am'=>$am, 'plg'=>$plg, 'lyn'=>$lyn]);
+
     }
     public function store(Request $request)
     {   
@@ -79,13 +78,13 @@ class DetilKontrakController extends Controller
               else
               {
                 Session::flash('error', 'uploaded file is not valid');
-                return Redirect::to('/kontrak');
+                return Redirect::to('/home');
               }
             }
             else {
               // sending back with error message.
               Session::flash('error', 'uploaded file is not valid');
-              return Redirect::to('/kontrak');
+              return Redirect::to('/home');
             }
           }
         $lyn = $request->input('name');
@@ -101,7 +100,7 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
-        return redirect('/kontrak');
+        return redirect('/home');
     }
     public function download(Request $request)
     {

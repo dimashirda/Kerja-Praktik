@@ -19,7 +19,7 @@
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="IDAccMgr" class="col-sm-2 control-label">ID Account Manager</label>
+                                <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
 
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="id_accm" required>
