@@ -26,7 +26,11 @@ class Detil_kontrak extends Model
     	return $this->belongsTo('App\Account_manager', 'id_am');
     }
 
-      public function detil_kontrak(){
+    public function detil_kontrak(){
     	return $this->hasMany('App\Layanan_kontrak', 'id_detil');
+    }
+
+    public function detil_notifikasi(){
+        return $this->hasMany('App\Notifikasi', 'id_detil')
     }
 }

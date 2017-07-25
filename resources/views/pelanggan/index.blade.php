@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Pelanggan</h1>
 @stop
 
 
@@ -43,7 +43,7 @@
                                                 <option value="nama">Nama Pelanggan</option>
                                                 <option value="nipnas">nipnas</option>
                                             </select>
-                                            <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
+                                            <input type="search" id="search_id" class="form-control input-sm search-menu-box" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
                                         </label>
                                     </div>
@@ -51,6 +51,7 @@
                             </div>
                         </div>
                     </form>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addplg')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
@@ -59,10 +60,9 @@
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
-                    <table class="table table-bordered table-hover">
+                    <table id="tabel" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>No.</th>
                             <th>NIPNAS</th>
                             <th>Pelanggan</th>
                             <th>No. Telepon</th>
@@ -74,7 +74,6 @@
                         <tr>
                             @foreach($pelanggan as $p)
                                 <tr>
-                                    <td><?php echo $no; ?></td>
                                     <td>{{$p->nipnas}}</td>
                                     <td>{{$p->nama_pelanggan}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
@@ -195,6 +194,29 @@
         $("#show-name").html('Anda yakin ingin menghapus pelanggan ' + nama_pelanggan + '?')
 
     })
+
+    $(function () {
+        $(".search-menu-box").keyup(function () {
+
+            var value = $(this).val();
+
+            if (value != '') {
+                $.ajax({
+                    type: "GET",
+                    url: "pelanggan/search",
+                    data: {
+                        q: value
+                    },
+                    cache: false,
+                    success: function (data) {
+                        console.log(data)
+                    }
+                });
+            }
+            return false;
+        })
+    });
+
 </script>
 @stop
 

@@ -52,7 +52,7 @@ Route::get('kontrak/edit/{id_detil}','DetilKontrakController@edit');
 Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
 Route::get('kontrak','DetilKontrakController@index');
 Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
-Route::get('searchkontrak','DetilKontrakController@search');
+Route::get('home/search','DetilKontrakController@search');
 Route::get('kontrak/notifikasi','DetilKontrakController@notif');
 
 Route::post('admin/layanan/create','LayananController@store');
@@ -74,7 +74,7 @@ Route::get('anak_perusahaans','AnakPerusahaanController@index');
 //   return View::make('anak_perusahaans.upload');
 // });
 // Route::post('apply/upload', 'ApplyController@upload');
-
+Route::get('admin/pelanggan/search', 'SearchController@pelanggan');
 
 Route::get('upload', function() {
   return View::make('anak_perusahaans.upload');

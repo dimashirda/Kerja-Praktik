@@ -129,6 +129,7 @@ class DetilKontrakController extends Controller
         $search1 = $request->input('search1');
         $search2 = $request->input('search2');
         if ($kategori == 'ap') {
+
                 $query = Anak_perusahaan::select('id_perusahaan')
                         ->where('nama_perusahaan','like','%'.$search1.'%')
                         ->get();

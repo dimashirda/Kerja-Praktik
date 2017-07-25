@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Account Manager</h1>
 @stop
 
 
@@ -28,7 +28,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Account Manager</h3>
+                    <h3 class="box-title">Data Account Manager</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">

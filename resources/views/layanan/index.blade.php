@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Layanan</h1>
 @stop
 
 
@@ -50,6 +50,7 @@
                             </div>
                         </div>
                     </form>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-layanan"><i class="fa fa-plus-circle"></i> Tambah baru</button>
@@ -90,7 +91,6 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th width="30px">No.</th>
                             <th>ID</th>
                             <th>Layanan</th>
                             <th>Action</th>
@@ -99,7 +99,6 @@
                         <tbody>
                         @foreach($layanan as $l)
                         <tr>
-                            <td width="30px">{{$i}}</td>
                             <td>{{$l->id_layanan}}</td>
                             <td>{{$l->nama_layanan}}</td>
                             <td align="center" width="30px">
