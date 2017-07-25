@@ -2,6 +2,9 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<body>
+		<?php  
+		//dd($dk);
+		?>
 		<a href="{{url('kontrak/create')}}" class="btn btn-primary">Create nih</a>
 		<br>
 		<br>
@@ -27,6 +30,8 @@
 		<br><br>
 		@if(count($dk) > 0)
 			@foreach($dk as $d)
+				<?php 
+					//	$id = $d->id_detil; dd($id);?>
 				<tr>
 				<td>{{$d->id_detil}}</td>
 				<td>{{$d->judul_kontrak}}</td>
@@ -38,9 +43,10 @@
 				<td>{{$d->slg}}</td>
 				<a href="kontrak/download/{{$d->nama_dokumen}}"><td>{{$d->nama_dokumen}}</td></a>
 				@foreach($dt as $ld)
+				@if($d->id_detil == $ld->id_detil)
 				<td>{{$ld->nama_layanan}}</td>
+				@endif
 				@endforeach
-				<!-- <a href="kontrak/edit/{{$d->id_detil}}"> edit data </a> -->
 				<a href="kontrak/delete/{{$d->id_detil}}"> hapus data </a>
 				</tr>
 				<br>
