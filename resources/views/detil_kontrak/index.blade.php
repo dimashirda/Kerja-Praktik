@@ -18,6 +18,7 @@
              <option value='nama'>Nama Kontrak</option>
              <option value='am'>Account Manager</option>
              <option value='tgl_akhir'>Tanggal Berakhir</option>
+             <option value="pelanggan">Pelanggan</option>
              </select>
               <input type="text" id="txt" class="form-control" name="search1" placeholder="Search...">
               <input type="date" id="date" class="form-control" name="search2" placeholder="Search...">
