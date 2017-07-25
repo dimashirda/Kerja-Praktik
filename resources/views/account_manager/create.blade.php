@@ -33,19 +33,19 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="tlp_accm">
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="EmailAccMgr" class="col-sm-2 control-label">Email</label>
 
                                 <div class="col-sm-10">
                                     <input type="email" class="form-control" name="email_accm">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="tlp_accm">
+                                </div>
+                            </div>                            
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
