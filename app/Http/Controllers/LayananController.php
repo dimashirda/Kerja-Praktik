@@ -28,7 +28,7 @@ class LayananController extends Controller
         }
         else
         {
-            $layanan = DB::table('layanans')->oldest()->paginate(25);
+            $layanan = DB::table('layanans')->paginate(25);
         }
         return view('layanan.index',['layanan'=>$layanan]);
     }

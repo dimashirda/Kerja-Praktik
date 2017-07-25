@@ -52,9 +52,11 @@
                     </form>
                     <br>
                     <div class="row">
+                        @if(Auth::User()->role == 1)
                         <div class="col-md-6">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-layanan"><i class="fa fa-plus-circle"></i> Tambah baru</button>
                         </div>
+                        @endif
                         <div id="add-layanan" class="modal fade" style="display: none;">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -93,7 +95,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Layanan</th>
+                            @if(Auth::User()->role == 1)
                             <th>Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -101,9 +105,11 @@
                         <tr>
                             <td>{{$l->id_layanan}}</td>
                             <td>{{$l->nama_layanan}}</td>
+                            @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-danger delete-button" data-name="{{$l->nama_layanan}}" data-id="{{$l->id_layanan}}" data-toggle="modal" data-target="#modal-danger">Hapus</button>
                             </td>
+                            @endif
                         </tr>
                             <?php $i++;?>
                         @endforeach
