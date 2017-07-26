@@ -23,14 +23,23 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Anak Perusahaan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('admin/perusahaan')}}" method="get" role="search">
+                    <form action="{{url('perusahaan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -61,12 +70,12 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nama Perusahaan</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
+                            <th style="text-align: center">ID</th>
+                            <th style="text-align: center">Nama Perusahaan</th>
+                            <th style="text-align: center">No. Telepon</th>
+                            <th style="text-align: center">Email</th>
                             @if(Auth::User()->role == 1)
-                            <th colspan="2">Action</th>
+                            <th style="text-align: center" colspan="2">Action</th>
                             @endif
                         </tr>
                         </thead>
@@ -184,13 +193,13 @@
             $("#emailprshn").val(email_perusahaan);
             $("#tlpprshn").val(tlp_perusahaan);
 
-            $("#form-edit").attr('action','{{url('/admin/perusahaan/edit')}}' + '/' + id_perusahaan);
+            $("#form-edit").attr('action','{{url('/perusahaan/edit')}}' + '/' + id_perusahaan);
         });
 
         $(document).on("click",".delete-button", function () {
             var id_perusahaan = $(this).data('id')
             var nama_perusahaan = $(this).data('name');
-            $("#del-btn").attr('href','{{url('admin/perusahaan/delete')}}' + '/' + id_perusahaan)
+            $("#del-btn").attr('href','{{url('/perusahaan/delete')}}' + '/' + id_perusahaan)
             $("#show-name").html('Anda yakin ingin menghapus perusahaan ' + nama_perusahaan + '?')
 
         })

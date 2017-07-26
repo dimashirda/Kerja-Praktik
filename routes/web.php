@@ -14,71 +14,48 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::get('/home', 'DetilKontrakController@index')->name('home');
 
-//Route::get('/admin', 'AdminControllers@index')->name('admin');
+Route::middleware(['auth'])->group(function() {
 
-Route::get('/admin/upload', 'DetilKontrakController@create')->name('upload');
+    Route::get('/', function () {
+        return redirect ('/home');
+    });
+    Route::middleware(['role'])->group(function(){
+        Route::get('/pelanggan/create', 'PelangganController@create')->name('addplg');
+        Route::get('/perusahaan/create', 'AnakPerusahaanController@create')->name('addprshn');
+        Route::post('/layanan/store', 'LayananController@store')->name('addlyn');
+        Route::get('/upload', 'DetilKontrakController@create')->name('upload');
+        Route::get('/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
+        Route::post('accmgr/store', 'AccountManagerController@store');
+        Route::post('accmgr/edit/{id}', 'AccountManagerController@update');
+        Route::get('accmgr/delete/{id}', 'AccountManagerController@delete');
+        Route::post('pelanggan/store','PelangganController@store');
+        Route::post('pelanggan/edit/{nipnas}','PelangganController@save');
+        Route::get('pelanggan/delete/{nipnas}','PelangganController@delete');
+        Route::post('upload/store','DetilKontrakController@store');
+        Route::post('editkontrak','DetilKontrakController@save');
+        Route::get('kontrak/create','DetilKontrakController@create');
+        Route::get('kontrak/edit/{id_detil}','DetilKontrakController@edit');
+        Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
+        Route::post('layanan/edit/{id}','LayananController@save');
+//        Route::get('layanan/edit/{id}','LayananController@edit');
+        Route::get('layanan/delete/{id}','LayananController@delete');
+        Route::post('perusahaan/store','AnakPerusahaanController@store');
+        Route::post('perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
+        Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
+        Route::get('perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
+    });
 
-Route::get('/admin/pelanggan', 'PelangganController@index')->name('pelanggan');
-Route::get('/admin/pelanggan/create', 'PelangganController@create')->name('addplg');
-Route::get('/admin/perusahaan', 'AnakPerusahaanController@index')->name('perusahaan');
-Route::get('/admin/perusahaan/create', 'AnakPerusahaanController@create')->name('addprshn');
-Route::get('/admin/layanan', 'LayananController@index')->name('layanan');
-Route::get('/admin/layanan/create', 'LayananController@create')->name('addlyn');
-Route::get('/admin/accmgr', 'AccountManagerController@index')->name('accmgr');
-Route::get('/admin/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
+    Route::get('/home', 'DetilKontrakController@index')->name('home');
+    Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan');
+    Route::get('/perusahaan', 'AnakPerusahaanController@index')->name('perusahaan');
+    Route::get('/layanan', 'LayananController@index')->name('layanan');
+    Route::get('/accmgr', 'AccountManagerController@index')->name('accmgr');
+//    Route::get('kontrak','DetilKontrakController@index');
+    Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
+    Route::get('home/search','DetilKontrakController@search');
+    Route::get('kontrak/notifikasi','DetilKontrakController@notif');
+    Route::get('pelanggan/search', 'SearchController@pelanggan');
+    Route::get('struktur', 'TelkomController@struktur');
 
-Route::get('/upload', 'DetilKontrakController@index')->name('upload');
-
-
-//Route::get('acc-mgr', 'AccountManagerController@index');
-//Route::get('acc-mgr/create', 'AccountManagerController@create');
-Route::post('admin/accmgr/store', 'AccountManagerController@store');
-//Route::get('admin/accmgr/edit/{id}', 'AccountManagerController@edit');
-Route::post('admin/accmgr/edit/{id}', 'AccountManagerController@update');
-Route::get('admin/accmgr/delete/{id}', 'AccountManagerController@delete');
-Route::post('admin/pelanggan/store','PelangganController@store');
-Route::post('admin/pelanggan/edit/{nipnas}','PelangganController@save');
-Route::get('pelanggan/create','PelangganController@create');
-//Route::get('admin/pelanggan/edit}','PelangganController@edit');
-Route::get('admin/pelanggan/delete/{nipnas}','PelangganController@delete');
-//Route::get('pelanggan','PelangganController@index');
-
-Route::post('admin/upload/store','DetilKontrakController@store');
-Route::post('editkontrak','DetilKontrakController@save');
-Route::get('kontrak/create','DetilKontrakController@create');
-Route::get('kontrak/edit/{id_detil}','DetilKontrakController@edit');
-Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
-Route::get('kontrak','DetilKontrakController@index');
-Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
-Route::get('home/search','DetilKontrakController@search');
-Route::get('kontrak/notifikasi','DetilKontrakController@notif');
-
-
-Route::post('admin/layanan/create','LayananController@store');
-Route::post('editlayanan','LayananController@save');
-//Route::get('admin/layanan/create','LayananController@create');
-Route::get('layanan/edit/{id}','LayananController@edit');
-Route::get('admin/layanan/delete/{id}','LayananController@delete');
-Route::get('admin/layanan','LayananController@index');
-
-Route::post('admin/perusahaan/store','AnakPerusahaanController@store');
-Route::post('admin/perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
-Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
-//Route::get('admin/perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@edit');
-Route::get('admin/perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
-Route::get('anak_perusahaans','AnakPerusahaanController@index');
-
-Route::get('notifikasi','NotifikasiController@index');
-
-// Route::get('upload', function() {
-//   return View::make('anak_perusahaans.upload');
-// });
-// Route::post('apply/upload', 'ApplyController@upload');
-Route::get('admin/pelanggan/search', 'SearchController@pelanggan');
-
-Route::get('upload', function() {
-  return View::make('anak_perusahaans.upload');
 });
-Route::post('apply/upload', 'ApplyController@upload');

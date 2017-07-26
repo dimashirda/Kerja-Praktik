@@ -9,7 +9,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Kontrak</h3>
                 </div>
@@ -22,10 +22,13 @@
                                     <div class="form-group">
                                         <label>Search by:
                                             <select name="kategori" id="kategori" onchange="myForm(this.value)" class="form-control input-sm">
-                                                <option value='ap' selected>Anak Perusahaan</option>
+                                                <option value='pelanggan' selected>Nama Pelanggan</option>
+                                                <option value="nipnas">NIPNAS</option>
+                                                <option value='ap'>Anak Perusahaan</option>
                                                 <option value='nama'>Nama Kontrak</option>
                                                 <option value='am'>Account Manager</option>
                                                 <option value='tgl_akhir'>Tanggal Berakhir</option>
+
                                             </select>
                                             <input type="text" id="txt" class="form-control input-sm" name="search1">
                                             <div class="input-group date" id="date">
@@ -46,7 +49,7 @@
                     @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{url('admin/upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                            <a href="{{route('upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
@@ -55,16 +58,16 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>NIPNAS</th>
-                                <th>Pelanggan</th>
-                                <th>Nama Kontrak</th>
-                                <th>Anak Perusahaan</th>
-                                <th>Tanggal Mulai</th>
-                                <th>Tanggal Akhir</th>
-                                <th>Jenis Layanan</th>
-                                <th>SLG (%)</th>
-                                <th>Dokumen</th>
-                                <th>Account Manager</th>
+                                <th style="text-align: center">NIPNAS</th>
+                                <th style="text-align: center">Pelanggan</th>
+                                <th style="text-align: center">Nama Kontrak</th>
+                                <th style="text-align: center">Anak Perusahaan</th>
+                                <th style="text-align: center">Tanggal Mulai</th>
+                                <th style="text-align: center">Tanggal Akhir</th>
+                                <th style="text-align: center">Jenis Layanan</th>
+                                <th style="text-align: center">SLG (%)</th>
+                                <th style="text-align: center">Dokumen</th>
+                                <th style="text-align: center">Account Manager</th>
                             </tr>
                         </thead>
                         <tbody>

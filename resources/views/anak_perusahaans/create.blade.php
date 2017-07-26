@@ -8,42 +8,51 @@
 
 @section('content')
     <div class="row">
+        @if(Session::has('alert-success'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-success')}}. <a href="{{url('perusahaan')}}">Kembali</a>
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Tambah Anak Perusahaan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" action="{{url('admin/perusahaan/store')}}" method="post">
+                    <form class="form-horizontal" action="{{url('perusahaan/store')}}" method="post">
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="IDPerusahaan" class="col-sm-2 control-label">ID Perusahaan</label>
+                                <label for="IDPerusahaan" class="col-sm-2 control-label">ID Perusahaan <span style="color: red">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="ID Perusahaan" name="id_anakperu">
+                                    <input type="text" class="form-control" placeholder="ID Perusahaan" name="id_anakperu" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Perusahaan</label>
+                                <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Perusahaan <span style="color: red">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Perusahaan" name="nama_anakperu">
+                                    <input type="text" class="form-control" placeholder="Nama Perusahaan" name="nama_anakperu" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="EmailPerusahaan" class="col-sm-2 control-label">Email</label>
 
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email" name="email_anakperu">
+                                    <input type="email" class="form-control" placeholder="Email" name="email_anakperu" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TlpPerusahaan" class="col-sm-2 control-label">No. Telepon</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="No. Telepon" name="tlp_anakperu">
+                                    <input type="text" class="form-control" placeholder="No. Telepon" name="tlp_anakperu" required>
                                 </div>
                             </div>
                         </div>

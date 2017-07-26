@@ -25,14 +25,23 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Account Manager</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('admin/accmgr')}}" method="get" role="search">
+                    <form action="{{url('accmgr')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -63,12 +72,12 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>NIK AM</th>
-                            <th>Nama</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
+                            <th style="text-align: center">NIK AM</th>
+                            <th style="text-align: center">Nama</th>
+                            <th style="text-align: center">No. Telepon</th>
+                            <th style="text-align: center">Email</th>
                             @if(Auth::User()->role == 1)
-                            <th colspan="2">Action</th>
+                            <th style="text-align: center" colspan="2">Action</th>
                             @endif
                         </tr>
                         </thead>
@@ -183,13 +192,13 @@
             $("#emailaccmgr").val(email_accmgr);
             $("#tlpaccmgr").val(tlp_accmgr);
 
-            $("#form-edit").attr('action','{{url('/admin/accmgr/edit')}}' + '/' + id_accmgr);
+            $("#form-edit").attr('action','{{url('/accmgr/edit')}}' + '/' + id_accmgr);
         })
 
         $(document).on("click",".delete-button", function () {
             var id_accmgr = $(this).data('id');
             var nama_accmgr = $(this).data('name');
-            $("#del-btn").attr('href','{{url('admin/accmgr/delete')}}' + '/' + id_accmgr);
+            $("#del-btn").attr('href','{{url('accmgr/delete')}}' + '/' + id_accmgr);
             $("#show-name").html('Anda yakin ingin menghapus Account Manager ' + nama_accmgr + '?')
 
         })

@@ -52,7 +52,8 @@ class AccountManagerController extends Controller
         $acc->email_am = $req->input('email_accm');
 
         $acc->save();
-        return redirect ('/admin/accmgr');
+        $request->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
+        return redirect ('/accmgr');
     }
 
     public function edit($id)
@@ -80,7 +81,9 @@ class AccountManagerController extends Controller
             ->update(['nama_am' => $nama,
                     'tlp_am' => $tlp,
                     'email_am' => $email]);
-        return redirect ('/admin/accmgr');
+        $req->session()->flash('alert-edit', 'Data Account Manager berhasil diubah');
+
+        return redirect ('/accmgr');
     }
 
     public function delete($id_accmgr)
@@ -91,7 +94,7 @@ class AccountManagerController extends Controller
 
         // $del = account_manager::find($accm);
         // $del->delete();
-        return redirect ('/admin/accmgr');
+        return redirect ('/accmgr');
 
     }
 }

@@ -8,6 +8,7 @@ use App\Layanan;
 
 class LayananController extends Controller
 {
+
     public function index()
     {
         $search = \Request::get('search');
@@ -47,7 +48,8 @@ class LayananController extends Controller
     	//$layanan->deskripsi = $request->input('desk');
 
     	$layanan->save();
-    	return redirect('/admin/layanan');
+        $request->session()->flash('alert-success', 'Layanan telah ditambahkan');
+    	return redirect('/layanan');
     }
     public function edit($id)
     {
@@ -55,22 +57,24 @@ class LayananController extends Controller
     	//dd($plg);
     	return view('layanan.edit',['layanan' => $lyn]);
     }
-    public function save(Request $data)
+    public function save(Request $data, $id)
     {	
-    	//dd($data);
-    	$edit = layanan::where('id_layanan',$data['id'])->first();
-    	//dd($edit);
+//    	dd($data);
+    	$edit = layanan::where('id_layanan',$id)->first();
+//    	dd($edit);
     	$edit->nama_layanan = $data['nama'];
     	//$edit->deskripsi = $data['desk'];
     	//$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/admin/layanan');
+        $data->session()->flash('alert-edit', 'Layanan berhasil diubah');
+
+        return redirect('/layanan');
     }
     public function delete($id)
     {
     	$del = layanan::find($id);
     	$del->delete();
-    	return redirect ('/admin/layanan');
+    	return redirect ('/layanan');
     }
 }
 
