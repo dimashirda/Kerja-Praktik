@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function() {
     Route::middleware(['role'])->group(function(){
         Route::get('/pelanggan/create', 'PelangganController@create')->name('addplg');
         Route::get('/perusahaan/create', 'AnakPerusahaanController@create')->name('addprshn');
-        Route::get('/layanan/create', 'LayananController@create')->name('addlyn');
+        Route::post('/layanan/store', 'LayananController@store')->name('addlyn');
         Route::get('/upload', 'DetilKontrakController@create')->name('upload');
         Route::get('/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
         Route::post('accmgr/store', 'AccountManagerController@store');
@@ -37,8 +37,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('kontrak/create','DetilKontrakController@create');
         Route::get('kontrak/edit/{id_detil}','DetilKontrakController@edit');
         Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
-        Route::post('editlayanan','LayananController@save');
-        Route::get('layanan/edit/{id}','LayananController@edit');
+        Route::post('layanan/edit/{id}','LayananController@save');
+//        Route::get('layanan/edit/{id}','LayananController@edit');
         Route::get('layanan/delete/{id}','LayananController@delete');
         Route::post('perusahaan/store','AnakPerusahaanController@store');
         Route::post('perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
@@ -56,6 +56,6 @@ Route::middleware(['auth'])->group(function() {
     Route::get('home/search','DetilKontrakController@search');
     Route::get('kontrak/notifikasi','DetilKontrakController@notif');
     Route::get('pelanggan/search', 'SearchController@pelanggan');
-
+    Route::get('struktur', 'TelkomController@struktur');
 
 });

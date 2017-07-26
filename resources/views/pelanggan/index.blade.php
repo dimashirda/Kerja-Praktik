@@ -35,7 +35,7 @@
             </div>
         @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Pelanggan</h3>
                 </div>

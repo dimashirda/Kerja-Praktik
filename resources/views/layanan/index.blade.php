@@ -44,7 +44,7 @@
             </div>
         @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Layanan yang Tersedia</h3>
                 </div>
@@ -84,7 +84,7 @@
                                         <h4 class="modal-title">Tambah Layanan</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" method="post" action="{{url('layanan/create')}}">
+                                        <form class="form-horizontal" method="post" action="{{url('layanan/store')}}">
                                             {{ csrf_field() }}
                                             <div class="box-body">
                                                 <div class="form-group">
@@ -114,7 +114,7 @@
                             <th style="text-align: center">ID</th>
                             <th style="text-align: center">Layanan</th>
                             @if(Auth::User()->role == 1)
-                            <th style="text-align: center">Action</th>
+                            <th colspan="2" style="text-align: center">Action</th>
                             @endif
                         </tr>
                         </thead>
@@ -125,6 +125,11 @@
                             <td>{{$l->nama_layanan}}</td>
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
+                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$l->id_layanan}}" data-name="{{$l->nama_layanan}}"">
+                                    Edit
+                                </button>
+                            </td>
+                            <td align="center" width="30px">
                                 <button type="button" class="btn btn-danger delete-button" data-name="{{$l->nama_layanan}}" data-id="{{$l->id_layanan}}" data-toggle="modal" data-target="#modal-danger">Hapus</button>
                             </td>
                             @endif
@@ -133,6 +138,42 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div id="modal-default" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Edit Layanan</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" method="post" action="" id="form-edit">
+                                    {{ csrf_field() }}
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="IDLayanan" class="col-sm-2 control-label">ID Layanan</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="idlyn" name="id" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="NamaLayanan" class="col-sm-2 control-label">Nama Layanan</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="namalyn"  name="nama">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="modal-danger" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
@@ -162,6 +203,13 @@
     </div>
 
     <script>
+        $(document).on("click", ".edit-button", function(){
+            var id_layanan = $(this).data('id');
+            var nama_layanan = $(this).data('name');
+            $("#idlyn").val(id_layanan);
+            $("#namalyn").val(nama_layanan);
+            $("#form-edit").attr('action','{{url('/layanan/edit')}}' + '/' + id_layanan);
+        });
         $(document).on("click",".delete-button", function () {
             var id_layanan = $(this).data('id')
             var nama_layanan = $(this).data('name')
