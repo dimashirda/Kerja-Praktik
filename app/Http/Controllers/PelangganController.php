@@ -8,10 +8,7 @@ use DB;
 
 class PelangganController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
     public function index()
     {
         $search = \Request::get('search');
@@ -49,7 +46,8 @@ class PelangganController extends Controller
     	$pelanggan->tlp_pelanggan = $request->input('tlp');
     	$pelanggan->email_pelanggan = $request->input('email');
     	$pelanggan->save();
-    	return redirect('/pelanggan');
+        $request->session()->flash('alert-success', 'Data pelanggan telah ditambahkan');
+    	return redirect('/pelanggan/create');
     }
     public function edit($nipnas)
     {
@@ -66,7 +64,9 @@ class PelangganController extends Controller
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/pelanggan');
+        $data->session()->flash('alert-edit', 'Data pelanggan berhasil diubah');
+
+        return redirect('/pelanggan');
     }
     public function delete($nipnas)
     {

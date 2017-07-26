@@ -8,10 +8,6 @@ use App\Layanan;
 
 class LayananController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index()
     {
@@ -52,6 +48,7 @@ class LayananController extends Controller
     	//$layanan->deskripsi = $request->input('desk');
 
     	$layanan->save();
+        $request->session()->flash('alert-success', 'Layanan telah ditambahkan');
     	return redirect('/layanan');
     }
     public function edit($id)
@@ -69,7 +66,9 @@ class LayananController extends Controller
     	//$edit->deskripsi = $data['desk'];
     	//$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/layanan');
+        $data->session()->flash('alert-edit', 'Layanan berhasil diubah');
+
+        return redirect('/layanan');
     }
     public function delete($id)
     {

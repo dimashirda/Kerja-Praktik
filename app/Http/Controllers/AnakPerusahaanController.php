@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class AnakPerusahaanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
 
     public function index()
     {
@@ -55,6 +52,7 @@ class AnakPerusahaanController extends Controller
 		$a->email_perusahaan = $req->input('email_anakperu');
 
 		$a->save();
+        $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
 		return redirect ('/perusahaan');
     }
     public function edit($id_perusahaan)
@@ -72,7 +70,9 @@ class AnakPerusahaanController extends Controller
     	$edit->tlp_perusahaan = $data['tlp_anakperu'];
     	$edit->email_perusahaan = $data['email_anakperu'];
     	$edit->save();
-    	return redirect('/perusahaan');
+        $data->session()->flash('alert-edit', 'Data anak perusahaan berhasil diubah');
+
+        return redirect('/perusahaan');
     }
     public function delete($id_perusahaan)
     {

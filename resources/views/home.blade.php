@@ -22,9 +22,9 @@
                                     <div class="form-group">
                                         <label>Search by:
                                             <select name="kategori" id="kategori" onchange="myForm(this.value)" class="form-control input-sm">
-                                                <option value='pelanggan'>Pelanggan</option>
+                                                <option value='pelanggan' selected>Nama Pelanggan</option>
                                                 <option value="nipnas">NIPNAS</option>
-                                                <option value='ap' selected>Anak Perusahaan</option>
+                                                <option value='ap'>Anak Perusahaan</option>
                                                 <option value='nama'>Nama Kontrak</option>
                                                 <option value='am'>Account Manager</option>
                                                 <option value='tgl_akhir'>Tanggal Berakhir</option>
@@ -58,16 +58,16 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th style="alignment: center">NIPNAS</th>
-                                <th  align="center">Pelanggan</th>
-                                <th  align="center">Nama Kontrak</th>
-                                <th  align="center">Anak Perusahaan</th>
-                                <th  align="center">Tanggal Mulai</th>
-                                <th  align="center">Tanggal Akhir</th>
-                                <th  align="center">Jenis Layanan</th>
-                                <th  align="center">SLG (%)</th>
-                                <th  align="center">Dokumen</th>
-                                <th  align="center">Account Manager</th>
+                                <th style="text-align: center">NIPNAS</th>
+                                <th style="text-align: center">Pelanggan</th>
+                                <th style="text-align: center">Nama Kontrak</th>
+                                <th style="text-align: center">Anak Perusahaan</th>
+                                <th style="text-align: center">Tanggal Mulai</th>
+                                <th style="text-align: center">Tanggal Akhir</th>
+                                <th style="text-align: center">Jenis Layanan</th>
+                                <th style="text-align: center">SLG (%)</th>
+                                <th style="text-align: center">Dokumen</th>
+                                <th style="text-align: center">Account Manager</th>
                             </tr>
                         </thead>
                         <tbody>

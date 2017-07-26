@@ -3,11 +3,20 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Pelanggan</h1>
+    {{--<h1>Pelanggan</h1>--}}
 @stop
 
 @section('content')
     <div class="row">
+        @if(Session::has('alert-success'))
+        <div class="col-md-12">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                {{Session::get('alert-success')}}. <a href="{{url('pelanggan')}}">Kembali</a>
+            </div>
+        </div>
+        @endif
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
@@ -19,17 +28,17 @@
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="NIPNAS" class="col-sm-2 control-label">NIPNAS</label>
+                                <label for="NIPNAS" class="col-sm-2 control-label">NIPNAS <span style="color: red">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="NIPNAS" name="nipnas">
+                                    <input type="text" class="form-control" placeholder="NIPNAS" name="nipnas" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
+                                <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan <span style="color: red">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Pelanggan" name="nama">
+                                    <input type="text" class="form-control" placeholder="Nama Pelanggan" name="nama" required>
                                 </div>
                             </div>
                             <div class="form-group">

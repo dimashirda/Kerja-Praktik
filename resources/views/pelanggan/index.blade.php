@@ -25,6 +25,15 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
@@ -65,12 +74,12 @@
                     <table id="tabel" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>NIPNAS</th>
-                            <th>Pelanggan</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
+                            <th style="text-align: center">NIPNAS</th>
+                            <th style="text-align: center">Pelanggan</th>
+                            <th style="text-align: center">No. Telepon</th>
+                            <th style="text-align: center">Email</th>
                             @if(Auth::User()->role == 1)
-                            <th colspan="2">Action</th>
+                            <th style="text-align: center" colspan="2">Action</th>
                             @endif
                         </tr>
                         </thead>

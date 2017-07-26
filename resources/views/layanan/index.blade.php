@@ -25,6 +25,24 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
+        @if(Session::has('alert-success'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-success')}}.
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
@@ -70,10 +88,10 @@
                                             {{ csrf_field() }}
                                             <div class="box-body">
                                                 <div class="form-group">
-                                                    <label for="NamaLayanan" class="col-sm-2 control-label">Nama Layanan</label>
+                                                    <label for="NamaLayanan" class="col-sm-3 control-label">Nama Layanan <span style="color: red">*</span></label>
 
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" placeholder="Nama Layanan" name="nama">
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" placeholder="Nama Layanan" name="nama" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -93,10 +111,10 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Layanan</th>
+                            <th style="text-align: center">ID</th>
+                            <th style="text-align: center">Layanan</th>
                             @if(Auth::User()->role == 1)
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                             @endif
                         </tr>
                         </thead>

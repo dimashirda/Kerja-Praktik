@@ -9,10 +9,6 @@ use Illuminate\Http\Request;
 
 class AccountManagerController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index()
     {
@@ -56,6 +52,7 @@ class AccountManagerController extends Controller
         $acc->email_am = $req->input('email_accm');
 
         $acc->save();
+        $request->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
         return redirect ('/accmgr');
     }
 
@@ -84,6 +81,8 @@ class AccountManagerController extends Controller
             ->update(['nama_am' => $nama,
                     'tlp_am' => $tlp,
                     'email_am' => $email]);
+        $req->session()->flash('alert-edit', 'Data Account Manager berhasil diubah');
+
         return redirect ('/accmgr');
     }
 

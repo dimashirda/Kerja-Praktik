@@ -18,10 +18,6 @@ use Session;
 use DB;
 class DetilKontrakController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index()
     {   
@@ -107,6 +103,7 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
+        $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
         return redirect('/home');
     }
     public function download(Request $request)
