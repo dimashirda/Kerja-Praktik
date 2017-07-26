@@ -31,7 +31,7 @@ class AnakPerusahaanController extends Controller
         }
         else
         {
-            $acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
+            $acc = DB::table('anak_perusahaans')->paginate(25);
         }
     	return view('anak_perusahaans.index',['acc'=>$acc]);
       

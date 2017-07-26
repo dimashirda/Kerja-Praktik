@@ -18,7 +18,7 @@
                     <form action="{{url('home/search')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
-                                <div id="example1_filter" class="form-inline">
+                                <div id="i" class="form-inline">
                                     <div class="form-group">
                                         <label>Search by:
                                             <select name="kategori" id="kategori" onchange="myForm(this.value)" class="form-control input-sm">
@@ -42,6 +42,14 @@
                             </div>
                         </div>
                     </form>
+                    <br>
+                    @if(Auth::User()->role == 1)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{url('admin/upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                        </div>
+                    </div>
+                    @endif
                     <br>
                     @if(count($dk) > 0)
                     <table class="table table-bordered table-hover">
@@ -113,12 +121,6 @@
             }
         }
 
-        $("#grid").bootgrid({
-            searchSettings: {
-                delay: 100,
-                characters: 3
-            }
-        });
 
     </script>
 @stop

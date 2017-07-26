@@ -28,7 +28,7 @@ class PelangganController extends Controller
         }
         else
         {
-            $pelanggan = DB::table('pelanggans')->oldest()->paginate(25);
+            $pelanggan = DB::table('pelanggans')->paginate(25);
         }
         return view('pelanggan.index',['pelanggan'=>$pelanggan]);
     }
