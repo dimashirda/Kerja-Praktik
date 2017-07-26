@@ -20,6 +20,7 @@ class DetilKontrakController extends Controller
 {
     public function index()
     {   
+        
         $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')

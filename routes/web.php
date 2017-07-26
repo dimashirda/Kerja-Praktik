@@ -69,6 +69,7 @@ Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
 Route::get('admin/perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
 Route::get('anak_perusahaans','AnakPerusahaanController@index');
 
+Route::get('notifikasi','NotifikasiController@index');
 
 // Route::get('upload', function() {
 //   return View::make('anak_perusahaans.upload');
