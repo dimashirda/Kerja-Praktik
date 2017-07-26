@@ -15,7 +15,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" action="{{url('admin/perusahaan/store')}}" method="post">
+                    <form class="form-horizontal" action="{{url('perusahaan/store')}}" method="post">
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">

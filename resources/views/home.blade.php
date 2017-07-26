@@ -22,10 +22,13 @@
                                     <div class="form-group">
                                         <label>Search by:
                                             <select name="kategori" id="kategori" onchange="myForm(this.value)" class="form-control input-sm">
+                                                <option value='pelanggan'>Pelanggan</option>
+                                                <option value="nipnas">NIPNAS</option>
                                                 <option value='ap' selected>Anak Perusahaan</option>
                                                 <option value='nama'>Nama Kontrak</option>
                                                 <option value='am'>Account Manager</option>
                                                 <option value='tgl_akhir'>Tanggal Berakhir</option>
+
                                             </select>
                                             <input type="text" id="txt" class="form-control input-sm" name="search1">
                                             <div class="input-group date" id="date">
@@ -46,7 +49,7 @@
                     @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{url('admin/upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                            <a href="{{route('upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
@@ -55,16 +58,16 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>NIPNAS</th>
-                                <th>Pelanggan</th>
-                                <th>Nama Kontrak</th>
-                                <th>Anak Perusahaan</th>
-                                <th>Tanggal Mulai</th>
-                                <th>Tanggal Akhir</th>
-                                <th>Jenis Layanan</th>
-                                <th>SLG (%)</th>
-                                <th>Dokumen</th>
-                                <th>Account Manager</th>
+                                <th style="alignment: center">NIPNAS</th>
+                                <th  align="center">Pelanggan</th>
+                                <th  align="center">Nama Kontrak</th>
+                                <th  align="center">Anak Perusahaan</th>
+                                <th  align="center">Tanggal Mulai</th>
+                                <th  align="center">Tanggal Akhir</th>
+                                <th  align="center">Jenis Layanan</th>
+                                <th  align="center">SLG (%)</th>
+                                <th  align="center">Dokumen</th>
+                                <th  align="center">Account Manager</th>
                             </tr>
                         </thead>
                         <tbody>

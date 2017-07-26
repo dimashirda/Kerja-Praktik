@@ -33,7 +33,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                <form action="{{url('admin/pelanggan')}}" method="get" role="search">
+                <form action="{{url('pelanggan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -55,7 +55,7 @@
                     @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{route('addplg')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                            <a href="{{url('pelanggan/create')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
@@ -189,13 +189,13 @@
         $("#emailplg").val(email_pelanggan);
         $("#tlpplg").val(tlp_pelanggan);
 
-        $("#form-edit").attr('action','{{url('/admin/pelanggan/edit')}}' + '/' + id_pelanggan);
+        $("#form-edit").attr('action','{{url('/pelanggan/edit')}}' + '/' + id_pelanggan);
     });
 
     $(document).on("click",".delete-button", function () {
         var id_pelanggan = $(this).data('id');
         var nama_pelanggan = $(this).data('name');
-        $("#del-btn").attr('href','{{url('admin/pelanggan/delete')}}' + '/' + id_pelanggan);
+        $("#del-btn").attr('href','{{url('pelanggan/delete')}}' + '/' + id_pelanggan);
         $("#show-name").html('Anda yakin ingin menghapus pelanggan ' + nama_pelanggan + '?')
 
     })

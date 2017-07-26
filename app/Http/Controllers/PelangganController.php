@@ -8,6 +8,10 @@ use DB;
 
 class PelangganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $search = \Request::get('search');
@@ -45,7 +49,7 @@ class PelangganController extends Controller
     	$pelanggan->tlp_pelanggan = $request->input('tlp');
     	$pelanggan->email_pelanggan = $request->input('email');
     	$pelanggan->save();
-    	return redirect('/admin/pelanggan');
+    	return redirect('/pelanggan');
     }
     public function edit($nipnas)
     {
@@ -62,13 +66,13 @@ class PelangganController extends Controller
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/admin/pelanggan');
+    	return redirect('/pelanggan');
     }
     public function delete($nipnas)
     {
     	$del = pelanggan::where('nipnas',$nipnas);
     	$del->delete();
-    	return redirect ('/admin/pelanggan');
+    	return redirect ('/pelanggan');
     }
 }
  

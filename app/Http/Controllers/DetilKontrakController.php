@@ -18,6 +18,11 @@ use Session;
 use DB;
 class DetilKontrakController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {   
         $dk = DB::table('Detil_kontraks')
@@ -224,7 +229,35 @@ class DetilKontrakController extends Controller
                 return $this->render($final);
 
         }
-        else{
+        else if($kategori=='nipnas'){
+            $query = DB::table('Pelanggans')
+                ->where('nipnas','like','%'.$search1.'%')
+                ->get();
+            $final = array();
+            foreach($query as $tmp){
+                $id = $tmp->nipnas;
+                /*$hasil = DB::table('Detil_kontraks')
+                        ->select('*')
+                        ->where('id_perusahaan','=',$id)->get();
+                */
+                $hasil = Detil_kontrak::select('*')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->where('Detil_kontraks.nipnas','=',$id)
+                    ->get();
+                foreach ($hasil as $h) {
+                    array_push($final,$h);
+                }
+                //array_push($final,$hasil);
+                //$->all();
+            }
+            //dd($final);
+            return $this->render($final);
+
+        }
+        else if($kategori=='tgl_akhir'){
             $query = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')

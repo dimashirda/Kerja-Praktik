@@ -8,6 +8,11 @@ use App\Layanan;
 
 class LayananController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $search = \Request::get('search');
@@ -47,7 +52,7 @@ class LayananController extends Controller
     	//$layanan->deskripsi = $request->input('desk');
 
     	$layanan->save();
-    	return redirect('/admin/layanan');
+    	return redirect('/layanan');
     }
     public function edit($id)
     {
@@ -64,13 +69,13 @@ class LayananController extends Controller
     	//$edit->deskripsi = $data['desk'];
     	//$edit->email_pelanggan = $data['email'];
     	$edit->save();
-    	return redirect('/admin/layanan');
+    	return redirect('/layanan');
     }
     public function delete($id)
     {
     	$del = layanan::find($id);
     	$del->delete();
-    	return redirect ('/admin/layanan');
+    	return redirect ('/layanan');
     }
 }
 

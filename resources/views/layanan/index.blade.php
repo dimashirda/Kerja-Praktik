@@ -32,7 +32,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                <form action="{{url('admin/layanan')}}" method="get" role="search">
+                <form action="{{url('layanan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -66,7 +66,7 @@
                                         <h4 class="modal-title">Tambah Layanan</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" method="post" action="{{url('admin/layanan/create')}}">
+                                        <form class="form-horizontal" method="post" action="{{url('layanan/create')}}">
                                             {{ csrf_field() }}
                                             <div class="box-body">
                                                 <div class="form-group">
@@ -147,7 +147,7 @@
         $(document).on("click",".delete-button", function () {
             var id_layanan = $(this).data('id')
             var nama_layanan = $(this).data('name')
-            $("#del-btn").attr('href','{{url('admin/layanan/delete')}}' + '/' + id_layanan)
+            $("#del-btn").attr('href','{{url('layanan/delete')}}' + '/' + id_layanan)
             $("#show-name").html('Anda yakin ingin menghapus layanan ' + nama_layanan + '?')
 
         })

@@ -15,7 +15,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    {!! Form::open(array('url'=>'/admin/upload/store','method'=>'POST', 'files'=>true, 'class'=>'form-horizontal')) !!}
+                    {!! Form::open(array('url'=>'/upload/store','method'=>'POST', 'files'=>true, 'class'=>'form-horizontal')) !!}
 {{--                    <form class="form-horizontal" method="post" action="{{url('admin/upload/store')}}" enctype="multipart/form-data" >--}}
                         {{ csrf_field() }}
                         <div class="box-body">
@@ -122,9 +122,9 @@
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <a href="{{url('home')}}">
-                                <button type="button" class="btn btn-default">Cancel</button>
+                                <button type="button" class="btn btn-default">Batal</button>
                             </a>
-                            <button type="submit" class="btn btn-success pull-right">Save</button>
+                            <button type="submit" class="btn btn-success pull-right">Simpan</button>
                         </div>
                         <!-- /.box-footer -->
                     {!! Form::close() !!}

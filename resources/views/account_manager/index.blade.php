@@ -32,7 +32,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('admin/accmgr')}}" method="get" role="search">
+                    <form action="{{url('accmgr')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -183,13 +183,13 @@
             $("#emailaccmgr").val(email_accmgr);
             $("#tlpaccmgr").val(tlp_accmgr);
 
-            $("#form-edit").attr('action','{{url('/admin/accmgr/edit')}}' + '/' + id_accmgr);
+            $("#form-edit").attr('action','{{url('/accmgr/edit')}}' + '/' + id_accmgr);
         })
 
         $(document).on("click",".delete-button", function () {
             var id_accmgr = $(this).data('id');
             var nama_accmgr = $(this).data('name');
-            $("#del-btn").attr('href','{{url('admin/accmgr/delete')}}' + '/' + id_accmgr);
+            $("#del-btn").attr('href','{{url('accmgr/delete')}}' + '/' + id_accmgr);
             $("#show-name").html('Anda yakin ingin menghapus Account Manager ' + nama_accmgr + '?')
 
         })

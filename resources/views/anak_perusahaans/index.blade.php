@@ -30,7 +30,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('admin/perusahaan')}}" method="get" role="search">
+                    <form action="{{url('perusahaan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -184,13 +184,13 @@
             $("#emailprshn").val(email_perusahaan);
             $("#tlpprshn").val(tlp_perusahaan);
 
-            $("#form-edit").attr('action','{{url('/admin/perusahaan/edit')}}' + '/' + id_perusahaan);
+            $("#form-edit").attr('action','{{url('/perusahaan/edit')}}' + '/' + id_perusahaan);
         });
 
         $(document).on("click",".delete-button", function () {
             var id_perusahaan = $(this).data('id')
             var nama_perusahaan = $(this).data('name');
-            $("#del-btn").attr('href','{{url('admin/perusahaan/delete')}}' + '/' + id_perusahaan)
+            $("#del-btn").attr('href','{{url('/perusahaan/delete')}}' + '/' + id_perusahaan)
             $("#show-name").html('Anda yakin ingin menghapus perusahaan ' + nama_perusahaan + '?')
 
         })
