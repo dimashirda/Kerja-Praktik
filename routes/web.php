@@ -55,6 +55,7 @@ Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
 Route::get('home/search','DetilKontrakController@search');
 Route::get('kontrak/notifikasi','DetilKontrakController@notif');
 
+
 Route::post('admin/layanan/create','LayananController@store');
 Route::post('editlayanan','LayananController@save');
 //Route::get('admin/layanan/create','LayananController@create');
