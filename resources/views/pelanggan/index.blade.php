@@ -52,11 +52,13 @@
                         </div>
                     </form>
                     <br>
+                    @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addplg')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
+                    @endif
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
@@ -67,7 +69,9 @@
                             <th>Pelanggan</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
+                            @if(Auth::User()->role == 1)
                             <th colspan="2">Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -78,17 +82,18 @@
                                     <td>{{$p->nama_pelanggan}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
                                     <td>{{$p->email_pelanggan}}</td>
-                                <?php $no++; ?>
-                            <td align="center" width="30px">
-                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
-                                    Edit
-                                </button>
-                            </td>
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
-                                    Hapus
-                                </button>
-                            </td>
+                                    @if(Auth::User()->role == 1)
+                                    <td align="center" width="30px">
+                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td align="center" width="30px">
+                                        <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
+                                            Hapus
+                                        </button>
+                                    </td>
+                                    @endif
                         </tr>
                         @endforeach
                         </tbody>
