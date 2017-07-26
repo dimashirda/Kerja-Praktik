@@ -68,6 +68,7 @@
                                 <th style="text-align: center">SLG (%)</th>
                                 <th style="text-align: center">Dokumen</th>
                                 <th style="text-align: center">Account Manager</th>
+                                <th style="text-align: center" colspan="2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,6 +95,18 @@
                                     </td>
 
                                 <td>{{$d->nama_am}}</td>
+                                <td align="center" width="30px">
+                                    <a href="{{url('kontrak/edit', $d->id_detil)}}">
+                                        <button type="button" class="btn btn-default">
+                                            Edit
+                                        </button>
+                                    </a>
+                                </td>
+                                <td align="center" width="30px">
+                                    <button type="button" class="btn btn-danger delete-button" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
+                                        Hapus
+                                    </button>
+                                </td>
 
                             </tr>
                         @endforeach

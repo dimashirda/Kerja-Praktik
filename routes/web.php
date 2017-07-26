@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function() {
         Route::post('perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
         Route::get('anak_perusahaans/create','AnakPerusahaanController@create');
         Route::get('perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
+        Route::get('kontrak/edit/{id_detil}', 'DetilKontrakController@edit');
+        Route::post('kontrak/save', 'DetilKontrakController@save');
     });
 
     Route::get('/home', 'DetilKontrakController@index')->name('home');

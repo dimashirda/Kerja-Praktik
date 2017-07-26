@@ -123,7 +123,7 @@
                                 <label for="FileUpload" class="col-sm-2 control-label">File Kontrak <span style="color: red">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="file" name="image" id="exampleInputFile" required>
+                                    <input type="file" name="image" id="exampleInputFile">
                                 </div>
                             </div>
 
