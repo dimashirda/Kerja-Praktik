@@ -50,6 +50,7 @@
 				@endif
 				@endforeach
 				<a href="kontrak/delete/{{$d->id_detil}}"> hapus data </a>
+				<a href="kontrak/edit/{{$d->id_detil}}"> edit data </a>
 				</tr>
 				<br>
 			@endforeach

@@ -18,8 +18,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 
 
-//        \App\Console\Commands\Inspire::class,
-
     ];
 
     /**
@@ -32,12 +30,14 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-//        $schedule->call(function(){
-//        $datenow = date('Y-m-d');
-//        $date = date('Y-m-d', strtotime("+30 days"));
-//        $query = DB::table('Detil_kontraks')
-//                ->whereBetween('tgl_selesai',[$datenow,$date])->get();
-//        })->command('reminders:send')->everyFiveMinutes();
+
+        /*$schedule->call(function(){
+        $datenow = date('Y-m-d');
+        $date = date('Y-m-d', strtotime("+30 days"));
+        $query = DB::table('Detil_kontraks')
+                ->whereBetween('tgl_selesai',[$datenow,$date])->get();        
+        })->command('reminders:send')->everyFiveMinutes();*/
+
     }
 
     /**
