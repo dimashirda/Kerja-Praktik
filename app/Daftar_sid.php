@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Datar_sid extends Model
+class Daftar_sid extends Model
 {
     protected $primaryKey = 'sid';
     public $incrementing = false;

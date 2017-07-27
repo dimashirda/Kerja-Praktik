@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Datar_sid;
+use App\Daftar_sid;
 use Illuminate\Http\Request;
 
-class DatarSidController extends Controller
+class DaftarSidController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class DatarSidController extends Controller
      */
     public function index()
     {
-        //
+        $sid = Daftar_sid::paginate(25);
+        return view('daftar_sid.index',['sid'=>$sid]);
     }
 
     /**
