@@ -10,7 +10,7 @@ class Notifikasi extends Model
     public $incrementing = true;
 
     protected $fillable = [
-    'id_notifikasi', 'id_detil', 'flag'
+    'id_notifikasi', 'id_detil', 'flag', 'keterangan'
     ];
 
     public function notifikasi_detil(){
