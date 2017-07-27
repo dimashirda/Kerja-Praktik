@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/layanan', 'LayananController@index')->name('layanan');
     Route::get('/accmgr', 'AccountManagerController@index')->name('accmgr');
     Route::get('/imes', 'LayananImesController@index')->name('imes');
+    Route::get('/sid', 'DaftarSidController@index')->name('sid');
 //    Route::get('kontrak','DetilKontrakController@index');
     Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
     Route::get('home/search','DetilKontrakController@search');

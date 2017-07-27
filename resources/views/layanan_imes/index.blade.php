@@ -99,7 +99,7 @@
                                                 <div class="form-group">
                                                     <label for="FlagImes" class="col-sm-3 control-label">Jenis Layanan IMES <span style="color: red">*</span></label>
 
-                                                    <select name="flag" class="form-control input-sm">
+                                                    <select name="flag" class="col-sm-3 control-label">
                                                         <option value="Connectivity">Connectivity</option>
                                                         <option value="Non Connectivity">Non Connectivity</option>
                                                     </select>
