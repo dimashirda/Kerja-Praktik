@@ -217,8 +217,10 @@ class DetilKontrakController extends Controller
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
         $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
         $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
-            'dk'=>$dk, 'dt'=>$dt]);
+        $hijau = date('Y-m-d',strtotime("+90 days"));
+        $kuning = date('Y-m-d',strtotime("+60 days"));
+        $merah = date('Y-m-d',strtotime("+30 days"));
+        return view('home',['hijau'=>$hijau, 'kuning'=>$kuning, 'merah'=>$merah, 'dk'=>$dk, 'dt'=>$dt]);
     }
     public function notif()
     {

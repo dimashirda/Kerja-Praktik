@@ -17,4 +17,8 @@ class Pelanggan extends Model
     	return $this->hasMany('App\Detil_kontrak', 'nipnas');
     }
 
+    public function pelanggan_daftar(){
+    	return $this->hasMany('App\Daftar_sid', 'nipnas');
+    }
+
 }

@@ -32,7 +32,7 @@
 				@endforeach
 				<input type="number" name="slg" required>
 				<!-- <input type="file" name="image" required> -->
-				{!! Form::f	ile('image') !!}
+				{!! Form::file('image') !!}
 				<button type="submit">Create Kontrak</button> 
 			{!! Form::close() !!}
 		</body>
