@@ -24,19 +24,21 @@ class PelangganController extends Controller
         {
             $pelanggan = DB::table('pelanggans')
             ->where('nipnas','like','%'.$search.'%')
-            ->orderBy('nipnas')
+            ->orderBy(DB::raw('LENGTH(nipnas), nipnas'))
             ->paginate(25);
         }
         elseif ($category == "segmen") 
         {
             $pelanggan = DB::table('pelanggans')
             ->where('segmen', 'like', '%'.$search.'%')
-            ->orderBy('nipnas')
+            ->orderBy(DB::raw('LENGTH(nipnas), nipnas'))
             ->paginate(25);
         }
         else
         {
-            $pelanggan = DB::table('pelanggans')->paginate(25);
+            $pelanggan = DB::table('pelanggans')
+            ->orderBy(DB::raw('LENGTH(nipnas), nipnas'))
+            ->paginate(25);
         }
         return view('pelanggan.index',['pelanggan'=>$pelanggan]);
     }
