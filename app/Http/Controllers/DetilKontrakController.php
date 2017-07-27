@@ -26,6 +26,7 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
+                ->orderBy(DB::raw('LENGTH(Detil_kontraks.nipnas), Detil_kontraks.nipnas'))
                 ->get();
         return $this->render($dk);
     }

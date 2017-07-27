@@ -93,7 +93,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="vertical-align: middle;">Status</th>
+                                <th style="vertical-align: middle;"></th>
                                 <th style="vertical-align: middle;">NIPNAS</th>
                                 <th style="vertical-align: middle;">Pelanggan</th>
                                 <th style="vertical-align: middle;">Nama Kontrak</th>
@@ -110,11 +110,11 @@
                         @foreach($dk as $d)
                             <tr>
                                 @if($merah > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ff3300; font-size: 18px;"></span></td>
+                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #ff3300; font-size: 19px;"></span></td>
                                 @elseif($kuning > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #fde61c; font-size: 18px"></span></td>
+                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #fde61c; font-size: 19px"></span></td>
                                 @elseif($hijau > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #00e600; font-size: 18px"></span></td>
+                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #00e600; font-size: 19px"></span></td>
                                 @else
                                 <td style="text-align: center"><span></span></td>
                                 @endif
