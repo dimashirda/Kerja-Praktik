@@ -50,7 +50,7 @@ class DetilKontrakController extends Controller
         $detil->tgl_mulai = $request->input('tgl_mulai');
         $detil->tgl_selesai = $request->input('tgl_selesai');
         $detil->slg = $request->input('slg');
-        $depan = $request->input('id');
+        $depan = $request->input('nama');
         //$depan .=".pdf";
         //dd($depan);
         $file = array('image' => Input::file('image'));
@@ -74,7 +74,7 @@ class DetilKontrakController extends Controller
                 //dd($fileName);
                 Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
                 // sending back with message
-                $detil->nama_dokumen = $depan; 
+                $detil->nama_dokumen = $depan;
                 Session::flash('success', 'Upload successfully'); 
                 //return Redirect::to('/kontrak');
               }
@@ -322,20 +322,22 @@ class DetilKontrakController extends Controller
     {
         $detil = Detil_kontrak::where('id_detil',$request['id'])->first();
         //dd($detil);
-        $detil->id_detil = $request['id'];
-        $detil->judul_kontrak = $request['nama'];
-        $detil->id_am = $request['id_am'];
-        $detil->nipnas = $request['nipnas'];
-        $detil->id_perusahaan = $request['id_perusahaan'];
-        $detil->tgl_mulai = $request['tgl_mulai'];
-        $detil->tgl_selesai = $request['tgl_selesai'];
-        $detil->slg = $request['slg'];
-        $depan = $request['id'];
+
         //$depan .=".pdf";
         //dd($depan);
 
         if (isset($request['image'])) {
+            $detil->id_detil = $request['id'];
+            $detil->judul_kontrak = $request['nama'];
+            $detil->id_am = $request['id_am'];
+            $detil->nipnas = $request['nipnas'];
+            $detil->id_perusahaan = $request['id_perusahaan'];
+            $detil->tgl_mulai = $request['tgl_mulai'];
+            $detil->tgl_selesai = $request['tgl_selesai'];
+            $detil->slg = $request['slg'];
+            $depan = $request['nama'];
             $file = array('image' => Input::file('image'));
+
 
     //        echo Input::file('image');
               //dd($file);
@@ -370,12 +372,24 @@ class DetilKontrakController extends Controller
                       return Redirect::to('/home');
                   }
               }
+            $detil->save();
+          }
+          else {
+              DB::table('detil_kontraks')
+                  ->where('id_detil', $request['id'])
+                  ->update(['judul_kontrak' => $request['nama'],
+                      'id_am' => $request['id_am'],
+                      'nipnas'=> $request['nipnas'],
+                      'id_perusahaan' => $request['id_perusahaan'],
+                      'tgl_mulai' => $request['tgl_mulai'],
+                      'tgl_selesai' => $request['tgl_selesai'],
+                      'slg' => $request['slg']]);
           }
 
         $lyn = $request->input('name');
         $hapus = $request->input('id');
         $a = count($lyn);
-        $detil->save();
+
         //dd($lyn);
         $i = 0;
         $delete = DB::table('layanan_kontraks')
@@ -389,7 +403,7 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
-       return $this->index();
+       return redirect('home');
 
     }
 }

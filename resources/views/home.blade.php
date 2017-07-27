@@ -89,7 +89,7 @@
                                 </td>
                                 <td>{{$d->slg}}</td>
                                     <td>
-                                        <a href="kontrak/download/{{$d->nama_dokumen}}">
+                                            <a href="kontrak/download/{{$d->nama_dokumen}}">
                                             {{$d->nama_dokumen}}
                                         </a>
                                     </td>
@@ -112,6 +112,27 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div id="modal-danger" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hapus Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="show-name"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <a id="del-btn">
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @else
                     <p>Data tidak tersedia.</p>
@@ -136,6 +157,14 @@
                 $("#date").show();
             }
         }
+
+        $(document).on("click",".delete-button", function () {
+            var id_pelanggan = $(this).data('id');
+            var nama_pelanggan = $(this).data('name');
+            $("#del-btn").attr('href','{{url('kontrak/delete')}}' + '/' + id_pelanggan);
+            $("#show-name").html('Anda yakin ingin menghapus kontrak ' + nama_pelanggan + '?')
+
+        })
 
 
     </script>
