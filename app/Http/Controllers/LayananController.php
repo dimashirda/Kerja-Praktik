@@ -70,11 +70,12 @@ class LayananController extends Controller
 
         return redirect('/layanan');
     }
-    public function delete($id)
+    public function delete(Request $data, $id)
     {
     	$del = layanan::find($id);
     	$del->delete();
-    	return redirect ('/layanan');
+        $data->session()->flash('alert-hapus', 'Layanan berhasil dihapus');
+        return redirect ('/layanan');
     }
 }
 

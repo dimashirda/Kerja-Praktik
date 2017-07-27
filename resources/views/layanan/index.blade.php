@@ -43,6 +43,15 @@
                 </div>
             </div>
         @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">
@@ -55,13 +64,13 @@
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
-                                        <label>Search by:
+                                        <label>Cari berdasarkan:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Layanan</option>
                                                 <option value="ID">ID layanan</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
                                         </label>
                                     </div>
                                 </div>
@@ -108,11 +117,11 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">ID</th>
-                            <th style="text-align: center">Layanan</th>
+                            <th>ID</th>
+                            <th>Layanan</th>
                             @if(Auth::User()->role == 1)
                             <th colspan="2" style="text-align: center">Action</th>
                             @endif
@@ -189,7 +198,7 @@
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="submit" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="submit" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
                             </div>
                         </div>

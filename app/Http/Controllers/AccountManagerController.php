@@ -86,7 +86,7 @@ class AccountManagerController extends Controller
         return redirect ('/accmgr');
     }
 
-    public function delete($id_accmgr)
+    public function delete(Request $request, $id_accmgr)
     {
         DB::table('account_managers')
             ->where('id_am', $id_accmgr)
@@ -94,6 +94,8 @@ class AccountManagerController extends Controller
 
         // $del = account_manager::find($accm);
         // $del->delete();
+        $request->session()->flash('alert-hapus', 'Data Account Manager berhasil dihapus');
+
         return redirect ('/accmgr');
 
     }

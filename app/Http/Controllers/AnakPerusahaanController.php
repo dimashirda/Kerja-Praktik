@@ -74,10 +74,12 @@ class AnakPerusahaanController extends Controller
 
         return redirect('/perusahaan');
     }
-    public function delete($id_perusahaan)
+    public function delete(Request $data, $id_perusahaan)
     {
     	$del = Anak_perusahaan::where('id_perusahaan',$id_perusahaan);
     	$del->delete();
-    	return redirect ('/admin/perusahaan');
+        $data->session()->flash('alert-hapus', 'Data anak perusahaan berhasil dihapus');
+
+        return redirect ('/perusahaan');
     }
 }
