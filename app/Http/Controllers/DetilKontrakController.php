@@ -132,6 +132,7 @@ class DetilKontrakController extends Controller
         $kategori = $request->input('kategori');
         $search1 = $request->input('search1');
         $search2 = $request->input('search2');
+        $search3 = $request->input('search3');
         if ($kategori == 'ap') {
 
                 $query = Anak_perusahaan::select('id_perusahaan')
@@ -254,30 +255,109 @@ class DetilKontrakController extends Controller
             return $this->render($final);
 
         }
-        else if($kategori=='tgl_akhir'){
+        else if($kategori=='tgl_akhir') {
             $query = DB::table('Detil_kontraks')
-                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                        'Anak_perusahaans.id_perusahaan')
-                ->where('tgl_selesai','<=',$search2)
+                ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
+                ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
+                ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
+                    'Anak_perusahaans.id_perusahaan')
+                ->where('tgl_selesai', '<=', $search2)
                 ->get();
+            }
             //dd($query);
+            else if($kategori=='status') {
+                if($search3=='satu') {
+                    $datenow = date('Y-m-d');
+                    $date = date('Y-m-d', strtotime("+30 days"));
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->where('Detil_kontraks.tgl_selesai','<=',$date)
+                        ->get();
+                }
+                else if ($search3=='dua') {
+                    $datenow = date('Y-m-d',strtotime("+31 days"));
+                    $date = date('Y-m-d', strtotime("+60 days"));
+
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                        ->get();
+                }
+                else if ($search3=='tiga') {
+                    $datenow = date('Y-m-d',strtotime("+61 days"));
+                    $date = date('Y-m-d', strtotime("+90 days"));
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                        ->get();
+                }
+            }
             return $this->render($query);
-        }
   }
+    public function hijau()
+    {
+        $datenow = date('Y-m-d',strtotime("+61 days"));
+        $date = date('Y-m-d', strtotime("+90 days"));
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+            ->get();
+        return $this->render($dk);
+    }
+
+    public function kuning()
+    {
+        $datenow = date('Y-m-d',strtotime("+31 days"));
+        $date = date('Y-m-d', strtotime("+60 days"));
+
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+            ->get();
+        return $this->render($dk);
+    }
+
+    public function merah()
+    {
+        $datenow = date('Y-m-d');
+        $date = date('Y-m-d', strtotime("+30 days"));
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->where('Detil_kontraks.tgl_selesai','<=',$date)
+            ->get();
+        return $this->render($dk);
+    }
+
+
     public function render($value)
     {   
         $dk = $value;
         $dt = DB::table('layanan_kontraks')
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->get();        
-        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
-        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
-        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
-        $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
+                ->get();
+        $merah = date('Y-m-d',strtotime("+30 days"));
+        $kuning = date('Y-m-d',strtotime("+60 days"));
+        $hijau = date('Y-m-d',strtotime("+90 days"));
+        return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
             'dk'=>$dk, 'dt'=>$dt]);
     }
     public function notif()

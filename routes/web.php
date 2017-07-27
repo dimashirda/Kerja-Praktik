@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
         Route::get('kontrak/edit/{id_detil}', 'DetilKontrakController@edit');
         Route::post('kontrak/save', 'DetilKontrakController@save');
+        Route::get('kontrak/merah','DetilKontrakController@merah')->name('merah');
+        Route::get('kontrak/kuning','DetilKontrakController@kuning')->name('kuning');
+        Route::get('kontrak/hijau','DetilKontrakController@hijau')->name('hijau');
     });
 
     Route::get('/home', 'DetilKontrakController@index')->name('home');

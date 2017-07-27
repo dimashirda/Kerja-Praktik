@@ -28,6 +28,7 @@
                                                 <option value='nama'>Nama Kontrak</option>
                                                 <option value='am'>Account Manager</option>
                                                 <option value='tgl_akhir'>Tanggal Berakhir</option>
+                                                <option value='status'>Status</option>
 
                                             </select>
                                             <input type="text" id="txt" class="form-control input-sm" name="search1">
@@ -37,6 +38,11 @@
                                                 </div>
                                                 <input type="text" id="datepicker3" class="form-control pull-right input-sm" name="search2">
                                             </div>
+                                            <select name="search3" id="bln" class="form-control input-sm">
+                                                <option value="satu">< 1 Bulan</option>
+                                                <option value="dua">< 2 Bulan</option>
+                                                <option value="tiga">< 3 Bulan</option>
+                                            </select>
 
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
                                         </label>
@@ -51,29 +57,39 @@
                         <div class="col-md-6">
                             <a href="{{route('upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
+
                     </div>
                     @endif
                     <br>
                     @if(count($dk) > 0)
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th style="text-align: center">NIPNAS</th>
-                                <th style="text-align: center">Pelanggan</th>
-                                <th style="text-align: center">Nama Kontrak</th>
-                                <th style="text-align: center">Anak Perusahaan</th>
-                                <th style="text-align: center">Tanggal Mulai</th>
-                                <th style="text-align: center">Tanggal Akhir</th>
-                                <th style="text-align: center">Jenis Layanan</th>
-                                <th style="text-align: center">SLG (%)</th>
-                                <th style="text-align: center">Dokumen</th>
-                                <th style="text-align: center">Account Manager</th>
-                                <th style="text-align: center" colspan="2">Actions</th>
+                                <th style="vertical-align: middle;">Status</th>
+                                <th style="vertical-align: middle;">NIPNAS</th>
+                                <th style="vertical-align: middle;">Pelanggan</th>
+                                <th style="vertical-align: middle;">Nama Kontrak</th>
+                                <th style="vertical-align: middle;">Anak Perusahaan</th>
+                                <th style="vertical-align: middle;">Tanggal Mulai</th>
+                                <th style="vertical-align: middle;">Tanggal Akhir</th>
+                                <th style="vertical-align: middle;">Layanan</th>
+                                <th style="vertical-align: middle;">SLG (%)</th>
+                                <th style="vertical-align: middle;">Account Manager</th>
+                                <th style="vertical-align: middle;" colspan="3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($dk as $d)
                             <tr>
+                                @if($merah > $d->tgl_selesai)
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ff3300; font-size: 16px"></span></td>
+                                @elseif($kuning > $d->tgl_selesai)
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ffcc00; font-size: 16px"></span></td>
+                                @elseif($hijau > $d->tgl_selesai)
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #4dff4d; font-size: 16px"></span></td>
+                                @else
+                                <td style="text-align: center"><span></span></td>
+                                @endif
                                 <td>{{$d->nipnas}}</td>
                                 <td>{{$d->nama_pelanggan}}</td>
                                 <td>{{$d->judul_kontrak}}</td>
@@ -88,25 +104,30 @@
                                     @endforeach
                                 </td>
                                 <td>{{$d->slg}}</td>
-                                    <td>
-                                            <a href="kontrak/download/{{$d->nama_dokumen}}">
-                                            {{$d->nama_dokumen}}
-                                        </a>
-                                    </td>
 
                                 <td>{{$d->nama_am}}</td>
                                 <td align="center" width="30px">
+                                    <a href="{{url('kontrak/download', $d->nama_dokumen)}}">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                                            @if (Auth::User()->role==1)
+                                <td align="center" width="30px">
                                     <a href="{{url('kontrak/edit', $d->id_detil)}}">
                                         <button type="button" class="btn btn-default">
-                                            Edit
+                                            <i class="fa fa-pencil"></i>
                                         </button>
                                     </a>
                                 </td>
                                 <td align="center" width="30px">
-                                    <button type="button" class="btn btn-danger delete-button" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
-                                        Hapus
+                                    <button type="button" class="btn btn-default delete-button" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
+                                        <i class="fa fa-times"></i>
+
                                     </button>
                                 </td>
+                                                @endif
 
                             </tr>
                         @endforeach
@@ -144,25 +165,33 @@
     <script>
         $(document).ready(function(){
             $("#date").hide();
+            $("#bln").hide()
         });
 
         function myForm(value) {
-            if (value != 'tgl_akhir') {
-                $("#txt").show();
+            if (value == 'status') {
+                $("#bln").show();
+                $("#txt").hide();
                 $("#date").hide();
+            }
+            else if (value == 'tgl_akhir') {
+                $("#date").show();
+                $("#txt").hide();
+                $("#bln").hide();
 
             }
             else {
-                $("#txt").hide();
-                $("#date").show();
+                $("#txt").show();
+                $("#date").hide();
+                $("#bln").hide();
             }
         }
 
         $(document).on("click",".delete-button", function () {
-            var id_pelanggan = $(this).data('id');
-            var nama_pelanggan = $(this).data('name');
-            $("#del-btn").attr('href','{{url('kontrak/delete')}}' + '/' + id_pelanggan);
-            $("#show-name").html('Anda yakin ingin menghapus kontrak ' + nama_pelanggan + '?')
+            var id_detil = $(this).data('id');
+            var nama_kontrak = $(this).data('name');
+            $("#del-btn").attr('href','{{url('kontrak/delete')}}' + '/' + id_detil);
+            $("#show-name").html('Anda yakin ingin menghapus kontrak ' + nama_kontrak + '?')
 
         })
 
