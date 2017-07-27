@@ -32,7 +32,7 @@
 
 
                         <div class="form-group">
-                            <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan <span style="color: red">*</span></label>
+                            <label for="NamaPelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" name="nipnas" data-placeholder="Pilih Pelanggan" required>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="AnakPerusahaan" class="col-sm-2 control-label">Anak Perusahaan <span style="color: red">*</span></label>
+                            <label for="AnakPerusahaan" class="col-sm-2 control-label">Anak Perusahaan</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" data-placeholder="Pilih perusahaan" name="id_perusahaan" required>
@@ -56,14 +56,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="NamaKontrak" class="col-sm-2 control-label">Nama Kontrak <span style="color: red">*</span></label>
+                            <label for="NamaKontrak" class="col-sm-2 control-label">Nama Kontrak</label>
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="nama" placeholder="Nama Kontrak" value="{{$dk[0]->judul_kontrak}}"required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="AccMgr" class="col-sm-2 control-label">Account Manager <span style="color: red">*</span></label>
+                            <label for="AccMgr" class="col-sm-2 control-label">Account Manager</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" data-placeholder="Pilih Account Manager" name="id_am" required>
@@ -77,7 +77,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="KontrakAwal" class="col-sm-4 control-label">Mulai Kontrak <span style="color: red">*</span></label>
+                                    <label for="KontrakAwal" class="col-sm-4 control-label">Mulai Kontrak</label>
 
                                     <div class="col-sm-8">
                                         <div class="input-group date">
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="KontrakAkhir" class="col-sm-4 control-label">Akhir Kontrak <span style="color: red">*</span></label>
+                                    <label for="KontrakAkhir" class="col-sm-4 control-label">Akhir Kontrak</label>
 
                                     <div class="col-sm-8">
                                         <div class="input-group date">
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="JenisLayanan" class="col-sm-2 control-label">Jenis Layanan <span style="color: red">*</span></label>
+                            <label for="JenisLayanan" class="col-sm-2 control-label">Jenis Layanan</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" multiple="multiple" name="name[]" data-placeholder="Pilih layanan" required>
@@ -120,14 +120,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="SLG" class="col-sm-2 control-label">SLG (%) <span style="color: red">*</span></label>
+                            <label for="SLG" class="col-sm-2 control-label">SLG (%)</label>
 
                             <div class="col-sm-10">
                                 <input type="number" step="0.01" max="100" name="slg" class="form-control" value="{{$dk[0]->slg}}" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="FileUpload" class="col-sm-2 control-label">File Kontrak <span style="color: red">*</span></label>
+                            <label for="FileUpload" class="col-sm-2 control-label">File Kontrak</label>
 
                             <div class="col-sm-10">
                                 <input type="file" name="image" id="exampleInputFile">

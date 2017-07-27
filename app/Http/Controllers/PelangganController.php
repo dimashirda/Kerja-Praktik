@@ -72,14 +72,15 @@ class PelangganController extends Controller
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	$edit->save();
-        $data->session()->flash('alert-edit', 'Data pelanggan berhasil diubah');
+            $data->session()->flash('alert-edit', 'Data pelanggan berhasil diubah');
 
         return redirect('/pelanggan');
     }
-    public function delete($nipnas)
+    public function delete(Request $request, $nipnas)
     {
     	$del = pelanggan::where('nipnas',$nipnas);
     	$del->delete();
+        $request->session()->flash('alert-hapus', 'Data pelanggan berhasil dihapus');
     	return redirect ('/pelanggan');
     }
 }

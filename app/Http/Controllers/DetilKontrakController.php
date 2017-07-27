@@ -104,7 +104,7 @@ class DetilKontrakController extends Controller
         }
         //dd($lk);
         $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
-        return redirect('/home');
+        return redirect('/upload');
     }
     public function download(Request $request)
     {
@@ -120,11 +120,13 @@ class DetilKontrakController extends Controller
             exit("file tidak tersedia");
         }
     }
-    public function delete($id_detil)
+    public function delete(Request $data, $id_detil)
     {
         $del = Detil_kontrak::find($id_detil);
         //dd($del);
         $del->delete();
+        $data->session()->flash('alert-hapus', 'Data kontrak berhasil dihapus');
+
         return redirect ('/home');
     }
     public function search(Request $request)
@@ -483,6 +485,7 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
+        $request->session()->flash('alert-edit', 'Data kontrak berhasil diubah');
        return redirect('home');
 
     }

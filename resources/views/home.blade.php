@@ -7,7 +7,35 @@
 @stop
 
 @section('content')
+    <style>
+        li.a{
+            margin: -11px -23px;
+            padding: 0.2em;
+        }
+        ul.b{
+            margin-top: 8px;
+            margin-bottom: -10px;
+        }
+    </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">
@@ -20,7 +48,7 @@
                             <div class="col-md-6">
                                 <div id="i" class="form-inline">
                                     <div class="form-group">
-                                        <label>Search by:
+                                        <label>Cari berdasarkan:
                                             <select name="kategori" id="kategori" onchange="myForm(this.value)" class="form-control input-sm">
                                                 <option value='pelanggan' selected>Nama Pelanggan</option>
                                                 <option value="nipnas">NIPNAS</option>
@@ -44,7 +72,7 @@
                                                 <option value="tiga">< 3 Bulan</option>
                                             </select>
 
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
                                         </label>
                                     </div>
                                 </div>
@@ -62,7 +90,7 @@
                     @endif
                     <br>
                     @if(count($dk) > 0)
-                    <table class="table table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="vertical-align: middle;">Status</th>
@@ -75,18 +103,18 @@
                                 <th style="vertical-align: middle;">Layanan</th>
                                 <th style="vertical-align: middle;">SLG (%)</th>
                                 <th style="vertical-align: middle;">Account Manager</th>
-                                <th style="vertical-align: middle;" colspan="3">Actions</th>
+                                <th style="vertical-align: middle; text-align: center" colspan="3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($dk as $d)
                             <tr>
                                 @if($merah > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ff3300; font-size: 16px"></span></td>
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ff3300; font-size: 18px;"></span></td>
                                 @elseif($kuning > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #ffcc00; font-size: 16px"></span></td>
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #fde61c; font-size: 18px"></span></td>
                                 @elseif($hijau > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-circle" style="color: #4dff4d; font-size: 16px"></span></td>
+                                <td style="text-align: center"><span class="fa fa-circle" style="color: #00e600; font-size: 18px"></span></td>
                                 @else
                                 <td style="text-align: center"><span></span></td>
                                 @endif
@@ -96,13 +124,13 @@
                                 <td>{{$d->nama_perusahaan}}</td>
                                 <td>{{$d->tgl_mulai}}</td>
                                 <td>{{$d->tgl_selesai}}</td>
-                                <td>
+                                <td><ul class="b">
                                     @foreach($dt as $ld)
                                         @if($d->id_detil == $ld->id_detil)
-                                        {{$ld->nama_layanan}}<br>
+                                            <li class="a">{{$ld->nama_layanan}}</li><br>
                                         @endif
                                     @endforeach
-                                </td>
+                                    </ul></td>
                                 <td>{{$d->slg}}</td>
 
                                 <td>{{$d->nama_am}}</td>
@@ -148,7 +176,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
 
                             </div>

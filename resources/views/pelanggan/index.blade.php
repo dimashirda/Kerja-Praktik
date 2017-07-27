@@ -34,6 +34,15 @@
                 </div>
             </div>
         @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">
@@ -72,14 +81,14 @@
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
-                    <table id="tabel" class="table table-bordered table-hover">
+                    <table id="tabel" class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">NIPNAS</th>
-                            <th style="text-align: center">Pelanggan</th>
-                            <th style="text-align: center">Segmen</th>
-                            <th style="text-align: center">No. Telepon</th>
-                            <th style="text-align: center">Email</th>
+                            <th>NIPNAS</th>
+                            <th>Pelanggan</th>
+                            <th>Segmen</th>
+                            <th>No. Telepon</th>
+                            <th>Email</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
@@ -184,7 +193,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
 
                             </div>
