@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Layanan_imes;
+use DB;
 use Illuminate\Http\Request;
 
 class LayananImesController extends Controller
@@ -12,74 +13,68 @@ class LayananImesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+        public function index()
     {
-        //
+        $search = \Request::get('search');
+        $category = \Request::get('kategori');
+        if($category == "nama")
+        {
+            $layanan = DB::table('layanans')
+            ->where('nama_layanan','like','%'.$search.'%')
+            ->orderBy('nama_layanan')
+            ->paginate(25);
+        }
+        elseif($category == "ID")
+        {
+            $layanan = DB::table('layanans')
+            ->where('id_layanan','like','%'.$search.'%')
+            ->orderBy('id_layanan')
+            ->paginate(25);
+        }
+        else
+        {
+            $layanan = DB::table('layanans')->paginate(25);
+        }
+        return view('layanan.index',['layanan'=>$layanan]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        return view('layanan.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        //
-    }
+    {   
+        //dd($request);
+        $layanan = new layanan;
+        $layanan->id_layanan = $request->input('id');
+        $layanan->nama_layanan = $request->input('nama');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Layanan_imes  $layanan_imes
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Layanan_imes $layanan_imes)
-    {
-        //
-    }
+        //$layanan->deskripsi = $request->input('desk');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Layanan_imes  $layanan_imes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Layanan_imes $layanan_imes)
-    {
-        //
+        $layanan->save();
+        return redirect('/admin/layanan');
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Layanan_imes  $layanan_imes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Layanan_imes $layanan_imes)
+    public function edit($id)
     {
-        //
+        $lyn = layanan::find($id);
+        //dd($plg);
+        return view('layanan.edit',['layanan' => $lyn]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Layanan_imes  $layanan_imes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Layanan_imes $layanan_imes)
+    public function save(Request $data)
+    {   
+        //dd($data);
+        $edit = layanan::where('id_layanan',$data['id'])->first();
+        //dd($edit);
+        $edit->nama_layanan = $data['nama'];
+        //$edit->deskripsi = $data['desk'];
+        //$edit->email_pelanggan = $data['email'];
+        $edit->save();
+        return redirect('/admin/layanan');
+    }
+    public function delete($id)
     {
-        //
+        $del = layanan::find($id);
+        $del->delete();
+        return redirect ('/admin/layanan');
     }
 }

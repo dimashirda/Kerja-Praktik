@@ -28,6 +28,9 @@ Route::get('/admin/layanan', 'LayananController@index')->name('layanan');
 Route::get('/admin/layanan/create', 'LayananController@create')->name('addlyn');
 Route::get('/admin/accmgr', 'AccountManagerController@index')->name('accmgr');
 Route::get('/admin/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
+Route::get('/admin/layanan_imes','LayananImesController@index')->name('layanan_imes');
+Route::get('/admin/layanan_imes/create','LayananImesController@create')->name('addlyn_imes');
+Route::get('/admin/layanan_imes/store','LayananImesController@store')->name('savelyn_imes');
 
 Route::get('/upload', 'DetilKontrakController@index')->name('upload');
 

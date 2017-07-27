@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Layanan</h1>
+    <h1>Layanan Imes</h1>
 @stop
 
 @section('content')
@@ -21,14 +21,18 @@
                                 <label for="NamaLayanan" class="col-sm-2 control-label">Nama Layanan</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Nama Layanan">
+                                    <input type="text" class="form-control" placeholder="Nama Layanan" name="nama">
                                 </div>
+                                <select name="flag" class="form-control input-sm">
+                                    <option value="1">Connectivity</option>
+                                    <option value="0">Non-Connectivity</option>
+                                </select>
                             </div>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="submit" class="btn btn-default">Batal</button>
-                            <a href="{{route('layanan')}}">
+                            <a href="{{route('savelyn_imes')}}">
                                 <button type="submit" class="btn btn-success pull-right">Simpan</button>
                             </a>
 
