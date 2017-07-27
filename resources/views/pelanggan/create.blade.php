@@ -42,6 +42,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="SegmenPelanggan" class="col-sm-2 control-label">Segmen <span style="color: red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Segmen" name="segmen" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="EmailPelanggan" class="col-sm-2 control-label">Email</label>
 
                                 <div class="col-sm-10">

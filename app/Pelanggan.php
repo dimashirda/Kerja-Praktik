@@ -10,7 +10,7 @@ class Pelanggan extends Model
     public $incrementing = false;
 
     protected $fillable = [
-    'nipnas', 'nama_pelanggan', 'tlp_pelanggan', 'email_pelanggan'
+    'nipnas', 'nama_pelanggan', 'tlp_pelanggan', 'email_pelanggan', 'segmen'
     ];
 
     public function pelanggan_detil(){

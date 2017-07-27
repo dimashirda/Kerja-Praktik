@@ -27,6 +27,13 @@ class PelangganController extends Controller
             ->orderBy('nipnas')
             ->paginate(25);
         }
+        elseif ($category == "segmen") 
+        {
+            $pelanggan = DB::table('pelanggans')
+            ->where('segmen', 'like', '%'.$search.'%')
+            ->orderBy('nipnas')
+            ->paginate(25);
+        }
         else
         {
             $pelanggan = DB::table('pelanggans')->paginate(25);
@@ -43,6 +50,7 @@ class PelangganController extends Controller
     	$pelanggan = new Pelanggan;
     	$pelanggan->nipnas = $request->input('nipnas');
     	$pelanggan->nama_pelanggan = $request->input('nama');
+        $pelanggan->segmen = $request->input('segmen');
     	$pelanggan->tlp_pelanggan = $request->input('tlp');
     	$pelanggan->email_pelanggan = $request->input('email');
     	$pelanggan->save();

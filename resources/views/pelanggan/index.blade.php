@@ -51,6 +51,7 @@
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Pelanggan</option>
                                                 <option value="nipnas">nipnas</option>
+                                                <option value="segmen">Segmen</option>
                                             </select>
                                             <input type="search" id="search_id" class="form-control input-sm search-menu-box" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
@@ -76,6 +77,7 @@
                         <tr>
                             <th style="text-align: center">NIPNAS</th>
                             <th style="text-align: center">Pelanggan</th>
+                            <th style="text-align: center">Segmen</th>
                             <th style="text-align: center">No. Telepon</th>
                             <th style="text-align: center">Email</th>
                             @if(Auth::User()->role == 1)
@@ -89,11 +91,12 @@
                                 <tr>
                                     <td>{{$p->nipnas}}</td>
                                     <td>{{$p->nama_pelanggan}}</td>
+                                    <td>{{$p->segmen}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
                                     <td>{{$p->email_pelanggan}}</td>
                                     @if(Auth::User()->role == 1)
                                     <td align="center" width="30px">
-                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
+                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-segmen="{{$p->segmen}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
                                             Edit
                                         </button>
                                     </td>
@@ -133,6 +136,13 @@
 
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="namaplg"  name="name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="SegmenPelanggan" class="col-sm-2 control-label">Segmen</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="segmenplg"  name="segmen">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -191,10 +201,12 @@
     $(document).on("click", ".edit-button", function(){
         var id_pelanggan = $(this).data('id');
         var nama_pelanggan = $(this).data('name');
+        var segmen_pelanggan = $(this).data('segmen');
         var email_pelanggan = $(this).data('email');
         var tlp_pelanggan = $(this).data('telp');
         $("#idplg").val(id_pelanggan);
         $("#namaplg").val(nama_pelanggan);
+        $("#segmenplg").val(segmen_pelanggan);
         $("#emailplg").val(email_pelanggan);
         $("#tlpplg").val(tlp_pelanggan);
 
