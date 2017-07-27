@@ -45,14 +45,14 @@
                                 <label for="EmailAccMgr" class="col-sm-3 control-label">Email</label>
 
                                 <div class="col-sm-9">
-                                    <input type="email" class="form-control" name="email_accm" placeholder="Email" required>
+                                    <input type="email" class="form-control" name="email_accm" placeholder="Email">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TlpAccMgr" class="col-sm-3 control-label">No. Telepon</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="tlp_accm" placeholder="No. Telepon" required>
+                                    <input type="text" class="form-control" name="tlp_accm" placeholder="No. Telepon">
                                 </div>
                             </div>                            
                         </div>

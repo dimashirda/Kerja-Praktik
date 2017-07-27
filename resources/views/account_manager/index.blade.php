@@ -129,21 +129,21 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:10px">
                                                 <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
                                             </div>
                                         </div>
