@@ -81,7 +81,7 @@
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
-                    <table id="tabel" class="table table-striped table-hover">
+                    <table id="tabel" class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
                             <th>NIPNAS</th>

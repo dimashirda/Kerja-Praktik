@@ -78,7 +78,7 @@
                     @endif
                     <br>
                     @if($acc->count())
-                    <table class="table table-striped table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
                             <th>NIK AM</th>

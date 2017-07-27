@@ -9,13 +9,14 @@
 @section('content')
     <style>
         li.a{
-            margin: -11px -23px;
+            margin: -11px -26px;
             padding: 0.2em;
         }
         ul.b{
             margin-top: 8px;
             margin-bottom: -10px;
         }
+
     </style>
     <div class="row">
         @if(Session::has('alert-edit'))
@@ -90,7 +91,7 @@
                     @endif
                     <br>
                     @if(count($dk) > 0)
-                    <table class="table table-striped table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="vertical-align: middle;"></th>

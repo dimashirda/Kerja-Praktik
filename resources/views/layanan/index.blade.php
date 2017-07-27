@@ -117,7 +117,7 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-striped table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
                             <th>ID</th>
