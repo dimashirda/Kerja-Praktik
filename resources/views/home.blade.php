@@ -134,6 +134,16 @@
                         </div>
                     </div>
                 </div>
+                
+                <?php //dd($tmp); ?>
+                <tr>
+                    <select name="notif" id="selectbox">
+                    @foreach($notif as $tmp)
+                    <option value="notifikasi/edit/{{$tmp->id_notifikasi}}">{{$tmp->judul_kontrak}}</option>
+                    @endforeach
+                    <option value="notifikasi/viewall">View All</option>
+                    </select>
+                </tr>
                 @else
                     <p>Data tidak tersedia.</p>
                 @endif
@@ -141,7 +151,17 @@
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
+        $(function() {
+        $("#selectbox").change(function() {
+            if ($(this).val()) {
+                window.open($(this).val(), '_self');
+                //$("#formElement").submit();
+                <?php echo 'masuk'; ?>
+            }
+        });
+    });
+
         $(document).ready(function(){
             $("#date").hide();
         });

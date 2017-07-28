@@ -7,6 +7,8 @@ use App\Detil_kontrak;
 use App\Pelanggan;
 use App\layanan_kontrak;
 use App\Layanan;
+use App\Notifikasi;
+use App\Http\Controllers\NotifikasiController;
 //use Request;
 use Validator;
 use Redirect;
@@ -265,10 +267,16 @@ class DetilKontrakController extends Controller
             //dd($query);
             return $this->render($query);
         }
-  }
+    
+    }
     public function render($value)
     {   
+        app('App\Http\Controllers\NotifikasiController')->index();
         $dk = $value;
+        $notif = DB::table('Notifikasis')
+                ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+                ->where('Notifikasis.flag','=','0')
+                ->get();
         $dt = DB::table('layanan_kontraks')
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
@@ -277,8 +285,9 @@ class DetilKontrakController extends Controller
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
         $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
         $pluckly = layanan::pluck('id_layanan','nama_layanan');
+        //dd($notif);
         return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
-            'dk'=>$dk, 'dt'=>$dt]);
+            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
     }
     public function notif()
     {
@@ -310,8 +319,7 @@ class DetilKontrakController extends Controller
             ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
             ->where('Detil_kontraks.id_detil','=',$id_detil)
             ->get();
-//        $detil = Detil_kontrak::find($id_detil);
-        //dd($detil);
+
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
         $am = DB::table('Account_managers')->select('id_am','nama_am')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
@@ -339,9 +347,7 @@ class DetilKontrakController extends Controller
             $file = array('image' => Input::file('image'));
 
 
-    //        echo Input::file('image');
-              //dd($file);
-              // setting up rules
+    
               $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
               // doing the validation, passing post data, rules and the messages
               $validator = Validator::make($file, $rules);

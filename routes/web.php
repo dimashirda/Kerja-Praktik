@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('perusahaan/delete/{id_perusahaan}','AnakPerusahaanController@delete');
         Route::get('kontrak/edit/{id_detil}', 'DetilKontrakController@edit');
         Route::post('kontrak/save', 'DetilKontrakController@save');
+        Route::get('notifikasi/edit/{id}','NotifikasiController@edit')->name('editnotif');
+        Route::get('notifikasi/viewall','NotifikasiController@showwhole');
+        Route::post('notifikasi/save/{id}','NotifikasiController@save');        
     });
 
     Route::get('/home', 'DetilKontrakController@index')->name('home');
