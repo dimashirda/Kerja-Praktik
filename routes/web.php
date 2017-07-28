@@ -42,9 +42,11 @@ Route::middleware(['auth'])->group(function() {
         Route::get('kontrak/delete/{id_detil}','DetilKontrakController@delete');
         Route::post('layanan/edit/{id}','LayananController@save');
         Route::post('imes/edit/{id}', 'LayananImesController@save');
+        Route::get('imes/delete/{id}', 'LayananImesController@delete');
+        Route::post('sid/edit/{id}', 'DaftarSidController@save');
+        Route::get('sid/delete/{id}', 'DaftarSidController@delete');
 //        Route::get('layanan/edit/{id}','LayananController@edit');
         Route::get('layanan/delete/{id}','LayananController@delete');
-        Route::get('imes/delete/{id}', 'LayananImesController@delete');
         Route::post('perusahaan/store','AnakPerusahaanController@store');
         Route::post('perusahaan/edit/{id_perusahaan}','AnakPerusahaanController@save');
         Route::get('anak_perusahaans/create','AnakPerusahaanController@create');

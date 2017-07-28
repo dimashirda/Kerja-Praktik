@@ -236,7 +236,7 @@
             var id_imes = $(this).data('id')
             var nama_imes = $(this).data('name')
             $("#del-btn").attr('href','{{url('imes/delete')}}' + '/' + id_imes)
-            $("#show-name").html('Anda yakin ingin menghapus layanan IMES' + nama_imes + '?')
+            $("#show-name").html('Anda yakin ingin menghapus layanan IMES ' + nama_imes + '?')
 
         })
     </script>

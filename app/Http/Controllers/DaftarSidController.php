@@ -19,7 +19,11 @@ class DaftarSidController extends Controller
     public function index()
     {
         $sid = Daftar_sid::paginate(25);
-        return view('daftar_sid.index',['sid'=>$sid]);
+        $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
+        $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
+        $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
+
+        return view('daftar_sid.index', ['sid'=>$sid, 'ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg]);
     }
 
     /**
@@ -55,6 +59,28 @@ class DaftarSidController extends Controller
         $dsid->save();
         $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
         return redirect('/sid');
+    }
+
+    public function save(Request $data, $id)
+    {
+        $edit = Daftar_sid::where('sid',$id)->first();
+//      dd($edit);
+        $edit->id_perusahaan = $data['id_perusahaan'];
+        $edit->nipnas = $data['nipnas'];
+        $edit->alamat_sid = $data['alamat_sid'];
+        $edit->id_imes = $data['id_imes'];
+ 
+        $edit->save();
+        $data->session()->flash('alert-edit', 'Daftar SID berhasil diubah');
+
+        return redirect('/sid');
+    }
+
+    public function delete($id)
+    {
+        $del = Daftar_sid::find($id);
+        $del->delete();
+        return redirect ('/sid');
     }
 
     /**

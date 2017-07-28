@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Daftar SIDr</h1>
+    <h1>Daftar SID</h1>
 @stop
 
 
@@ -23,6 +23,7 @@
         .example-modal .modal {
             background: transparent !important;
         }
+    
     </style>
     <div class="row">
         @if(Session::has('alert-edit'))
@@ -49,7 +50,7 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="sid">SID</option>
-                                                <option value="perusahaan">Nama</option>
+                                                <option value="perusahaan">Nama Anak Perusahaan</option>
                                                 <option value="nipnas">NIPNAS</option>
                                                 <option value="pelanggan">Nama Pelanggan</option>
                                                 <option value="layanan">Layanan IMES</option>
@@ -76,7 +77,7 @@
                         <thead>
                         <tr>
                             <th style="text-align: center">SID</th>
-                            <th style="text-align: center">Nama Perusahaan</th>
+                            <th style="text-align: center">Nama Anak Perusahaan</th>
                             <th style="text-align: center">Alamat SID</th>
                             <th style="text-align: center">NIPNAS</th>
                             <th style="text-align: center">Nama Pelanggan</th>
@@ -95,15 +96,15 @@
                             <td>{{$s->daftar_pelanggan->nipnas}}</td>
                             <td>{{$s->daftar_pelanggan->nama_pelanggan}}</td>
                             <td>{{$s->daftar_imes->nama_imes}}</td>
-                            
+
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-sid="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-id="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-sid="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
                             </td>
@@ -120,37 +121,56 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Edit Data Account Manager</h4>
+                                <h4 class="modal-title">Edit Data Daftar SID</h4>
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal" method="post" id="form-edit">
                                     {{csrf_field()}}
                                     <div class="box-body">
                                         <div class="form-group">
-                                            <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
+                                            <label for="Sid" class="col-sm-2 control-label">SID</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
+                                                <input type="text" class="form-control" name="sid" id="sid" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
+                                            <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Anak Perusahaan</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
+                                                <select name="id_perusahaan" id="id_perusahaan" class="form-control select2">
+                                                    @foreach($ap as $a)
+                                                        <option value="{{$a->id_perusahaan}}">{{$a->nama_perusahaan}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
+                                            <label for="Alamat" class="col-sm-2 control-label">Alamat SID</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
+                                                <input type="text" class="form-control" name="alamat_sid" id="alamat_sid">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="EmailAccMgr" class="col-sm-2 control-label">Email</label>
+                                            <label for="Pelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
 
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" name="email_accm" id="emailaccmgr">
+                                                <select name="nipnas" class="form-control select2" id="nipnas">
+                                                    @foreach($plg as $p)
+                                                        <option value="{{$p->nipnas}}">{{$p->nipnas}} - {{$p->nama_pelanggan}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Layanan" class="col-sm-2 control-label">Layanan IMES</label>
+
+                                            <div class="col-sm-10">
+                                                <select name="id_imes" class="form-control select2" id="id_imes">
+                                                    @foreach($lyn as $l)
+                                                        <option value="{{$l->id_imes}}">{{$l->flag}} - {{$l->nama_imes}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -191,23 +211,24 @@
     </div>
     <script>
         $(document).on("click", ".edit-button", function(){
-            var id_accmgr = $(this).data('id');
-            var nama_accmgr = $(this).data('name');
-            var email_accmgr = $(this).data('email');
-            var tlp_accmgr = $(this).data('telp');
-            $("#idaccmgr").val(id_accmgr);
-            $("#namaaccmgr").val(nama_accmgr);
-            $("#emailaccmgr").val(email_accmgr);
-            $("#tlpaccmgr").val(tlp_accmgr);
+            var sid = $(this).data('sid');
+            var id_perusahaan = $(this).data('id_perusahaan');
+            var alamat_sid = $(this).data('alamat');
+            var nipnas = $(this).data('nipnas');
+            var id_imes = $(this).data('id_imes');
+            $("#sid").val(sid);
+            $("#id_perusahaan").val(id_perusahaan);
+            $("#alamat_sid").val(alamat_sid);
+            $("#nipnas").val(nipnas);
+            $("#id_imes").val(id_imes);
 
-            $("#form-edit").attr('action','{{url('/accmgr/edit')}}' + '/' + id_accmgr);
+            $("#form-edit").attr('action','{{url('/sid/edit')}}' + '/' + sid);
         })
 
         $(document).on("click",".delete-button", function () {
-            var id_accmgr = $(this).data('id');
-            var nama_accmgr = $(this).data('name');
-            $("#del-btn").attr('href','{{url('accmgr/delete')}}' + '/' + id_accmgr);
-            $("#show-name").html('Anda yakin ingin menghapus Account Manager ' + nama_accmgr + '?')
+            var sid = $(this).data('sid')
+            $("#del-btn").attr('href','{{url('sid/delete')}}' + '/' + sid);
+            $("#show-name").html('Anda yakin ingin menghapus Daftar SID ' + sid + '?')
 
         })
     </script>
