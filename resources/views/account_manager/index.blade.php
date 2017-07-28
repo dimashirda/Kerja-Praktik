@@ -52,7 +52,7 @@
                 <div class="box-body">
                     <form action="{{url('accmgr')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
                                         <label>Cari berdasarkan:

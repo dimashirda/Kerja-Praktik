@@ -7,11 +7,17 @@
  */
 
 namespace App\Http\Controllers;
-
+use DB;
 
 class TelkomController
 {
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
     public function struktur() {
-        return view ('struktur');
+        return view ('struktur', ['allNotif'=>$this->allNotif]);
     }
 }

@@ -137,26 +137,26 @@
                                 <td>{{$d->nama_am}}</td>
                                 <td align="center" width="30px">
                                     <a href="{{url('kontrak/download', $d->nama_dokumen)}}">
-                                        <button type="button" class="btn btn-default">
+                                        <button type="button" title="Download" class="btn btn-default">
                                             <i class="fa fa-download"></i>
                                         </button>
                                     </a>
                                 </td>
-                                            @if (Auth::User()->role==1)
+                                @if (Auth::User()->role==1)
                                 <td align="center" width="30px">
                                     <a href="{{url('kontrak/edit', $d->id_detil)}}">
-                                        <button type="button" class="btn btn-default">
+                                        <button type="button" title="Edit" class="btn btn-default">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                     </a>
                                 </td>
                                 <td align="center" width="30px">
-                                    <button type="button" class="btn btn-default delete-button" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
-                                        <i class="fa fa-times"></i>
+                                    <button type="button" class="btn btn-default delete-button" title="Hapus" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
+                                        <i class="fa fa-trash"></i>
 
                                     </button>
                                 </td>
-                                                @endif
+                                @endif
 
                             </tr>
                         @endforeach
@@ -184,16 +184,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <?php //dd($tmp); ?>
-                <tr>
-                    <select name="notif" id="selectbox">
-                    @foreach($notif as $tmp)
-                    <option value="notifikasi/edit/{{$tmp->id_notifikasi}}">{{$tmp->judul_kontrak}}</option>
-                    @endforeach
-                    <option value="notifikasi/viewall">View All</option>
-                    </select>
-                </tr>
                 @else
                     <p>Data tidak tersedia.</p>
                 @endif

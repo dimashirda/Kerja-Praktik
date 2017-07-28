@@ -12,27 +12,43 @@ class NotifikasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
     public function render($val)
     {   
         $notif = $val;
-        return view('Notifikasi.index',['notif'=>$notif]);
+        $merah = date('Y-m-d',strtotime("+30 days"));
+        $kuning = date('Y-m-d',strtotime("+60 days"));
+        $hijau = date('Y-m-d',strtotime("+90 days"));
+        return view('Notifikasi.index',['allNotif'=>$notif, 'merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau]);
     }
     public function showwhole()
     {
-        $notif = DB::table('Notifikasis')
+        $allNotif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
                     ->get();
+
                     //dd($notif);
-        return $this->render($notif);   
+        return $this->render($allNotif);
     }
     public function edit($data)
     {
         $notif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan','=','Anak_perusahaans.id_perusahaan')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->where('id_notifikasi','=',$data)
                     ->get();
-                    //dd($notif);
-        return view('Notifikasi.edit',['notif'=>$notif]);
+        $dt = DB::table('layanan_kontraks')
+            ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
+            ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
+            ->get();
+        return view('Notifikasi.edit',['notif'=>$notif, 'dt'=>$dt, 'allNotif'=>$this->allNotif]);
     }
     public function save(Request $request,$data)
     {   
@@ -66,7 +82,7 @@ class NotifikasiController extends Controller
                 $note->id_detil = $tmp->id_detil;
                 $note->tanggal = date('Y-m-d');
                 $note->flag = 0;
-                $note->keterangan = 'kosong';
+                $note->keterangan = 'Belum ditindaklanjuti';
                 $note->save();   
                 }
                 //dd($notif);
@@ -89,9 +105,9 @@ class NotifikasiController extends Controller
                     foreach ($notif as $tmp) {
                     $note = new Notifikasi;
                     $note->id_detil = $tmp->id_detil;
-                    $note->tanggal = date('Y-m-d');
+                    $note->tanggal = date('d-M-Y');
                     $note->flag = 0;
-                    $note->keterangan = 'kosong';
+                    $note->keterangan = 'Belum ditindaklanjuti';
                     $note->save();   
                     }
                 }

@@ -50,9 +50,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('kontrak/edit/{id_detil}', 'DetilKontrakController@edit');
         Route::post('kontrak/save', 'DetilKontrakController@save');
 
-        Route::get('notifikasi/edit/{id}','NotifikasiController@edit')->name('editnotif');
-        Route::get('notifikasi/viewall','NotifikasiController@showwhole');
-        Route::post('notifikasi/save/{id}','NotifikasiController@save');        
+        Route::get('notifikasi/{id}','NotifikasiController@edit')->name('editnotif');
+        Route::post('notifikasi/save/{id}','NotifikasiController@save');
 
         Route::get('kontrak/merah','DetilKontrakController@merah')->name('merah');
         Route::get('kontrak/kuning','DetilKontrakController@kuning')->name('kuning');
@@ -73,5 +72,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('kontrak/notifikasi','DetilKontrakController@notif');
     Route::get('pelanggan/search', 'SearchController@pelanggan');
     Route::get('struktur', 'TelkomController@struktur');
+    Route::get('notifikasi','NotifikasiController@showwhole');
+
 
 });

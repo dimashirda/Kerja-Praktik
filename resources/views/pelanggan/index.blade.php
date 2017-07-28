@@ -56,14 +56,14 @@
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
-                                        <label>Search by:
+                                        <label>Cari berdasarkan:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Pelanggan</option>
                                                 <option value="nipnas">NIPNAS</option>
                                                 <option value="segmen">Segmen</option>
                                             </select>
                                             <input type="search" id="search_id" class="form-control input-sm search-menu-box" name="search" placeholder aria-controls="example1">
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
                                         </label>
                                     </div>
                                 </div>
