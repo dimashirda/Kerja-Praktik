@@ -45,14 +45,14 @@
                                 <label for="EmailPerusahaan" class="col-sm-2 control-label">Email</label>
 
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email" name="email_anakperu" required>
+                                    <input type="email" class="form-control" placeholder="Email" name="email_anakperu">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TlpPerusahaan" class="col-sm-2 control-label">No. Telepon</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="No. Telepon" name="tlp_anakperu" required>
+                                    <input type="text" class="form-control" placeholder="No. Telepon" name="tlp_anakperu">
                                 </div>
                             </div>
                         </div>

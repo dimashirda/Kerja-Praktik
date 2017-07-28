@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Account Manager</h1>
+    <h1>Daftar SIDr</h1>
 @stop
 
 
@@ -34,19 +34,10 @@
                 </div>
             </div>
         @endif
-            @if(Session::has('alert-hapus'))
-                <div class="col-md-12">
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                        {{Session::get('alert-hapus')}}.
-                    </div>
-                </div>
-            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">
-                    <h3 class="box-title">Data Account Manager</h3>
+                    <h3 class="box-title">Daftar SID</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -55,13 +46,16 @@
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
-                                        <label>Cari berdasarkan:
+                                        <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
-                                                <option value="nama">Nama Account Manager</option>
-                                                <option value="ID">NIK Account Manager</option>
+                                                <option value="sid">SID</option>
+                                                <option value="perusahaan">Nama</option>
+                                                <option value="nipnas">NIPNAS</option>
+                                                <option value="pelanggan">Nama Pelanggan</option>
+                                                <option value="layanan">Layanan IMES</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
                                         </label>
                                     </div>
                                 </div>
@@ -77,34 +71,38 @@
                     </div>
                     @endif
                     <br>
-                    @if($acc->count())
-                    <table class="table table-new table-striped table-hover">
+                    @if($sid->count())
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>NIK AM</th>
-                            <th>Nama</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
+                            <th style="text-align: center">SID</th>
+                            <th style="text-align: center">Nama Perusahaan</th>
+                            <th style="text-align: center">Alamat SID</th>
+                            <th style="text-align: center">NIPNAS</th>
+                            <th style="text-align: center">Nama Pelanggan</th>
+                            <th style="text-align: center">Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($acc as $a)
+                        @foreach($sid as $s)
                         <tr>
-                            <td>{{ $a->id_am }}</td>
-                            <td>{{ $a->nama_am }}</td>
-                            <td>{{ $a->tlp_am }}</td>
-                            <td>{{ $a->email_am }}</td>
+                            <td>{{$s->sid}}</td>
+                            <td>{{$s->daftar_perusahaan->nama_perusahaan}}</td>
+                            <td>{{$s->alamat_sid}}</td>
+                            <td>{{$s->daftar_pelanggan->nipnas}}</td>
+                            <td>{{$s->daftar_pelanggan->nama_pelanggan}}</td>
+                            <td>{{$s->daftar_imes->nama_imes}}</td><td>{{$l->sid}}</td>
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_am}}" data-name="{{$a->nama_am}}" data-telp="{{$a->tlp_am}}" data-email="{{$a->email_am}}">
+                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
                                     Edit
                                 </button>
                             </td>
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_am}}" data-id="{{$a->id_am}}" data-toggle="modal" data-target="#modal-danger">
+                                <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-id="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
                                     Hapus
                                 </button>
                             </td>
@@ -113,7 +111,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                        {{$acc->render()}}
+                        {{$sid->render()}}
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
@@ -129,21 +127,21 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
-                                            <div class="col-sm-10" style="margin-top:20px">
+                                            <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
-                                            <div class="col-sm-10" style="margin-top:20px">
+                                            <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
 
-                                            <div class="col-sm-10" style="margin-top:10px">
+                                            <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
                                             </div>
                                         </div>
@@ -178,7 +176,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
+                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
                                 </a>
                             </div>
                         </div>
