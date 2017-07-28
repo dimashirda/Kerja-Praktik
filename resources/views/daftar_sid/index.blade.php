@@ -41,7 +41,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('accmgr')}}" method="get" role="search">
+                    <form action="{{url('sid')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -66,7 +66,7 @@
                     @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{route('addaccmgr')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                            <a href="{{route('addsid')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
@@ -94,7 +94,8 @@
                             <td>{{$s->alamat_sid}}</td>
                             <td>{{$s->daftar_pelanggan->nipnas}}</td>
                             <td>{{$s->daftar_pelanggan->nama_pelanggan}}</td>
-                            <td>{{$s->daftar_imes->nama_imes}}</td><td>{{$l->sid}}</td>
+                            <td>{{$s->daftar_imes->nama_imes}}</td>
+                            
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">

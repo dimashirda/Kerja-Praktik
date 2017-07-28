@@ -27,7 +27,9 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/imes/store', 'LayananImesController@store')->name('addimes');
         Route::get('/upload', 'DetilKontrakController@create')->name('upload');
         Route::get('/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
+        Route::get('/sid/create', 'DaftarSidController@create')->name('addsid');
         Route::post('accmgr/store', 'AccountManagerController@store');
+        Route::post('sid/store', 'DaftarSidController@store');
         Route::post('accmgr/edit/{id}', 'AccountManagerController@update');
         Route::get('accmgr/delete/{id}', 'AccountManagerController@delete');
         Route::post('pelanggan/store','PelangganController@store');
