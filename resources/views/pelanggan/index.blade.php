@@ -59,7 +59,7 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Pelanggan</option>
-                                                <option value="nipnas">nipnas</option>
+                                                <option value="nipnas">NIPNAS</option>
                                                 <option value="segmen">Segmen</option>
                                             </select>
                                             <input type="search" id="search_id" class="form-control input-sm search-menu-box" name="search" placeholder aria-controls="example1">
