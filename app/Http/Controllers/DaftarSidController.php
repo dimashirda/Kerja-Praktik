@@ -19,11 +19,9 @@ class DaftarSidController extends Controller
     public function index()
     {
         $sid = Daftar_sid::paginate(25);
-        $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
-        $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
-        $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
+        
 
-        return view('daftar_sid.index', ['sid'=>$sid, 'ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg]);
+        return view('daftar_sid.index', ['sid'=>$sid]);
     }
 
     /**
@@ -59,6 +57,21 @@ class DaftarSidController extends Controller
         $dsid->save();
         $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
         return redirect('/sid');
+    }
+
+    public function edit(Request $req, $id)
+    {
+        $s = Daftar_sid::find($id);
+        // $s = DB::table('Daftar_sids')->select('sid', 'id_perusahaan', 'nipnas', 'alamat_sid', 'id_imes')
+        //                                 ->where('sid', $id)->get();
+
+        // dd($s);
+
+        $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
+        $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
+        $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
+
+        return view('daftar_sid.edit', ['s'=>$s, 'ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg]);
     }
 
     public function save(Request $data, $id)
@@ -100,11 +113,7 @@ class DaftarSidController extends Controller
      * @param  \App\Datar_sid  $datar_sid
      * @return \Illuminate\Http\Response
      */
-    public function edit(Datar_sid $datar_sid)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *

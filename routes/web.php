@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/upload', 'DetilKontrakController@create')->name('upload');
         Route::get('/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
         Route::get('/sid/create', 'DaftarSidController@create')->name('addsid');
+
         Route::post('accmgr/store', 'AccountManagerController@store');
         Route::post('sid/store', 'DaftarSidController@store');
         Route::post('accmgr/edit/{id}', 'AccountManagerController@update');
@@ -43,8 +44,10 @@ Route::middleware(['auth'])->group(function() {
         Route::post('layanan/edit/{id}','LayananController@save');
         Route::post('imes/edit/{id}', 'LayananImesController@save');
         Route::get('imes/delete/{id}', 'LayananImesController@delete');
-        Route::post('sid/edit/{id}', 'DaftarSidController@save');
+        Route::get('/sid/edit/{id}', 'DaftarSidController@edit');
+        Route::post('sid/save/{id}', 'DaftarSidController@save');
         Route::get('sid/delete/{id}', 'DaftarSidController@delete');
+        
 //        Route::get('layanan/edit/{id}','LayananController@edit');
         Route::get('layanan/delete/{id}','LayananController@delete');
         Route::post('perusahaan/store','AnakPerusahaanController@store');

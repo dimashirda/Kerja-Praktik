@@ -99,9 +99,10 @@
 
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
-                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-sid="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
+                                <a href="{{url('sid/edit',$s->sid)}}" class='btn btn-default'> Edit</a>
+                                <!-- <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-sid="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
                                     Edit
-                                </button>
+                                </button> -->
                             </td>
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-sid="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
@@ -115,74 +116,7 @@
                     </table>
                         {{$sid->render()}}
                 </div>
-                <div id="modal-default" class="modal fade" style="display: none;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Edit Data Daftar SID</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form-horizontal" method="post" id="form-edit">
-                                    {{csrf_field()}}
-                                    <div class="box-body">
-                                        <div class="form-group">
-                                            <label for="Sid" class="col-sm-2 control-label">SID</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="sid" id="sid" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="NamaPerusahaan" class="col-sm-2 control-label">Nama Anak Perusahaan</label>
-
-                                            <div class="col-sm-10">
-                                                <select name="id_perusahaan" id="id_perusahaan" class="form-control select2">
-                                                    @foreach($ap as $a)
-                                                        <option value="{{$a->id_perusahaan}}">{{$a->nama_perusahaan}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Alamat" class="col-sm-2 control-label">Alamat SID</label>
-
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="alamat_sid" id="alamat_sid">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Pelanggan" class="col-sm-2 control-label">Nama Pelanggan</label>
-
-                                            <div class="col-sm-10">
-                                                <select name="nipnas" class="form-control select2" id="nipnas">
-                                                    @foreach($plg as $p)
-                                                        <option value="{{$p->nipnas}}">{{$p->nipnas}} - {{$p->nama_pelanggan}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Layanan" class="col-sm-2 control-label">Layanan IMES</label>
-
-                                            <div class="col-sm-10">
-                                                <select name="id_imes" class="form-control select2" id="id_imes">
-                                                    @foreach($lyn as $l)
-                                                        <option value="{{$l->id_imes}}">{{$l->flag}} - {{$l->nama_imes}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-success pull-right">Simpan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--  -->
                 <div id="modal-danger" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
                         <div class="modal-content">
