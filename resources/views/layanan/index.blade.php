@@ -134,7 +134,7 @@
                             <td>{{$l->nama_layanan}}</td>
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
-                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$l->id_layanan}}" data-name="{{$l->nama_layanan}}"">
+                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$l->id_layanan}}" data-name="{{$l->nama_layanan}}">
                                     Edit
                                 </button>
                             </td>
