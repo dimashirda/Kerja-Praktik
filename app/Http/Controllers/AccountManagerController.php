@@ -20,18 +20,18 @@ class AccountManagerController extends Controller
             $acc = DB::table('account_managers')
             ->where('nama_am','like','%'.$search.'%')
             ->orderBy('nama_am')
-            ->paginate(5);
+            ->paginate(25);
         }
         elseif($category == "ID")
         {
             $acc = DB::table('account_managers')
             ->where('id_am','like','%'.$search.'%')
             ->orderBy('id_am')
-            ->paginate(5);
+            ->paginate(25);
         }
         else
         {
-            $acc = DB::table('account_managers')->oldest()->paginate(25);
+            $acc = DB::table('account_managers')->paginate(25);
         }
         return view('account_manager.index',['acc'=>$acc]);
 
@@ -52,7 +52,8 @@ class AccountManagerController extends Controller
         $acc->email_am = $req->input('email_accm');
 
         $acc->save();
-        return redirect ('/admin/accmgr');
+        $request->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
+        return redirect ('/accmgr');
     }
 
     public function edit($id)
@@ -80,10 +81,12 @@ class AccountManagerController extends Controller
             ->update(['nama_am' => $nama,
                     'tlp_am' => $tlp,
                     'email_am' => $email]);
-        return redirect ('/admin/accmgr');
+        $req->session()->flash('alert-edit', 'Data Account Manager berhasil diubah');
+
+        return redirect ('/accmgr');
     }
 
-    public function delete($id_accmgr)
+    public function delete(Request $request, $id_accmgr)
     {
         DB::table('account_managers')
             ->where('id_am', $id_accmgr)
@@ -91,7 +94,9 @@ class AccountManagerController extends Controller
 
         // $del = account_manager::find($accm);
         // $del->delete();
-        return redirect ('/admin/accmgr');
+        $request->session()->flash('alert-hapus', 'Data Account Manager berhasil dihapus');
+
+        return redirect ('/accmgr');
 
     }
 }

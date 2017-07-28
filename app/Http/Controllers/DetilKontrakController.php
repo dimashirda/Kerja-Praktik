@@ -7,6 +7,8 @@ use App\Detil_kontrak;
 use App\Pelanggan;
 use App\layanan_kontrak;
 use App\Layanan;
+use App\Notifikasi;
+use App\Http\Controllers\NotifikasiController;
 //use Request;
 use Validator;
 use Redirect;
@@ -18,6 +20,7 @@ use Session;
 use DB;
 class DetilKontrakController extends Controller
 {
+
     public function index()
     {   
         $dk = DB::table('Detil_kontraks')
@@ -25,38 +28,9 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
-                /*->join('layanan_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
-                */->get();
-        $dt = DB::table('layanan_kontraks')
-                ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
-                ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->get();        
-        /*$query = DB::table('Detil_kontraks')
-        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am');
-        $plg = DB::table('Detil_kontraks')
-        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas');
-        $ap = DB::table('Detil_kontraks')
-        ->join()('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-            'Anak_perusahaans.id_perusahaan');
-
+                ->orderBy(DB::raw('LENGTH(Detil_kontraks.nipnas), Detil_kontraks.nipnas'))
                 ->get();
-    	/*$query = DB::table('Detil_kontraks')
-    	->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am');
-    	$plg = DB::table('Detil_kontraks')
-    	->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas');
-    	$ap = DB::table('Detil_kontraks')
-    	->join()('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-    		'Anak_perusahaans.id_perusahaan');
-    	*/
-
-        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
-        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
-        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
-        $pluckly = layanan::pluck('id_layanan','nama_layanan');
-
-    	return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
-            'dk'=>$dk, 'dt'=>$dt]);
+        return $this->render($dk);
     }
     public function create()
     {   
@@ -103,7 +77,7 @@ class DetilKontrakController extends Controller
                 //dd($fileName);
                 Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
                 // sending back with message
-                $detil->nama_dokumen = $depan; 
+                $detil->nama_dokumen = $depan;
                 Session::flash('success', 'Upload successfully'); 
                 //return Redirect::to('/kontrak');
               }
@@ -132,7 +106,8 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
-        return redirect('/home');
+        $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
+        return redirect('/upload');
     }
     public function download(Request $request)
     {
@@ -148,72 +123,385 @@ class DetilKontrakController extends Controller
             exit("file tidak tersedia");
         }
     }
-    public function delete($id_detil)
+    public function delete(Request $data, $id_detil)
     {
         $del = Detil_kontrak::find($id_detil);
         //dd($del);
         $del->delete();
-        return redirect ('/kontrak');
+        $data->session()->flash('alert-hapus', 'Data kontrak berhasil dihapus');
+
+        return redirect ('/home');
     }
     public function search(Request $request)
     {
         $kategori = $request->input('kategori');
         $search1 = $request->input('search1');
         $search2 = $request->input('search2');
+        $search3 = $request->input('search3');
         if ($kategori == 'ap') {
-                $query = DB::table('Anak_perusahaans')
-                    ->where('nama_perusahaan','like','%'.$search1.'%')
-                    ->get();
-                dd($query);
-                $idnow[] = $query->id_perusahaan;
-                //dd($idnow);
-                $hasil = DB::table('Detil_kontraks')
-                    ->where('Detil_kontraks.id_perusahaan','=',$idnow)->get();
-                dd($hasil);
+
+                $query = Anak_perusahaan::select('id_perusahaan')
+                        ->where('nama_perusahaan','like','%'.$search1.'%')
+                        ->get();
+                //dd($query);
+                $final = array();
+                foreach($query as $tmp){
+                    $id = $tmp->id_perusahaan;
+                    /*$hasil = DB::table('Detil_kontraks')
+                            ->select('*')
+                            ->where('id_perusahaan','=',$id)->get();
+                    */
+                    $hasil = Detil_kontrak::select('*')
+                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=','Anak_perusahaans.id_perusahaan')
+                            ->where('Detil_kontraks.id_perusahaan','=',$id)
+                            ->get();
+                    foreach ($hasil as $h) {
+                        array_push($final,$h);
+                    }
+                    //array_push($final,$hasil);
+                    //$->all();   
+                }
+                //dd($final);
+                return $this->render($final);
+                 
         }
         else if ($kategori == 'nama') {
             $hasil = DB::table('Detil_kontraks')
-                ->where('judul_kontrak','like','%'.$search1.'%')
-                ->orderBy('id_detil');
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->where('judul_kontrak','like','%'.$search1.'%')
+                    ->get();
+            return $this->render($hasil);
         }
         else if ($kategori == 'am'){
-            $hasil = DB::table('Account_managers')
+            $query = DB::table('Account_managers')
                 ->where('nama_am','like','%'.$search1.'%')
-                ->orderBy('id_detil');
+                ->get();
+            $final = array();
+                foreach($query as $tmp){
+                    $id = $tmp->id_am;
+                    /*$hasil = DB::table('Detil_kontraks')
+                            ->select('*')
+                            ->where('id_perusahaan','=',$id)->get();
+                    */
+                    $hasil = Detil_kontrak::select('*')
+                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                                'Anak_perusahaans.id_perusahaan')
+                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                            ->where('Detil_kontraks.id_am','=',$id)
+                            ->get();
+                    foreach ($hasil as $h) {
+                        array_push($final,$h);
+                    }
+                    //array_push($final,$hasil);
+                    //$->all();   
+                }
+                //dd($final);
+                return $this->render($final);
         }
-        else{
-            $hasil = DB::table('Detil_kontraks')
-                ->where('tgl_selesai','<=',$search2)
-                ->orderBy('tgl_selesai');
+        else if($kategori == 'pelanggan'){
+            $query = DB::table('Pelanggans')
+                ->where('nama_pelanggan','like','%'.$search1.'%')
+                ->get();
+            $final = array();
+                foreach($query as $tmp){
+                    $id = $tmp->nipnas;
+                    /*$hasil = DB::table('Detil_kontraks')
+                            ->select('*')
+                            ->where('id_perusahaan','=',$id)->get();
+                    */
+                    $hasil = Detil_kontrak::select('*')
+                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                                'Anak_perusahaans.id_perusahaan')
+                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                            ->where('Detil_kontraks.nipnas','=',$id)
+                            ->get();
+                    foreach ($hasil as $h) {
+                        array_push($final,$h);
+                    }
+                    //array_push($final,$hasil);
+                    //$->all();   
+                }
+                //dd($final);
+                return $this->render($final);
+
         }
+        else if($kategori=='nipnas'){
+            $query = DB::table('Pelanggans')
+                ->where('nipnas','like','%'.$search1.'%')
+                ->get();
+            $final = array();
+            foreach($query as $tmp){
+                $id = $tmp->nipnas;
+                /*$hasil = DB::table('Detil_kontraks')
+                        ->select('*')
+                        ->where('id_perusahaan','=',$id)->get();
+                */
+                $hasil = Detil_kontrak::select('*')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->where('Detil_kontraks.nipnas','=',$id)
+                    ->get();
+                foreach ($hasil as $h) {
+                    array_push($final,$h);
+                }
+                //array_push($final,$hasil);
+                //$->all();
+            }
+            //dd($final);
+            return $this->render($final);
+
+        }
+        else if($kategori=='tgl_akhir') {
+            $query = DB::table('Detil_kontraks')
+                ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
+                ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
+                ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
+                    'Anak_perusahaans.id_perusahaan')
+                ->where('tgl_selesai', '<=', $search2)
+                ->get();
+            }
+            //dd($query);
+            else if($kategori=='status') {
+                if($search3=='satu') {
+                    $datenow = date('Y-m-d');
+                    $date = date('Y-m-d', strtotime("+30 days"));
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->where('Detil_kontraks.tgl_selesai','<=',$date)
+                        ->get();
+                }
+                else if ($search3=='dua') {
+                    $datenow = date('Y-m-d',strtotime("+31 days"));
+                    $date = date('Y-m-d', strtotime("+60 days"));
+
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                        ->get();
+                }
+                else if ($search3=='tiga') {
+                    $datenow = date('Y-m-d',strtotime("+61 days"));
+                    $date = date('Y-m-d', strtotime("+90 days"));
+                    $query = DB::table('Detil_kontraks')
+                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                            'Anak_perusahaans.id_perusahaan')
+                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                        ->get();
+                }
+            }
+            return $this->render($query);
+
+        }
+    
+    }
   }
+    public function hijau()
+    {
+        $datenow = date('Y-m-d',strtotime("+61 days"));
+        $date = date('Y-m-d', strtotime("+90 days"));
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+            ->get();
+        return $this->render($dk);
+    }
+
+    public function kuning()
+    {
+        $datenow = date('Y-m-d',strtotime("+31 days"));
+        $date = date('Y-m-d', strtotime("+60 days"));
+
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+            ->get();
+        return $this->render($dk);
+    }
+
+    public function merah()
+    {
+        $datenow = date('Y-m-d');
+        $date = date('Y-m-d', strtotime("+30 days"));
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->where('Detil_kontraks.tgl_selesai','<=',$date)
+            ->get();
+        return $this->render($dk);
+    }
+    public function render($value)
+    {   
+        app('App\Http\Controllers\NotifikasiController')->index();
+        $dk = $value;
+        $notif = DB::table('Notifikasis')
+                ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+                ->where('Notifikasis.flag','=','0')
+                ->get();
+        $dt = DB::table('layanan_kontraks')
+                ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
+                ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
+                ->get();        
+        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
+        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
+        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
+        $pluckly = layanan::pluck('id_layanan','nama_layanan');
+        //dd($notif);
+        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
+            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
+                ->get();
+        $merah = date('Y-m-d',strtotime("+30 days"));
+        $kuning = date('Y-m-d',strtotime("+60 days"));
+        $hijau = date('Y-m-d',strtotime("+90 days"));
+        return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
+            'dk'=>$dk, 'dt'=>$dt]);
+    }
     public function notif()
     {
         $datenow = date('Y-m-d');
         $date = date('Y-m-d', strtotime("+30 days"));
         //dd($date);
-        /*$query = DB::table('Detil_kontraks')
-                ->whereBetween('tgl_selesai',[$datenow,$date])->get();*/
-         $dk = DB::table('Detil_kontraks')
+         $notif = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                 ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                 ->get();
-        $dt = DB::table('layanan_kontraks')
-                ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
-                ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])                
-                ->get();
-
-        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
-        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
-        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
-        $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        return view('detil_kontrak.index',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap, 
-            'dk'=>$dk, 'dt'=>$dt]);
-
+        return $this->render($notif);
 //        dd($query);
+    }
+
+    public function edit($id_detil)
+    {
+        $dk = DB::table('Detil_kontraks')
+            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                'Anak_perusahaans.id_perusahaan')
+            ->where('Detil_kontraks.id_detil','=',$id_detil)
+            ->get();
+        $dt = DB::table('layanan_kontraks')
+            ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
+            ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
+            ->where('Detil_kontraks.id_detil','=',$id_detil)
+            ->get();
+
+        $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
+        $am = DB::table('Account_managers')->select('id_am','nama_am')->get();
+        $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
+        $lyn = DB::table('Layanans')->select('id_layanan','nama_layanan')->get();
+        return view('detil_kontrak.edit',['dk'=>$dk,'am'=>$am, 'plg'=>$plg, 'ap'=>$ap,'lyn'=>$lyn, 'dt'=>$dt]);
+    }
+   public function save(Request $request)
+    {
+        $detil = Detil_kontrak::where('id_detil',$request['id'])->first();
+        //dd($detil);
+
+        //$depan .=".pdf";
+        //dd($depan);
+
+        if (isset($request['image'])) {
+            $detil->id_detil = $request['id'];
+            $detil->judul_kontrak = $request['nama'];
+            $detil->id_am = $request['id_am'];
+            $detil->nipnas = $request['nipnas'];
+            $detil->id_perusahaan = $request['id_perusahaan'];
+            $detil->tgl_mulai = $request['tgl_mulai'];
+            $detil->tgl_selesai = $request['tgl_selesai'];
+            $detil->slg = $request['slg'];
+            $depan = $request['nama'];
+            $file = array('image' => Input::file('image'));
+
+
+    
+              $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+              // doing the validation, passing post data, rules and the messages
+              $validator = Validator::make($file, $rules);
+              if ($validator->fails()) {
+                // send back to the page with the input data and errors
+                return Redirect::to('kontrak/edit/'.$request['id'])->withInput()->withErrors($validator);
+              }
+              else {
+                  // checking file is valid.
+                  if (Input::file('image')->isValid()) {
+                      $destinationPath = 'uploads'; // upload path
+                      $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
+                      if ($extension == "pdf") {
+                          $fileName = $depan . '.' . $extension; // renameing image
+                          //dd($fileName);
+                          Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+                          // sending back with message
+                          $detil->nama_dokumen = $depan;
+                          Session::flash('success', 'Upload successfully');
+                          //return Redirect::to('/kontrak');
+                      } else {
+                          Session::flash('error', 'uploaded file is not valid');
+                          return Redirect::to('/home');
+                      }
+                  } else {
+                      // sending back with error message.
+                      Session::flash('error', 'uploaded file is not valid');
+                      return Redirect::to('/home');
+                  }
+              }
+            $detil->save();
+          }
+          else {
+              DB::table('detil_kontraks')
+                  ->where('id_detil', $request['id'])
+                  ->update(['judul_kontrak' => $request['nama'],
+                      'id_am' => $request['id_am'],
+                      'nipnas'=> $request['nipnas'],
+                      'id_perusahaan' => $request['id_perusahaan'],
+                      'tgl_mulai' => $request['tgl_mulai'],
+                      'tgl_selesai' => $request['tgl_selesai'],
+                      'slg' => $request['slg']]);
+          }
+
+        $lyn = $request->input('name');
+        $hapus = $request->input('id');
+        $a = count($lyn);
+
+        //dd($lyn);
+        $i = 0;
+        $delete = DB::table('layanan_kontraks')
+                    ->where('layanan_kontraks.id_detil','=',$hapus)->delete();
+        //dd($delete);
+        for($i=0;$i<$a;$i++)
+        {
+            $lk = new layanan_kontrak;
+            $lk->id_detil = $detil->id_detil;
+            $lk->id_layanan = $lyn[$i];
+            $lk->save();
+        }
+        //dd($lk);
+        $request->session()->flash('alert-edit', 'Data kontrak berhasil diubah');
+       return redirect('home');
+
     }
 }

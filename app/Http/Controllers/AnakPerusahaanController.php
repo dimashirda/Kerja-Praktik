@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class AnakPerusahaanController extends Controller
 {
+
+
     public function index()
     {
 
@@ -31,7 +33,7 @@ class AnakPerusahaanController extends Controller
         }
         else
         {
-            $acc = DB::table('anak_perusahaans')->oldest()->paginate(25);
+            $acc = DB::table('anak_perusahaans')->paginate(25);
         }
     	return view('anak_perusahaans.index',['acc'=>$acc]);
       
@@ -50,7 +52,8 @@ class AnakPerusahaanController extends Controller
 		$a->email_perusahaan = $req->input('email_anakperu');
 
 		$a->save();
-		return redirect ('/admin/perusahaan');
+        $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
+		return redirect ('/perusahaan');
     }
     public function edit($id_perusahaan)
     {
@@ -67,12 +70,16 @@ class AnakPerusahaanController extends Controller
     	$edit->tlp_perusahaan = $data['tlp_anakperu'];
     	$edit->email_perusahaan = $data['email_anakperu'];
     	$edit->save();
-    	return redirect('/admin/perusahaan');
+        $data->session()->flash('alert-edit', 'Data anak perusahaan berhasil diubah');
+
+        return redirect('/perusahaan');
     }
-    public function delete($id_perusahaan)
+    public function delete(Request $data, $id_perusahaan)
     {
     	$del = Anak_perusahaan::where('id_perusahaan',$id_perusahaan);
     	$del->delete();
-    	return redirect ('/admin/perusahaan');
+        $data->session()->flash('alert-hapus', 'Data anak perusahaan berhasil dihapus');
+
+        return redirect ('/perusahaan');
     }
 }

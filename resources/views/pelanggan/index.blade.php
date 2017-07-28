@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Pelanggan</h1>
 @stop
 
 
@@ -25,15 +25,33 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Pelanggan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                <form action="{{url('admin/pelanggan')}}" method="get" role="search">
+                <form action="{{url('pelanggan')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -41,7 +59,8 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Pelanggan</option>
-                                                <option value="nipnas">nipnas</option>
+                                                <option value="nipnas">NIPNAS</option>
+                                                <option value="segmen">Segmen</option>
                                             </select>
                                             <input type="search" id="search_id" class="form-control input-sm search-menu-box" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
@@ -52,45 +71,50 @@
                         </div>
                     </form>
                     <br>
+                    @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{route('addplg')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
+                            <a href="{{url('pelanggan/create')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
+                    @endif
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
-                    <table id="tabel" class="table table-bordered table-hover">
+                    <table id="tabel" class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>No.</th>
                             <th>NIPNAS</th>
                             <th>Pelanggan</th>
+                            <th>Segmen</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
-                            <th colspan="2">Action</th>
+                            @if(Auth::User()->role == 1)
+                            <th style="text-align: center" colspan="2">Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             @foreach($pelanggan as $p)
                                 <tr>
-                                    <td><?php echo $no; ?></td>
                                     <td>{{$p->nipnas}}</td>
                                     <td>{{$p->nama_pelanggan}}</td>
+                                    <td>{{$p->segmen}}</td>
                                     <td>{{$p->tlp_pelanggan}}</td>
                                     <td>{{$p->email_pelanggan}}</td>
-                                <?php $no++; ?>
-                            <td align="center" width="30px">
-                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
-                                    Edit
-                                </button>
-                            </td>
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
-                                    Hapus
-                                </button>
-                            </td>
+                                    @if(Auth::User()->role == 1)
+                                    <td align="center" width="30px">
+                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-segmen="{{$p->segmen}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td align="center" width="30px">
+                                        <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
+                                            Hapus
+                                        </button>
+                                    </td>
+                                    @endif
                         </tr>
                         @endforeach
                         </tbody>
@@ -121,6 +145,13 @@
 
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="namaplg"  name="name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="SegmenPelanggan" class="col-sm-2 control-label">Segmen</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="segmenplg"  name="segmen">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -162,7 +193,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
 
                             </div>
@@ -179,20 +210,22 @@
     $(document).on("click", ".edit-button", function(){
         var id_pelanggan = $(this).data('id');
         var nama_pelanggan = $(this).data('name');
+        var segmen_pelanggan = $(this).data('segmen');
         var email_pelanggan = $(this).data('email');
         var tlp_pelanggan = $(this).data('telp');
         $("#idplg").val(id_pelanggan);
         $("#namaplg").val(nama_pelanggan);
+        $("#segmenplg").val(segmen_pelanggan);
         $("#emailplg").val(email_pelanggan);
         $("#tlpplg").val(tlp_pelanggan);
 
-        $("#form-edit").attr('action','{{url('/admin/pelanggan/edit')}}' + '/' + id_pelanggan);
+        $("#form-edit").attr('action','{{url('/pelanggan/edit')}}' + '/' + id_pelanggan);
     });
 
     $(document).on("click",".delete-button", function () {
         var id_pelanggan = $(this).data('id');
         var nama_pelanggan = $(this).data('name');
-        $("#del-btn").attr('href','{{url('admin/pelanggan/delete')}}' + '/' + id_pelanggan);
+        $("#del-btn").attr('href','{{url('pelanggan/delete')}}' + '/' + id_pelanggan);
         $("#show-name").html('Anda yakin ingin menghapus pelanggan ' + nama_pelanggan + '?')
 
     })
@@ -218,7 +251,7 @@
             return false;
         })
     });
-    
+
 </script>
 @stop
 

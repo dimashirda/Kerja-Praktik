@@ -3,7 +3,7 @@
 @section('title', 'SIKontrak')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Account Manager</h1>
 @stop
 
 
@@ -25,25 +25,43 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-edit'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-edit')}}.
+                </div>
+            </div>
+        @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header">
-                    <h3 class="box-title">Account Manager</h3>
+                    <h3 class="box-title">Data Account Manager</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('admin/accmgr')}}" method="get" role="search">
+                    <form action="{{url('accmgr')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
-                                        <label>Search by:
+                                        <label>Cari berdasarkan:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Account Manager</option>
                                                 <option value="ID">NIK Account Manager</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
                                         </label>
                                     </div>
                                 </div>
@@ -51,21 +69,25 @@
                         </div>
                     </form>
                     <br>
+                    @if(Auth::User()->role == 1)
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{route('addaccmgr')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
+                    @endif
                     <br>
                     @if($acc->count())
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
                             <th>NIK AM</th>
                             <th>Nama</th>
                             <th>No. Telepon</th>
                             <th>Email</th>
-                            <th colspan="2">Action</th>
+                            @if(Auth::User()->role == 1)
+                            <th style="text-align: center" colspan="2">Action</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +97,7 @@
                             <td>{{ $a->nama_am }}</td>
                             <td>{{ $a->tlp_am }}</td>
                             <td>{{ $a->email_am }}</td>
+                            @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
                                 <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_am}}" data-name="{{$a->nama_am}}" data-telp="{{$a->tlp_am}}" data-email="{{$a->email_am}}">
                                     Edit
@@ -85,6 +108,7 @@
                                     Hapus
                                 </button>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>
@@ -105,21 +129,21 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:10px">
                                                 <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
                                             </div>
                                         </div>
@@ -154,7 +178,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
                             </div>
                         </div>
@@ -177,13 +201,13 @@
             $("#emailaccmgr").val(email_accmgr);
             $("#tlpaccmgr").val(tlp_accmgr);
 
-            $("#form-edit").attr('action','{{url('/admin/accmgr/edit')}}' + '/' + id_accmgr);
+            $("#form-edit").attr('action','{{url('/accmgr/edit')}}' + '/' + id_accmgr);
         })
 
         $(document).on("click",".delete-button", function () {
             var id_accmgr = $(this).data('id');
             var nama_accmgr = $(this).data('name');
-            $("#del-btn").attr('href','{{url('admin/accmgr/delete')}}' + '/' + id_accmgr);
+            $("#del-btn").attr('href','{{url('accmgr/delete')}}' + '/' + id_accmgr);
             $("#show-name").html('Anda yakin ingin menghapus Account Manager ' + nama_accmgr + '?')
 
         })
