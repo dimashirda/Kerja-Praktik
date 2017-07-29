@@ -80,6 +80,7 @@
                             <th style="text-align: center">Alamat SID</th>
                             <th style="text-align: center">NIPNAS</th>
                             <th style="text-align: center">Nama Pelanggan</th>
+                            <th style="text-align: center">Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
