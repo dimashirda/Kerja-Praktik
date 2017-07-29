@@ -147,7 +147,7 @@ class DetilKontrakController extends Controller
         if ($kategori == 'ap') {
 
                 $query = Anak_perusahaan::select('id_perusahaan')
-                        ->where('nama_perusahaan','like','%'.$search1.'%')
+                        ->where('nama_perusahaan','like','%'.$search.'%')
                         ->get();
                 //dd($query);
                 $final = array();
