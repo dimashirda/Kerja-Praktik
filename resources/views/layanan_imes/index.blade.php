@@ -100,10 +100,13 @@
                                                 <div class="form-group">
                                                     <label for="FlagImes" class="col-sm-3 control-label">Jenis Layanan IMES <span style="color: red">*</span></label>
 
-                                                    <select name="flag" class="col-sm-3 control-label">
-                                                        <option value="Connectivity">Connectivity</option>
-                                                        <option value="Non Connectivity">Non Connectivity</option>
-                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <select name="flag" class="form-control">
+                                                            <option value="Connectivity">Connectivity</option>
+                                                            <option value="Non Connectivity">Non Connectivity</option>
+                                                        </select>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -167,24 +170,27 @@
                                         <div class="form-group">
                                             <label for="IDImes" class="col-sm-2 control-label">ID Layanan IMES</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" id="idims" name="id" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaImes" class="col-sm-2 control-label">Nama Layanan IMES</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" id="namaims"  name="nama">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="JenisImes" class="col-sm-2 control-label">Jenis Layanan IMES</label>
 
-                                            <select name="flag" class="form-control input-sm">
-                                                <option value="Connectivity">Connectivity</option>
-                                                <option value="Non Connectivity">Non Connectivity</option>
-                                            </select>
+                                            <div class="col-sm-10" style="margin-top:20px">
+                                                <select name="flag" class="form-control">
+                                                    <option value="Connectivity">Connectivity</option>
+                                                    <option value="Non Connectivity">Non Connectivity</option>
+                                                </select>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">

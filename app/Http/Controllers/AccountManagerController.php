@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class AccountManagerController extends Controller
 {
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
 
     public function index()
     {
@@ -33,13 +39,13 @@ class AccountManagerController extends Controller
         {
             $acc = DB::table('account_managers')->paginate(25);
         }
-        return view('account_manager.index',['acc'=>$acc]);
+        return view('account_manager.index',['acc'=>$acc, 'allNotif'=>$this->allNotif]);
 
     }
 
     public function create()
     {
-        return view('account_manager.create');
+        return view('account_manager.create', ['allNotif'=>$this->allNotif]);
     }
 
     public function store(Request $req)
@@ -60,7 +66,7 @@ class AccountManagerController extends Controller
     {
         $acc = DB::table('account_managers')->where('id_am', $id)->first();
         // $acc = account_manager::find($id);
-        return view ('account_manager.edit', ['acc' => $acc]);
+        return view ('account_manager.edit', ['acc' => $acc, 'allNotif'=>$this->allNotif]);
     }
 
     public function update(Request $req, $id_accmgr)
@@ -86,7 +92,7 @@ class AccountManagerController extends Controller
         return redirect ('/accmgr');
     }
 
-    public function delete($id_accmgr)
+    public function delete(Request $request, $id_accmgr)
     {
         DB::table('account_managers')
             ->where('id_am', $id_accmgr)
@@ -94,6 +100,8 @@ class AccountManagerController extends Controller
 
         // $del = account_manager::find($accm);
         // $del->delete();
+        $request->session()->flash('alert-hapus', 'Data Account Manager berhasil dihapus');
+
         return redirect ('/accmgr');
 
     }

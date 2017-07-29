@@ -34,6 +34,15 @@
                 </div>
             </div>
         @endif
+            @if(Session::has('alert-hapus'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-hapus')}}.
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">
@@ -43,16 +52,16 @@
                 <div class="box-body">
                     <form action="{{url('accmgr')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
-                                        <label>Search by:
+                                        <label>Cari berdasarkan:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Account Manager</option>
                                                 <option value="ID">NIK Account Manager</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
-                                            <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
+                                            <button type="submit" class="btn btn-info btn-flat input-sm">Cari</button>
                                         </label>
                                     </div>
                                 </div>
@@ -69,13 +78,13 @@
                     @endif
                     <br>
                     @if($acc->count())
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-new table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">NIK AM</th>
-                            <th style="text-align: center">Nama</th>
-                            <th style="text-align: center">No. Telepon</th>
-                            <th style="text-align: center">Email</th>
+                            <th>NIK AM</th>
+                            <th>Nama</th>
+                            <th>No. Telepon</th>
+                            <th>Email</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
@@ -120,21 +129,21 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAccMgr" class="col-sm-2 control-label">NIK Account Manager</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="id_accm" id="idaccmgr" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="NamaAccMgr" class="col-sm-2 control-label">Nama Account Manager</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:20px">
                                                 <input type="text" class="form-control" name="nama_accm" id="namaaccmgr">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="TlpAccMgr" class="col-sm-2 control-label">No. Telepon</label>
 
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10" style="margin-top:10px">
                                                 <input type="text" class="form-control" name="tlp_accm" id="tlpaccmgr">
                                             </div>
                                         </div>
@@ -169,7 +178,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                                 <a id="del-btn">
-                                    <button type="button" class="btn btn-success pull-right">Hapus</button>
+                                    <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
                                 </a>
                             </div>
                         </div>

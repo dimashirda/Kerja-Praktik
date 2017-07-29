@@ -9,6 +9,12 @@ use App\Layanan;
 class LayananController extends Controller
 {
 
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
     public function index()
     {
         $search = \Request::get('search');
@@ -31,12 +37,12 @@ class LayananController extends Controller
         {
             $layanan = DB::table('layanans')->paginate(25);
         }
-        return view('layanan.index',['layanan'=>$layanan]);
+        return view('layanan.index',['layanan'=>$layanan, 'allNotif'=>$this->allNotif]);
     }
     
     public function create()
     {
-    	return view('layanan.create');
+    	return view('layanan.create', ['allNotif'=>$this->allNotif]);
     }
     public function store(Request $request)
     {	
@@ -55,7 +61,7 @@ class LayananController extends Controller
     {
     	$lyn = layanan::find($id);
     	//dd($plg);
-    	return view('layanan.edit',['layanan' => $lyn]);
+    	return view('layanan.edit',['layanan' => $lyn, 'allNotif'=>$this->allNotif]);
     }
     public function save(Request $data, $id)
     {	
@@ -70,11 +76,12 @@ class LayananController extends Controller
 
         return redirect('/layanan');
     }
-    public function delete($id)
+    public function delete(Request $data, $id)
     {
     	$del = layanan::find($id);
     	$del->delete();
-    	return redirect ('/layanan');
+        $data->session()->flash('alert-hapus', 'Layanan berhasil dihapus');
+        return redirect ('/layanan');
     }
 }
 

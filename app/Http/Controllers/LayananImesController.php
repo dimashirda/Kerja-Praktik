@@ -13,6 +13,12 @@ class LayananImesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
     public function index()
     {
         $search = \Request::get('search');
@@ -42,7 +48,7 @@ class LayananImesController extends Controller
         {
             $layanan = DB::table('layanan_imes')->paginate(25);
         }
-        return view('layanan_imes.index',['layanan'=>$layanan]);
+        return view('layanan_imes.index',['layanan'=>$layanan, 'allNotif'=>$this->allNotif]);
     }
 
     /**

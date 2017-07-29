@@ -7,6 +7,8 @@ use App\Detil_kontrak;
 use App\Pelanggan;
 use App\layanan_kontrak;
 use App\Layanan;
+use App\Notifikasi;
+use App\Http\Controllers\NotifikasiController;
 //use Request;
 use Validator;
 use Redirect;
@@ -19,6 +21,12 @@ use DB;
 class DetilKontrakController extends Controller
 {
 
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->get();
+    }
     public function index()
     {   
         $dk = DB::table('Detil_kontraks')
@@ -26,6 +34,7 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
+                ->orderBy(DB::raw('LENGTH(Detil_kontraks.nipnas), Detil_kontraks.nipnas'))
                 ->get();
         return $this->render($dk);
     }
@@ -35,7 +44,7 @@ class DetilKontrakController extends Controller
         $am = DB::table('Account_managers')->select('id_am','nama_am')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
         $lyn = DB::table('Layanans')->select('id_layanan','nama_layanan')->get();
-    	return view('upload',['ap'=>$ap, 'am'=>$am, 'plg'=>$plg, 'lyn'=>$lyn]);
+    	return view('upload',['ap'=>$ap, 'am'=>$am, 'plg'=>$plg, 'lyn'=>$lyn, 'allNotif'=>$this->allNotif]);
 
     }
     public function store(Request $request)
@@ -104,7 +113,7 @@ class DetilKontrakController extends Controller
         }
         //dd($lk);
         $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
-        return redirect('/home');
+        return redirect('/upload');
     }
     public function download(Request $request)
     {
@@ -120,11 +129,13 @@ class DetilKontrakController extends Controller
             exit("file tidak tersedia");
         }
     }
-    public function delete($id_detil)
+    public function delete(Request $data, $id_detil)
     {
         $del = Detil_kontrak::find($id_detil);
         //dd($del);
         $del->delete();
+        $data->session()->flash('alert-hapus', 'Data kontrak berhasil dihapus');
+
         return redirect ('/home');
     }
     public function search(Request $request)
@@ -263,46 +274,49 @@ class DetilKontrakController extends Controller
                     'Anak_perusahaans.id_perusahaan')
                 ->where('tgl_selesai', '<=', $search2)
                 ->get();
-            }
+        }
             //dd($query);
-            else if($kategori=='status') {
-                if($search3=='satu') {
-                    $datenow = date('Y-m-d');
-                    $date = date('Y-m-d', strtotime("+30 days"));
-                    $query = DB::table('Detil_kontraks')
-                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                            'Anak_perusahaans.id_perusahaan')
-                        ->where('Detil_kontraks.tgl_selesai','<=',$date)
-                        ->get();
-                }
-                else if ($search3=='dua') {
-                    $datenow = date('Y-m-d',strtotime("+31 days"));
-                    $date = date('Y-m-d', strtotime("+60 days"));
-
-                    $query = DB::table('Detil_kontraks')
-                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                            'Anak_perusahaans.id_perusahaan')
-                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                        ->get();
-                }
-                else if ($search3=='tiga') {
-                    $datenow = date('Y-m-d',strtotime("+61 days"));
-                    $date = date('Y-m-d', strtotime("+90 days"));
-                    $query = DB::table('Detil_kontraks')
-                        ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                        ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                        ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                            'Anak_perusahaans.id_perusahaan')
-                        ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                        ->get();
-                }
+        else if($kategori=='status') {
+            if($search3=='satu') {
+                $datenow = date('Y-m-d');
+                $date = date('Y-m-d', strtotime("+30 days"));
+                $query = DB::table('Detil_kontraks')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->where('Detil_kontraks.tgl_selesai','<=',$date)
+                    ->get();
             }
+            else if ($search3=='dua') {
+                $datenow = date('Y-m-d',strtotime("+31 days"));
+                $date = date('Y-m-d', strtotime("+60 days"));
+
+                $query = DB::table('Detil_kontraks')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                    ->get();
+            }
+            else if ($search3=='tiga') {
+                $datenow = date('Y-m-d',strtotime("+61 days"));
+                $date = date('Y-m-d', strtotime("+90 days"));
+                $query = DB::table('Detil_kontraks')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                        'Anak_perusahaans.id_perusahaan')
+                    ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                    ->get();
+            }
+        }
             return $this->render($query);
-  }
+
+    }
+
+
     public function hijau()
     {
         $datenow = date('Y-m-d',strtotime("+61 days"));
@@ -345,20 +359,30 @@ class DetilKontrakController extends Controller
             ->get();
         return $this->render($dk);
     }
-
-
     public function render($value)
     {   
+        app('App\Http\Controllers\NotifikasiController')->index();
         $dk = $value;
+        $notif = DB::table('Notifikasis')
+                ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+                ->where('Notifikasis.flag','=','0')
+                ->get();
         $dt = DB::table('layanan_kontraks')
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->get();
+                ->get();        
+        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
+        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
+        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
+        $pluckly = layanan::pluck('id_layanan','nama_layanan');
+        //dd($notif);
+//        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
+//            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
         $hijau = date('Y-m-d',strtotime("+90 days"));
         return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
-            'dk'=>$dk, 'dt'=>$dt]);
+            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif, 'allNotif'=>$this->allNotif]);
     }
     public function notif()
     {
@@ -390,13 +414,12 @@ class DetilKontrakController extends Controller
             ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
             ->where('Detil_kontraks.id_detil','=',$id_detil)
             ->get();
-//        $detil = Detil_kontrak::find($id_detil);
-        //dd($detil);
+
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
         $am = DB::table('Account_managers')->select('id_am','nama_am')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
         $lyn = DB::table('Layanans')->select('id_layanan','nama_layanan')->get();
-        return view('detil_kontrak.edit',['dk'=>$dk,'am'=>$am, 'plg'=>$plg, 'ap'=>$ap,'lyn'=>$lyn, 'dt'=>$dt]);
+        return view('detil_kontrak.edit',['dk'=>$dk,'am'=>$am, 'plg'=>$plg, 'ap'=>$ap,'lyn'=>$lyn, 'dt'=>$dt, 'allNotif'=>$this->allNotif]);
     }
    public function save(Request $request)
     {
@@ -419,9 +442,7 @@ class DetilKontrakController extends Controller
             $file = array('image' => Input::file('image'));
 
 
-    //        echo Input::file('image');
-              //dd($file);
-              // setting up rules
+    
               $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
               // doing the validation, passing post data, rules and the messages
               $validator = Validator::make($file, $rules);
@@ -483,6 +504,7 @@ class DetilKontrakController extends Controller
             $lk->save();
         }
         //dd($lk);
+        $request->session()->flash('alert-edit', 'Data kontrak berhasil diubah');
        return redirect('home');
 
     }

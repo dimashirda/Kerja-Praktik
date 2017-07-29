@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotifikasiController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -33,7 +34,8 @@ class LoginController extends Controller
      * @return void
      */
     public function __construct()
-    {
+    {   
+        //app('App\Http\Controllers\NotifikasiController')->index();
         $this->middleware('guest')->except('logout');
     }
 }
