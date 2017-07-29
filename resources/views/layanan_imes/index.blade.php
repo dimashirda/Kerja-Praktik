@@ -58,8 +58,9 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Layanan IMES</option>
+                                                <option value="jenis">Jenis Layanan IMES</option>
                                                 <option value="ID">ID layanan IMES</option>
-                                            </select>
+                                           </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
                                         </label>

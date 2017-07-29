@@ -31,6 +31,13 @@ class LayananImesController extends Controller
             ->orderBy('id_imes')
             ->paginate(25);
         }
+        elseif($category == "jenis")
+        {
+            $layanan = DB::table('layanan_imes')
+            ->where('flag', 'like', '%'.$search.'%')
+            ->orderBy('flag')
+            ->paginate(25);
+        }
         else
         {
             $layanan = DB::table('layanan_imes')->paginate(25);

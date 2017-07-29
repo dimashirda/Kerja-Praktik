@@ -19,7 +19,6 @@
             display: block;
             z-index: 1;
         }
-
         .example-modal .modal {
             background: transparent !important;
         }
@@ -42,7 +41,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form action="{{url('sid')}}" method="get" role="search">
+                    <form action="{{url('vsat')}}" method="get" role="search">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="example1_filter" class="form-inline">
@@ -72,7 +71,7 @@
                     </div>
                     @endif
                     <br>
-                    @if($sid->count())
+                    @if(count($sid)>0)
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -81,7 +80,6 @@
                             <th style="text-align: center">Alamat SID</th>
                             <th style="text-align: center">NIPNAS</th>
                             <th style="text-align: center">Nama Pelanggan</th>
-                            <th style="text-align: center">Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
@@ -91,12 +89,12 @@
                         @foreach($sid as $s)
                         <tr>
                             <td>{{$s->sid}}</td>
-                            <td>{{$s->daftar_perusahaan->nama_perusahaan}}</td>
+                            <td>{{$s->nama_perusahaan}}</td>
                             <td>{{$s->alamat_sid}}</td>
-                            <td>{{$s->daftar_pelanggan->nipnas}}</td>
-                            <td>{{$s->daftar_pelanggan->nama_pelanggan}}</td>
-                            <td>{{$s->daftar_imes->nama_imes}}</td>
-
+                            <td>{{$s->nipnas}}</td>
+                            <td>{{$s->nama_pelanggan}}</td>
+                            <td>{{$s->nama_imes}}</td>
+                            
                             @if(Auth::User()->role == 1)
                             <td align="center" width="30px">
                                 <a href="{{url('sid/edit',$s->sid)}}" class='btn btn-default'> Edit</a>
@@ -155,16 +153,12 @@
             $("#alamat_sid").val(alamat_sid);
             $("#nipnas").val(nipnas);
             $("#id_imes").val(id_imes);
-
             $("#form-edit").attr('action','{{url('/sid/edit')}}' + '/' + sid);
         })
-
         $(document).on("click",".delete-button", function () {
             var sid = $(this).data('sid')
             $("#del-btn").attr('href','{{url('sid/delete')}}' + '/' + sid);
             $("#show-name").html('Anda yakin ingin menghapus Daftar SID ' + sid + '?')
-
         })
     </script>
 @stop
-

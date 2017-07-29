@@ -13,10 +13,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Auth::routes();
-
-
 Route::middleware(['auth'])->group(function() {
-
     Route::get('/', function () {
         return redirect ('/home');
     });
@@ -28,7 +25,6 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/upload', 'DetilKontrakController@create')->name('upload');
         Route::get('/accmgr/create', 'AccountManagerController@create')->name('addaccmgr');
         Route::get('/sid/create', 'DaftarSidController@create')->name('addsid');
-
         Route::post('accmgr/store', 'AccountManagerController@store');
         Route::post('sid/store', 'DaftarSidController@store');
         Route::post('accmgr/edit/{id}', 'AccountManagerController@update');
@@ -60,19 +56,18 @@ Route::middleware(['auth'])->group(function() {
         Route::get('kontrak/kuning','DetilKontrakController@kuning')->name('kuning');
         Route::get('kontrak/hijau','DetilKontrakController@hijau')->name('hijau');
     });
-
     Route::get('/home', 'DetilKontrakController@index')->name('home');
     Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan');
     Route::get('/perusahaan', 'AnakPerusahaanController@index')->name('perusahaan');
     Route::get('/layanan', 'LayananController@index')->name('layanan');
     Route::get('/accmgr', 'AccountManagerController@index')->name('accmgr');
     Route::get('/imes', 'LayananImesController@index')->name('imes');
-    Route::get('/sid', 'DaftarSidController@index')->name('sid');
+    Route::get('/vsat', 'DaftarSidController@vsat')->name('vsat');
+    Route::get('/radio', 'DaftarSidController@radio')->name('radio');
 //    Route::get('kontrak','DetilKontrakController@index');
     Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
     Route::get('home/search','DetilKontrakController@search');
     Route::get('kontrak/notifikasi','DetilKontrakController@notif');
     Route::get('pelanggan/search', 'SearchController@pelanggan');
     Route::get('struktur', 'TelkomController@struktur');
-
 });
