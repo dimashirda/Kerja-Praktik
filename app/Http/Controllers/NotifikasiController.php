@@ -105,7 +105,7 @@ class NotifikasiController extends Controller
                     foreach ($notif as $tmp) {
                     $note = new Notifikasi;
                     $note->id_detil = $tmp->id_detil;
-                    $note->tanggal = date('d-M-Y');
+                    $note->tanggal = date('Y-m-d');
                     $note->flag = 0;
                     $note->keterangan = 'Belum ditindaklanjuti';
                     $note->save();   
