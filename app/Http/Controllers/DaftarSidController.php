@@ -17,13 +17,13 @@ class DaftarSidController extends Controller
      * @return \Illuminate\Http\Response
      */
   
-    // protected $allNotif;
-    // public function __construct() {
-    //     $this->allNotif = DB::table('Notifikasis')
-    //         ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
-    //         ->get();
-    // }
-  
+     protected $allNotif;
+     public function __construct() {
+         $this->allNotif = DB::table('Notifikasis')
+             ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+             ->get();
+     }
+
     public function vsat()
     {
         $search = \Request::get('search');
@@ -83,8 +83,7 @@ class DaftarSidController extends Controller
             
         }
 
-        return view('daftar_sid.index', ['sid'=>$sid]);
-        // return view('daftar_sid.index', ['sid'=>$sid, 'allNotif'=>$this->Allnotif]);
+        return view('daftar_sid.index', ['sid'=>$sid, 'allNotif'=>$this->allNotif]);
     }
 
     public function radio()
@@ -146,8 +145,7 @@ class DaftarSidController extends Controller
             
         }
         
-        return view('daftar_sid.index', ['sid'=>$sid]);
-        // return view('daftar_sid.index', ['sid'=>$sid, 'allNotif'=>$this->Allnotif]);
+        return view('daftar_sid.index', ['sid'=>$sid, 'allNotif'=>$this->allNotif]);
     }
 
 
@@ -162,7 +160,7 @@ class DaftarSidController extends Controller
         $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
 
-        return view('daftar_sid.create', ['ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg]);
+        return view('daftar_sid.create', ['ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -198,7 +196,7 @@ class DaftarSidController extends Controller
         $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
 
-        return view('daftar_sid.edit', ['s'=>$s, 'ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg]);
+        return view('daftar_sid.edit', ['s'=>$s, 'ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg, 'allNotif'=>$this->allNotif]);
     }
 
     public function save(Request $data, $id)
