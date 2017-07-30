@@ -21,7 +21,9 @@ class DaftarSidController extends Controller
      public function __construct() {
          $this->allNotif = DB::table('Notifikasis')
              ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+             ->where('notifikasis.flag','=','0')
              ->get();
+
      }
 
     public function vsat()
@@ -157,10 +159,12 @@ class DaftarSidController extends Controller
     public function create()
     {
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
-        $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
+        $lynconn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->where('flag','=','Connectivity')->get();
+        $lynnon = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->where('flag','=','Non Connectivity')->get();
+
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
 
-        return view('daftar_sid.create', ['ap'=>$ap, 'lyn'=>$lyn, 'plg'=>$plg, 'allNotif'=>$this->allNotif]);
+        return view('daftar_sid.create', ['ap'=>$ap, 'lynconn'=>$lynconn, 'lynnon'=>$lynnon, 'plg'=>$plg, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -181,7 +185,7 @@ class DaftarSidController extends Controller
 
         $dsid->save();
         $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
-        return redirect('/sid');
+        return redirect('/vsat');
     }
 
     public function edit(Request $req, $id)

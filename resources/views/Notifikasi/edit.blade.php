@@ -102,14 +102,15 @@
 							</div>
 						</div>
 
-						<div class="col-sm-12" style="margin-top: 20px">
-								<input type="checkbox" class="flat-red">
+						<div class="col-sm-12" style="margin-top: 20px;">
+								<input type="checkbox" class="flat-red" id="flag" name="flag" value="1">
 								<span style="margin-left: 10px">Kontrak telah ditindaklanjuti</span>
 						</div>
+					</div>
 
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<a href="{{url('home')}}">
+						<a href="{{url('notifikasi')}}">
 							<button type="button" class="btn btn-default">Batal</button>
 						</a>
 						<button type="submit" class="btn btn-success pull-right">Simpan</button>
@@ -125,5 +126,6 @@
         $('#datepicker').datepicker({
             autoclose: true
         });
+
 	</script>
 @stop

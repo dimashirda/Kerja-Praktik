@@ -17,6 +17,7 @@ class LayananImesController extends Controller
     public function __construct() {
         $this->allNotif = DB::table('Notifikasis')
             ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
             ->get();
     }
     public function index()
@@ -88,7 +89,7 @@ class LayananImesController extends Controller
         $edit = layanan_imes::where('id_imes',$id)->first();
 //      dd($edit);
         $edit->nama_imes = $data['nama'];
-        $edid->flag = $data['flag'];
+        $edit->flag = $data['flag'];
         //$edit->deskripsi = $data['desk'];
         //$edit->email_pelanggan = $data['email'];
         $edit->save();
