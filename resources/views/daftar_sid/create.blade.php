@@ -68,9 +68,16 @@
 
                                 <div class="col-sm-9">
                                     <select name="id_imes" class="form-control select2">
-                                    	@foreach($lyn as $l)
-                                        	<option value="{{$l->id_imes}}">{{$l->flag}} - {{$l->nama_imes}}</option>
-                                        @endforeach
+                                        <optgroup label="Connectivity">
+                                            @foreach($lynconn as $l)
+                                                <option value="{{$l->id_imes}}">{{$l->nama_imes}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        <optgroup label="Non Connectivity">
+                                            @foreach($lynnon as $l)
+                                                <option value="{{$l->id_imes}}">{{$l->nama_imes}}</option>
+                                            @endforeach
+                                        </optgroup>
                                     </select>
                                 </div>
                             </div>
