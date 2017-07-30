@@ -5,6 +5,8 @@ use DB;
 use App\Notifikasi;
 use App\Http\Controllers\DetilKontrakController;
 use Illuminate\Http\Request;
+//use Notifiable;
+use Illuminate\Notifications\Notifiable;
 class NotifikasiController extends Controller
 {
     /**
@@ -19,10 +21,15 @@ class NotifikasiController extends Controller
     }
     public function showwhole()
     {
+        
+        $post = notifikasi::find(1);
+        //dd($post);
+        $post->notify(new \App\Notifications\PostPublished());
         $notif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
                     ->get();
                     //dd($notif);
+        
         return $this->render($notif);   
     }
     public function edit($data)

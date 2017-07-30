@@ -163,6 +163,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        NotificationChannels\Telegram\TelegramServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 

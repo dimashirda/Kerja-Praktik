@@ -305,13 +305,12 @@ class DetilKontrakController extends Controller
                         ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                         ->get();
                 }
+                return $this->render($query);
             }
-            return $this->render($query);
-
-        }
-    
     }
-  }
+            
+
+  
     public function hijau()
     {
         $datenow = date('Y-m-d',strtotime("+61 days"));
@@ -366,19 +365,11 @@ class DetilKontrakController extends Controller
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
                 ->get();        
-        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
-        $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
-        $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
-        $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        //dd($notif);
-        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
-            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
-                ->get();
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
         $hijau = date('Y-m-d',strtotime("+90 days"));
         return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
-            'dk'=>$dk, 'dt'=>$dt]);
+            'dk'=>$dk, 'dt'=>$dt,'notif'=>$notif]);
     }
     public function notif()
     {
