@@ -122,12 +122,12 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">ID</th>
-                            <th style="text-align: center">Nama Layanan IMES</th>
-                            <th style="text-align: center">Jenis Layanan IMES</th>
+                            <th>ID</th>
+                            <th>Nama Layanan IMES</th>
+                            <th>Jenis Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th colspan="2" style="text-align: center">Action</th>
                             @endif

@@ -72,15 +72,15 @@
                     @endif
                     <br>
                     @if(count($sid)>0)
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">SID</th>
-                            <th style="text-align: center">Nama Anak Perusahaan</th>
-                            <th style="text-align: center">Alamat SID</th>
-                            <th style="text-align: center">NIPNAS</th>
-                            <th style="text-align: center">Nama Pelanggan</th>
-                            <th style="text-align: center">Layanan IMES</th>
+                            <th>SID</th>
+                            <th>Nama Anak Perusahaan</th>
+                            <th>Alamat SID</th>
+                            <th>NIPNAS</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th style="text-align: center" colspan="2">Action</th>
                             @endif
