@@ -16,6 +16,7 @@ class NotifikasiController extends Controller
     public function __construct() {
         $this->allNotif = DB::table('Notifikasis')
             ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
             ->get();
     }
     public function render($val)
@@ -24,16 +25,18 @@ class NotifikasiController extends Controller
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
         $hijau = date('Y-m-d',strtotime("+90 days"));
-        return view('Notifikasi.index',['allNotif'=>$notif, 'merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau]);
+        return view('Notifikasi.index',['notif'=>$notif, 'merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau, 'allNotif'=>$this->allNotif]);
     }
     public function showwhole()
     {
-        $allNotif = DB::table('Notifikasis')
+        $notif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+                    ->orderBy('Notifikasis.flag', 'ASC')
+                    ->orderBy('Notifikasis.updated_at', 'ASC')
                     ->get();
 
                     //dd($notif);
-        return $this->render($allNotif);
+        return $this->render($notif);
     }
     public function edit($data)
     {
@@ -51,12 +54,15 @@ class NotifikasiController extends Controller
         return view('Notifikasi.edit',['notif'=>$notif, 'dt'=>$dt, 'allNotif'=>$this->allNotif]);
     }
     public function save(Request $request,$data)
-    {   
+    {
         $keterangan = $request->input('keterangan');
+        if (! isset($request['flag'])) $flag=0;
+        else $flag = $request->input('flag');
+
         DB::table('Notifikasis')
             ->where('id_notifikasi','=',$data)
             ->update(['keterangan' => $keterangan,
-                    'flag' => '1']);
+                    'flag' => $flag]);
         return $this->showwhole();
     }
     public function index()

@@ -17,6 +17,7 @@ class LayananImesController extends Controller
     public function __construct() {
         $this->allNotif = DB::table('Notifikasis')
             ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
             ->get();
     }
     public function index()

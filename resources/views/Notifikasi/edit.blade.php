@@ -103,7 +103,7 @@
 						</div>
 
 						<div class="col-sm-12" style="margin-top: 20px;">
-								<input type="checkbox" class="flat-red">
+								<input type="checkbox" class="flat-red" id="flag" name="flag" value="1">
 								<span style="margin-left: 10px">Kontrak telah ditindaklanjuti</span>
 						</div>
 					</div>
@@ -126,5 +126,6 @@
         $('#datepicker').datepicker({
             autoclose: true
         });
+
 	</script>
 @stop
