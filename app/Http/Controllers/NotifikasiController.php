@@ -32,7 +32,7 @@ class NotifikasiController extends Controller
         $notif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
                     ->orderBy('Notifikasis.flag', 'ASC')
-                    ->orderBy('Notifikasis.updated_at', 'ASC')
+                    ->orderBy('Notifikasis.updated_at', 'DESC')
                     ->get();
 
                     //dd($notif);
