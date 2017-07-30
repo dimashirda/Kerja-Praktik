@@ -90,7 +90,7 @@ class NotifikasiController extends Controller
         }
         else{
             $cek = DB::select("SELECT tanggal 
-                        FROM Notifikasis ORDER BY id_notifikasi DESC LIMIT 1");
+                        FROM Notifikasis ORDER BY tanggal DESC LIMIT 1");
             //dd($datenow);
             if($datenow > $cek){
                 $notif = DB::table('Detil_kontraks')
