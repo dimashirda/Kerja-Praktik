@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('kontrak/save', 'DetilKontrakController@save');
 
         Route::get('notifikasi/{id}','NotifikasiController@edit')->name('editnotif');
-        Route::post('notifikasi/save/{id}','NotifikasiController@save');
+        Route::post('notifikasi/save','NotifikasiController@save');
 
         Route::get('kontrak/merah','DetilKontrakController@merah')->name('merah');
         Route::get('kontrak/kuning','DetilKontrakController@kuning')->name('kuning');
