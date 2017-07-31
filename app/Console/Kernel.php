@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+//         $schedule->command('inspire')
+//                  ->hourly();
 //        $schedule->call(function(){
 //        $datenow = date('Y-m-d');
 //        $date = date('Y-m-d', strtotime("+30 days"));

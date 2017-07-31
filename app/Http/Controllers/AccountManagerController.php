@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class AccountManagerController extends Controller
 {
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
+            ->get();
+    }
 
     public function index()
     {
@@ -33,13 +40,13 @@ class AccountManagerController extends Controller
         {
             $acc = DB::table('account_managers')->paginate(25);
         }
-        return view('account_manager.index',['acc'=>$acc]);
+        return view('account_manager.index',['acc'=>$acc, 'allNotif'=>$this->allNotif]);
 
     }
 
     public function create()
     {
-        return view('account_manager.create');
+        return view('account_manager.create', ['allNotif'=>$this->allNotif]);
     }
 
     public function store(Request $req)
@@ -60,7 +67,7 @@ class AccountManagerController extends Controller
     {
         $acc = DB::table('account_managers')->where('id_am', $id)->first();
         // $acc = account_manager::find($id);
-        return view ('account_manager.edit', ['acc' => $acc]);
+        return view ('account_manager.edit', ['acc' => $acc, 'allNotif'=>$this->allNotif]);
     }
 
     public function update(Request $req, $id_accmgr)

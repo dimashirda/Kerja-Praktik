@@ -10,7 +10,13 @@ use Illuminate\Http\Request;
 class AnakPerusahaanController extends Controller
 {
 
-
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
+            ->get();
+    }
     public function index()
     {
 
@@ -35,12 +41,12 @@ class AnakPerusahaanController extends Controller
         {
             $acc = DB::table('anak_perusahaans')->paginate(25);
         }
-    	return view('anak_perusahaans.index',['acc'=>$acc]);
+    	return view('anak_perusahaans.index',['acc'=>$acc, 'allNotif'=>$this->allNotif]);
       
     }
     public function create()
     {
-    	return view('anak_perusahaans.create');
+    	return view('anak_perusahaans.create', ['allNotif'=>$this->allNotif]);
     }
     public function store(request $req)
     {
@@ -59,7 +65,7 @@ class AnakPerusahaanController extends Controller
     {
     	$plg = Anak_perusahaan::find($id_perusahaan);
     	//dd($plg);
-    	return view('anak_perusahaans.edit',['anak_perusahaans' => $plg]);
+    	return view('anak_perusahaans.edit',['anak_perusahaans' => $plg, 'allNotif'=>$this->allNotif]);
     }
     public function save(Request $data, $id_perusahaan)
     {	

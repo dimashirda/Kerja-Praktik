@@ -9,6 +9,13 @@ use DB;
 class PelangganController extends Controller
 {
 
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
+            ->get();
+    }
     public function index()
     {
         $search = \Request::get('search');
@@ -40,11 +47,11 @@ class PelangganController extends Controller
             ->orderBy(DB::raw('LENGTH(nipnas), nipnas'))
             ->paginate(25);
         }
-        return view('pelanggan.index',['pelanggan'=>$pelanggan]);
+        return view('pelanggan.index',['pelanggan'=>$pelanggan, 'allNotif'=>$this->allNotif]);
     }
     public function create()
     {
-    	return view('pelanggan.create');
+    	return view('pelanggan.create', ['allNotif'=>$this->allNotif]);
     }
     public function store(Request $request)
     {	
@@ -63,7 +70,7 @@ class PelangganController extends Controller
     {
     	$plg = pelanggan::find($nipnas);
     	//dd($plg);
-    	return view('pelanggan.edit',['pelanggan' => $plg]);
+    	return view('pelanggan.edit',['pelanggan' => $plg, 'allNotif'=>$this->allNotif]);
     }
     public function save(Request $data, $nipnas)
     {	

@@ -13,6 +13,13 @@ class LayananImesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct() {
+        $this->allNotif = DB::table('Notifikasis')
+            ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+            ->where('notifikasis.flag','=','0')
+            ->get();
+    }
     public function index()
     {
         $search = \Request::get('search');
@@ -31,11 +38,18 @@ class LayananImesController extends Controller
             ->orderBy('id_imes')
             ->paginate(25);
         }
+        elseif($category == "jenis")
+        {
+            $layanan = DB::table('layanan_imes')
+            ->where('flag', 'like', '%'.$search.'%')
+            ->orderBy('flag')
+            ->paginate(25);
+        }
         else
         {
             $layanan = DB::table('layanan_imes')->paginate(25);
         }
-        return view('layanan_imes.index',['layanan'=>$layanan]);
+        return view('layanan_imes.index',['layanan'=>$layanan, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -75,7 +89,7 @@ class LayananImesController extends Controller
         $edit = layanan_imes::where('id_imes',$id)->first();
 //      dd($edit);
         $edit->nama_imes = $data['nama'];
-        $edid->flag = $data['flag'];
+        $edit->flag = $data['flag'];
         //$edit->deskripsi = $data['desk'];
         //$edit->email_pelanggan = $data['email'];
         $edit->save();

@@ -58,8 +58,9 @@
                                         <label>Search by:
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="nama">Nama Layanan IMES</option>
+                                                <option value="jenis">Jenis Layanan IMES</option>
                                                 <option value="ID">ID layanan IMES</option>
-                                            </select>
+                                           </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>
                                         </label>
@@ -121,12 +122,12 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="text-align: center">ID</th>
-                            <th style="text-align: center">Nama Layanan IMES</th>
-                            <th style="text-align: center">Jenis Layanan IMES</th>
+                            <th>ID</th>
+                            <th>Nama Layanan IMES</th>
+                            <th>Jenis Layanan IMES</th>
                             @if(Auth::User()->role == 1)
                             <th colspan="2" style="text-align: center">Action</th>
                             @endif
@@ -242,7 +243,7 @@
             var id_imes = $(this).data('id')
             var nama_imes = $(this).data('name')
             $("#del-btn").attr('href','{{url('imes/delete')}}' + '/' + id_imes)
-            $("#show-name").html('Anda yakin ingin menghapus layanan IMES' + nama_imes + '?')
+            $("#show-name").html('Anda yakin ingin menghapus layanan IMES ' + nama_imes + '?')
 
         })
     </script>
