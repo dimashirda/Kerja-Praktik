@@ -59,7 +59,6 @@ Route::middleware(['auth'])->group(function() {
         Route::get('kontrak/merah','DetilKontrakController@merah')->name('merah');
         Route::get('kontrak/kuning','DetilKontrakController@kuning')->name('kuning');
         Route::get('kontrak/hijau','DetilKontrakController@hijau')->name('hijau');
-
     });
     Route::get('/home', 'DetilKontrakController@index')->name('home');
     Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan');

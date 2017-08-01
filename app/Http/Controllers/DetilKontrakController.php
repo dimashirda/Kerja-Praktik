@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Mail;
 use App\Account_manager;
 use App\Anak_perusahaan;
 use App\Detil_kontrak;
@@ -30,68 +31,6 @@ class DetilKontrakController extends Controller
     }
     public function index()
     {
-        $datenow = date('Y-m-d');
-        $date = date('Y-m-d', strtotime("+90 days"));
-        $isi = DB::table('Notifikasis')->select('*')->get();
-        $notif = null;//dd($isi);
-        $final = array();
-        //dd($date);
-        if(count($isi) == 0){
-            $notif = DB::table('Detil_kontraks')
-                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                    'Anak_perusahaans.id_perusahaan')
-                //->join('Notifikasis','Notifikasis.id_detil','!=','Detil_kontraks.id_detil')
-                ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                ->get();
-
-            if(count($notif) > 0){
-                foreach ($notif as $tmp) {
-                    $note = new Notifikasi;
-                    $note->id_detil = $tmp->id_detil;
-                    $note->tanggal = date('Y-m-d');
-                    $note->flag = 0;
-                    $note->keterangan = 'Belum ditindaklanjuti';
-                    $note->save();
-                }
-                //dd($notif);
-            }
-        }
-        else{
-            $cek = DB::select("SELECT tanggal 
-                        FROM Notifikasis ORDER BY tanggal DESC LIMIT 1");
-//            dd($datenow);
-//            dd($cek[0]->tanggal);
-            if($datenow > $cek[0]->tanggal) {
-                $notif = DB::table('Detil_kontraks')
-                    ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
-                    ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
-                    ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
-                    ->whereNotIn('Detil_kontraks.id_detil', function($q){
-                        $q->select('id_detil')->from('notifikasis');
-                        })
-                    ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                    ->get();
-
-                if(count($notif) > 0){
-                    foreach ($notif as $tmp) {
-                        $note = new Notifikasi;
-                        $note->id_detil = $tmp->id_detil;
-                        $note->tanggal = date('Y-m-d');
-                        $note->flag = 0;
-                        $note->keterangan = 'Belum ditindaklanjuti';
-                        $note->save();
-                    }
-                }
-                //return $this->show();
-
-            }
-            else{
-                //return $this->show();
-            }
-        }
-//        dd($notif);
         $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
@@ -424,6 +363,7 @@ class DetilKontrakController extends Controller
     }
     public function render($value)
     {   
+
         app('App\Http\Controllers\NotifikasiController')->index();
         $dk = $value;
         $notif = DB::table('Notifikasis')
@@ -443,9 +383,10 @@ class DetilKontrakController extends Controller
 //            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
-        $hijau = date('Y-m-d',strtotime("+90 days"));
+        $hijau = date('Y-m-d',strtotime("+90 days"));        
         return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
             'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif, 'allNotif'=>$this->allNotif]);
+        
     }
     public function notif()
     {

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use DB;
+use Mail;
 //use Notifikasi;
 use App\Notifikasi;
 use App\Http\Controllers\DetilKontrakController;
@@ -12,6 +13,7 @@ class NotifikasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     protected $allNotif;
     public function __construct() {
         $this->allNotif = DB::table('Notifikasis')
@@ -70,26 +72,28 @@ class NotifikasiController extends Controller
         $datenow = date('Y-m-d');
         $date = date('Y-m-d', strtotime("+90 days"));
         $isi = DB::table('Notifikasis')->select('*')->get();
-        //dd($isi);
+        $notif = null;//dd($isi);
         $final = array();
+        //$tanda;
         //dd($date);
         if(count($isi) == 0){
             $notif = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                        'Anak_perusahaans.id_perusahaan')
+                    'Anak_perusahaans.id_perusahaan')
                 //->join('Notifikasis','Notifikasis.id_detil','!=','Detil_kontraks.id_detil')
                 ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                 ->get();
+
             if(count($notif) > 0){
                 foreach ($notif as $tmp) {
-                $note = new Notifikasi;
-                $note->id_detil = $tmp->id_detil;
-                $note->tanggal = date('Y-m-d');
-                $note->flag = 0;
-                $note->keterangan = 'Belum ditindaklanjuti';
-                $note->save();   
+                    $note = new Notifikasi;
+                    $note->id_detil = $tmp->id_detil;
+                    $note->tanggal = date('Y-m-d');
+                    $note->flag = 0;
+                    $note->keterangan = 'Belum ditindaklanjuti';
+                    $note->save();
                 }
                 //dd($notif);
             }
@@ -97,33 +101,51 @@ class NotifikasiController extends Controller
         else{
             $cek = DB::select("SELECT tanggal 
                         FROM Notifikasis ORDER BY tanggal DESC LIMIT 1");
-            //dd($datenow);
-            if($datenow > $cek){
+            if($datenow > $cek[0]->tanggal) {
                 $notif = DB::table('Detil_kontraks')
-                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                        'Anak_perusahaans.id_perusahaan')
-                //->join('Notifikasis','Notifikasis.id_detil','!=','Detil_kontraks.id_detil')
-                ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                ->get();
-                    if(count($notif) > 0){
+                    ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
+                    ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
+                    ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
+                    ->whereNotIn('Detil_kontraks.id_detil', function($q){
+                        $q->select('id_detil')->from('notifikasis');
+                        })
+                    ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
+                    ->get();
+                    $tanda = 1;
+                if(count($notif) > 0){
                     foreach ($notif as $tmp) {
+                        $note = new Notifikasi;
+                        $note->id_detil = $tmp->id_detil;
+                        $note->tanggal = date('Y-m-d');
+                        $note->flag = 0;
+                        $note->keterangan = 'Belum ditindaklanjuti';
+                        $note->save();
+                    }
+                    $datebefore = date('Y-m-d',strtotime("-7 days"));
+                    $tgl = DB::table('Notifikasis')
+                        ->where('Notifikasis.tanggal','<=',$datebefore)
+                        ->where('Notifikasis.flag','=','0')
+                        ->get();
+                //dd($tgl);
+                    $jumlah = array('banyak' => count($tgl), );
+                    Mail::send('coba',$jumlah,function($message){
+                        $message->from('dimas0308@gmail.com','Nyoba');
+                        $message->to('inadewi4@gmail.com')
+                        ->subject('Notifikasi Kontrak Terbengkalai');
+                        });
+                }
+               else{
                     $note = new Notifikasi;
-                    $note->id_detil = $tmp->id_detil;
+                    $note->id_detil = null;
                     $note->tanggal = date('Y-m-d');
                     $note->flag = 0;
-                    $note->keterangan = 'Belum ditindaklanjuti';
-                    $note->save();   
-                    }
-                }
-                //return $this->show();
-            }
-            else{
-                //return $this->show();
-            }
+                    $note->keterangan = 'NULL';
+                    $note->save();
+               } 
+
+            }           
         }
-        //dd($notif); 
+//        dd($notif);
     }
      /**
      * Show the form for creating a new resource.

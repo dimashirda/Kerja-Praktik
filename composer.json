@@ -12,7 +12,8 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "santigarcor/laratrust": "4.0.*",
-        "vinkla/pusher": "^2.5"
+        "vinkla/pusher": "^2.5",
+        "xaamin/whatsapi": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
