@@ -31,16 +31,31 @@
                     {{Session::get('alert-edit')}}.
                 </div>
             </div>
-        @endif
-            @if(Session::has('alert-hapus'))
-                <div class="col-md-12">
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                        {{Session::get('alert-hapus')}}.
-                    </div>
+        @elseif(Session::has('alert-gagaledit'))
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Sukses!</h4>
+                    {{Session::get('alert-gagaledit')}}.
                 </div>
-            @endif
+            </div>
+        @elseif(Session::has('alert-hapus'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-hapus')}}.
+                </div>
+            </div>
+        @elseif(Session::has('alert-gagalhapus'))
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Sukses!</h4>
+                    {{Session::get('alert-gagalhapus')}}.
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">

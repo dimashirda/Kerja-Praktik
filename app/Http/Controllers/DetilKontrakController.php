@@ -29,11 +29,9 @@ class DetilKontrakController extends Controller
             ->where('notifikasis.flag','=','0')
             ->get();
     }
+
     public function index()
     {
-
-//        dd($notif);
-
         $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
@@ -43,6 +41,7 @@ class DetilKontrakController extends Controller
                 ->get();
         return $this->render($dk);
     }
+
     public function create()
     {   
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
@@ -52,11 +51,10 @@ class DetilKontrakController extends Controller
     	return view('upload',['ap'=>$ap, 'am'=>$am, 'plg'=>$plg, 'lyn'=>$lyn, 'allNotif'=>$this->allNotif]);
 
     }
+
     public function store(Request $request)
     {   
-        //dd($request);
         $detil = new Detil_kontrak;
-        //$detil->id_detil = $request->input('id');
         $detil->judul_kontrak = $request->input('nama');
         $detil->id_am = $request->input('id_am');
         $detil->nipnas = $request->input('nipnas');
@@ -64,62 +62,65 @@ class DetilKontrakController extends Controller
         $detil->tgl_mulai = $request->input('tgl_mulai');
         $detil->tgl_selesai = $request->input('tgl_selesai');
         $detil->slg = $request->input('slg');
-        $depan = $request->input('nama');
-        //$depan .=".pdf";
-        //dd($depan);
+        $depan = $request->input('nama').'_'.$request->input('tgl_mulai').'_'.$request->input('tgl_selesai');
         $file = array('image' => Input::file('image'));
-          //dd($file);
-          // setting up rules
-          $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
-          // doing the validation, passing post data, rules and the messages
-          $validator = Validator::make($file, $rules);
-          if ($validator->fails()) {
+        
+        // setting up rules
+        $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+        // doing the validation, passing post data, rules and the messages
+        $validator = Validator::make($file, $rules);
+        if ($validator->fails()) {
             // send back to the page with the input data and errors
             return Redirect::to('upload')->withInput()->withErrors($validator);
-          }
-          else {
+        }
+        else {
             // checking file is valid.
             if (Input::file('image')->isValid()) {
-              $destinationPath = 'uploads'; // upload path
-              $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
-              if($extension == "pdf")
-              {
-                $fileName = $depan.'.'.$extension; // renameing image
-                //dd($fileName);
-                Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-                // sending back with message
-                $detil->nama_dokumen = $depan;
-                Session::flash('success', 'Upload successfully'); 
-                //return Redirect::to('/kontrak');
-              }
-              else
-              {
-                Session::flash('error', 'uploaded file is not valid');
-                return Redirect::to('/home');
-              }
+                $destinationPath = 'uploads'; // upload path
+                $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
+                if($extension == "pdf")
+                {
+                    $fileName = $depan.'.'.$extension; // renameing image
+                    Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+                    
+                    // sending back with message
+                    $detil->nama_dokumen = $depan;
+                }
+                else
+                {
+                    $request->session()->flash('alert-danger', 'Data kontrak gagal ditambahkan');
+                    return redirect('/upload');
+                }
             }
             else {
-              // sending back with error message.
-              Session::flash('error', 'uploaded file is not valid');
-              return Redirect::to('/home');
+                // sending back with error message.
+                $request->session()->flash('alert-danger', 'Data kontrak gagal ditambahkan');
+                return redirect('/upload');
             }
-          }
+        }
+        
         $lyn = $request->input('name');
         $a = count($lyn);
-        $detil->save();
-        //dd($lyn);
-        $i = 0;
-        for($i=0;$i<$a;$i++)
-        {   
-            $lk = new layanan_kontrak;
-            $lk->id_detil = $detil->id_detil;
-            $lk->id_layanan = $lyn[$i];
-            $lk->save();
+        if($detil->save()){
+            echo "masuk";
+            $i = 0;
+            for($i=0;$i<$a;$i++)
+            {   
+                $lk = new layanan_kontrak;
+                $lk->id_detil = $detil->id_detil;
+                $lk->id_layanan = $lyn[$i];
+                $lk->save();
+            }
+        
+            $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
+            return redirect('/upload');
         }
-        //dd($lk);
-        $request->session()->flash('alert-success', 'Data kontrak telah ditambahkan');
-        return redirect('/upload');
+        else{
+            $request->session()->flash('alert-danger', 'Data kontrak gagal ditambahkan');
+            return redirect('/upload');
+        }
     }
+
     public function download(Request $request)
     {
         $name = $request->nama_dokumen;
@@ -138,11 +139,17 @@ class DetilKontrakController extends Controller
     {
         $del = Detil_kontrak::find($id_detil);
         //dd($del);
-        $del->delete();
-        $data->session()->flash('alert-hapus', 'Data kontrak berhasil dihapus');
-
-        return redirect ('/home');
+        if($del->delete())
+        {
+            $data->session()->flash('alert-hapus', 'Data kontrak berhasil dihapus');
+            return redirect ('/home');
+        }
+        else{
+            $request->session()->flash('alert-gagalhapus', 'Data kontrak gagal dihapus');
+            return redirect('/home');
+        }        
     }
+
     public function search(Request $request)
     {
         $kategori = $request->input('kategori');
@@ -214,15 +221,9 @@ class DetilKontrakController extends Controller
                 ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
                 ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
                     'Anak_perusahaans.id_perusahaan')
-                // >whereBetween('Detil_kontraks.tgl_selesai',[$awal,$search2])
-                // ->whereDate('Detil_kontraks.tgl_selesai', '<', $search2)
                 ->where('Detil_kontraks.tgl_selesai', '<=', $tanggal)
                 ->get();
-                //bulan tanggal tahun
-
-                // dd($query);
         }
-            //dd($query);
         else if($kategori=='status') {
             if($search3=='satu') {
                 $datenow = date('Y-m-d');
@@ -262,7 +263,6 @@ class DetilKontrakController extends Controller
             return $this->render($query);
 
     }
-
 
     public function hijau()
     {
@@ -306,6 +306,7 @@ class DetilKontrakController extends Controller
             ->get();
         return $this->render($dk);
     }
+
     public function render($value)
     {   
 
@@ -323,9 +324,7 @@ class DetilKontrakController extends Controller
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
         $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
         $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        //dd($notif);
-//        return view('home',['acc'=>$pluckacc, 'plg'=>$pluckplg, 'ap'=>$pluckap,
-//            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
+        
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
         $hijau = date('Y-m-d',strtotime("+90 days"));        
@@ -333,12 +332,12 @@ class DetilKontrakController extends Controller
             'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif, 'allNotif'=>$this->allNotif]);
         
     }
+
     public function notif()
     {
         $datenow = date('Y-m-d');
         $date = date('Y-m-d', strtotime("+30 days"));
-        //dd($date);
-         $notif = DB::table('Detil_kontraks')
+        $notif = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
@@ -346,7 +345,6 @@ class DetilKontrakController extends Controller
                 ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                 ->get();
         return $this->render($notif);
-//        dd($query);
     }
 
     public function edit($id_detil)
@@ -370,13 +368,10 @@ class DetilKontrakController extends Controller
         $lyn = DB::table('Layanans')->select('id_layanan','nama_layanan')->get();
         return view('detil_kontrak.edit',['dk'=>$dk,'am'=>$am, 'plg'=>$plg, 'ap'=>$ap,'lyn'=>$lyn, 'dt'=>$dt, 'allNotif'=>$this->allNotif]);
     }
-   public function save(Request $request)
+
+    public function save(Request $request)
     {
         $detil = Detil_kontrak::where('id_detil',$request['id'])->first();
-        //dd($detil);
-
-        //$depan .=".pdf";
-        //dd($depan);
 
         if (isset($request['image'])) {
             $detil->id_detil = $request['id'];
@@ -389,62 +384,61 @@ class DetilKontrakController extends Controller
             $detil->slg = $request['slg'];
             $depan = $request['nama'];
             $file = array('image' => Input::file('image'));
-
-
     
-              $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
-              // doing the validation, passing post data, rules and the messages
-              $validator = Validator::make($file, $rules);
-              if ($validator->fails()) {
+            $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+            // doing the validation, passing post data, rules and the messages
+            $validator = Validator::make($file, $rules);
+            if ($validator->fails()) {
                 // send back to the page with the input data and errors
                 return Redirect::to('kontrak/edit/'.$request['id'])->withInput()->withErrors($validator);
-              }
-              else {
-                  // checking file is valid.
-                  if (Input::file('image')->isValid()) {
-                      $destinationPath = 'uploads'; // upload path
-                      $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
-                      if ($extension == "pdf") {
-                          $fileName = $depan . '.' . $extension; // renameing image
-                          //dd($fileName);
-                          Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-                          // sending back with message
-                          $detil->nama_dokumen = $depan;
-                          Session::flash('success', 'Upload successfully');
-                          //return Redirect::to('/kontrak');
-                      } else {
-                          Session::flash('error', 'uploaded file is not valid');
-                          return Redirect::to('/home');
-                      }
-                  } else {
-                      // sending back with error message.
-                      Session::flash('error', 'uploaded file is not valid');
-                      return Redirect::to('/home');
-                  }
-              }
+            }
+            else {
+                // checking file is valid.
+                if (Input::file('image')->isValid()) {
+                    $destinationPath = 'uploads'; // upload path
+                    $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
+                    if ($extension == "pdf") {
+                        $fileName = $depan . '.' . $extension; // renameing image
+                        
+                        Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+                        
+                        // sending back with message
+                        $detil->nama_dokumen = $depan;
+                        Session::flash('success', 'Upload successfully');
+                    } 
+                    else {
+                        $request->session()->flash('alert-gagaledit', 'Data kontrak gagal diubah');
+                        return redirect('/home');
+                    }
+                } 
+                else {
+                    // sending back with error message.
+                    $request->session()->flash('alert-gagaledit', 'Data kontrak gagal diubah');
+                    return redirect('/home');
+                }
+            }
             $detil->save();
-          }
-          else {
-              DB::table('detil_kontraks')
-                  ->where('id_detil', $request['id'])
-                  ->update(['judul_kontrak' => $request['nama'],
-                      'id_am' => $request['id_am'],
-                      'nipnas'=> $request['nipnas'],
-                      'id_perusahaan' => $request['id_perusahaan'],
-                      'tgl_mulai' => $request['tgl_mulai'],
-                      'tgl_selesai' => $request['tgl_selesai'],
-                      'slg' => $request['slg']]);
-          }
+        }
+        else {
+            DB::table('detil_kontraks')
+                ->where('id_detil', $request['id'])
+                ->update(['judul_kontrak' => $request['nama'],
+                        'id_am' => $request['id_am'],
+                        'nipnas'=> $request['nipnas'],
+                        'id_perusahaan' => $request['id_perusahaan'],
+                        'tgl_mulai' => $request['tgl_mulai'],
+                        'tgl_selesai' => $request['tgl_selesai'],
+                        'slg' => $request['slg']]);
+        }
 
         $lyn = $request->input('name');
         $hapus = $request->input('id');
         $a = count($lyn);
 
-        //dd($lyn);
         $i = 0;
         $delete = DB::table('layanan_kontraks')
                     ->where('layanan_kontraks.id_detil','=',$hapus)->delete();
-        //dd($delete);
+
         for($i=0;$i<$a;$i++)
         {
             $lk = new layanan_kontrak;
@@ -452,9 +446,9 @@ class DetilKontrakController extends Controller
             $lk->id_layanan = $lyn[$i];
             $lk->save();
         }
-        //dd($lk);
+
         $request->session()->flash('alert-edit', 'Data kontrak berhasil diubah');
-       return redirect('home');
+        return redirect('home');
 
     }
 }
