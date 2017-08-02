@@ -74,11 +74,11 @@ class LayananController extends Controller
     	$edit->nama_layanan = $data['nama'];
 
         if($edit->save()){
-            $data->session()->flash('alert-success', 'Layanan berhasil diubah.');
+            $data->session()->flash('alert-success', 'Layanan berhasil diperbarui.');
             return redirect('/layanan');
         }
         else{
-            $data->session()->flash('alert-danger', 'Layanan gagal diubah.');
+            $data->session()->flash('alert-danger', 'Layanan gagal diperbarui.');
             return redirect('/layanan');
         }
     }

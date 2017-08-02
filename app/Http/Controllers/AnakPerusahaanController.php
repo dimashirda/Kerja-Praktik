@@ -49,7 +49,7 @@ class AnakPerusahaanController extends Controller
     
     public function store(request $req)
     {
-        $cek = DB::table('anak_perusahaans')->where('id_perusahaan', '=', $req->input('id_anakperu'));
+        $cek = DB::table('anak_perusahaans')->where('id_perusahaan', '=', $req->input('id_anakperu'))->get();
         if(count($cek)){
             $req->session()->flash('alert-danger', 'Data anak perusahaan gagal ditambahkan. ID Perusahaan sudah digunakan.');
             return redirect ('/perusahaan/create');
@@ -85,11 +85,11 @@ class AnakPerusahaanController extends Controller
     	$edit->tlp_perusahaan = $data['tlp_anakperu'];
     	$edit->email_perusahaan = $data['email_anakperu'];
     	if($edit->save()){
-            $data->session()->flash('alert-success', 'Data anak perusahaan berhasil diubah.');
+            $data->session()->flash('alert-success', 'Data anak perusahaan berhasil diperbarui.');
             return redirect('/perusahaan');
         }
         else{
-            $data->session()->flash('alert-danger', 'Data anak perusahaan gagal diubah.');
+            $data->session()->flash('alert-danger', 'Data anak perusahaan gagal diperbarui.');
             return redirect('/perusahaan');
         }
     }

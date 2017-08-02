@@ -56,9 +56,8 @@ class PelangganController extends Controller
     	return view('pelanggan.create', ['allNotif'=>$this->allNotif]);
     }
 
-    public function store(Request $request)
-    {
-        $cek = DB::table('pelanggans')->where('nipnas', '=', $request->input('nipnas'));
+    public function store(Request $request){
+        $cek = DB::table('pelanggans')->where('nipnas', '=', $request->input('nipnas'))->get();
         if(count($cek)){
             $request->session()->flash('alert-danger', 'Data pelanggan gagal ditambahkan. NIPNAS sudah digunakan.');
             return redirect('/pelanggan/create');
@@ -93,15 +92,16 @@ class PelangganController extends Controller
         $edit = pelanggan::where('nipnas',$nipnas)->first();
 
     	$edit->nama_pelanggan = $data['name'];
+        $edit->segmen = $data['segmen'];
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
     	
         if($edit->save()){
-            $data->session()->flash('alert-success', 'Data pelanggan berhasil diubah.');
+            $data->session()->flash('alert-success', 'Data pelanggan berhasil diperbarui.');
             return redirect('/pelanggan');
         }
         else{
-            $data->session()->flash('alert-danger', 'Data pelanggan gagal diubah.');
+            $data->session()->flash('alert-danger', 'Data pelanggan gagal diperbarui.');
             return redirect('/pelanggan');
         }
     }

@@ -72,11 +72,11 @@ class LayananImesController extends Controller
         $edit->flag = $data['flag'];
 
         if($edit->save()){
-            $data->session()->flash('alert-success', 'Layanan IMES berhasil diubah.');
+            $data->session()->flash('alert-success', 'Layanan IMES berhasil diperbarui.');
             return redirect('/imes'); 
         }
         else{
-            $data->session()->flash('alert-danger', 'Layanan IMES gagal diubah.');
+            $data->session()->flash('alert-danger', 'Layanan IMES gagal diperbarui.');
             return redirect('/imes');   
         }        
     }

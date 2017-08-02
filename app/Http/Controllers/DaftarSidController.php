@@ -21,6 +21,7 @@ class DaftarSidController extends Controller
 
     public function vsat()
     {
+        $layanan = 'VSAT';
         $search = \Request::get('search');
         $kategori = \Request::get('kategori');
         if($kategori == "sid")
@@ -29,6 +30,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Daftar_sids.sid', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -39,6 +41,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Anak_perusahaans.nama_perusahaan', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -49,6 +52,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Daftar_sids.alamat_sid', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -59,6 +63,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Daftar_sids.nipnas', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -69,14 +74,13 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Pelanggans.nama_pelanggan', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
         }
         else
-        {
-            $layanan = 'VSAT';
-            
+        {   
             $sid = Daftar_sid::select('*')
                         ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                         ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
@@ -91,6 +95,7 @@ class DaftarSidController extends Controller
 
     public function radio()
     {
+        $layanan = 'Radio';
         $search = \Request::get('search');
         $kategori = \Request::get('kategori');
         if($kategori == "sid")
@@ -99,6 +104,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Daftar_sids.sid', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -110,6 +116,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Anak_perusahaans.nama_perusahaan', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -121,6 +128,7 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Daftar_sids.nipnas', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
@@ -131,14 +139,13 @@ class DaftarSidController extends Controller
                     ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                     ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Layanan_imes.nama_imes', '=', $layanan)
                     ->where('Pelanggans.nama_pelanggan', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
         }
         else
-        {
-            $layanan = 'Radio';
-            
+        {   
             $sid = Daftar_sid::select('*')
                         ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
                         ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
@@ -164,7 +171,7 @@ class DaftarSidController extends Controller
 
     public function store(Request $request)
     {
-        $cek = DB::table('daftar_sids')->where('sid', '=', $request->input('sid'));
+        $cek = DB::table('daftar_sids')->where('sid', '=', $request->input('sid'))->get();
 
         if(count($cek)){
             $request->session()->flash('alert-danger', 'Daftar SID gagal ditambahkan. SID sudah digunakan.');
@@ -209,10 +216,10 @@ class DaftarSidController extends Controller
         $edit->id_imes = $data['id_imes'];
  
         if($edit->save()){
-            $data->session()->flash('alert-success', 'Daftar SID berhasil diubah.');    
+            $data->session()->flash('alert-success', 'Daftar SID berhasil diperbarui.');    
         }
         else{
-            $data->session()->flash('alert-danger', 'Daftar SID gagal diubah.');    
+            $data->session()->flash('alert-danger', 'Daftar SID gagal diperbarui.');    
         }
 
         if($data['id_imes'] == 1){

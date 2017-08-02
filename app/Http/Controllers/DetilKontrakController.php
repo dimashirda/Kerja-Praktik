@@ -389,6 +389,7 @@ class DetilKontrakController extends Controller
             $validator = Validator::make($file, $rules);
             if ($validator->fails()) {
                 // send back to the page with the input data and errors
+                $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui. File yang diunggah tidak sesuai.');
                 return Redirect::to('kontrak/edit/'.$request['id'])->withInput()->withErrors($validator);
             }
             else {
@@ -403,25 +404,23 @@ class DetilKontrakController extends Controller
                         
                         // sending back with message
                         $detil->nama_dokumen = $depan;
-                        Session::flash('success', 'Upload successfully');
                     } 
                     else {
-                        $request->session()->flash('alert-danger', 'Data kontrak gagal diubah.');
+                        $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui. File yang diunggah tidak sesuai.');
                         return redirect('/home');
                     }
                 } 
-                else {
-                    // sending back with error message.
-                    $request->session()->flash('alert-danger', 'Data kontrak gagal diubah.');
-                    return redirect('/home');
+                else {  
+                    $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui. File yang diunggah tidak sesuai.');
+                    return redirect('/upload');
                 }
             }
             if($detil->save()){
-                $request->session()->flash('alert-success', 'Data kontrak berhasil diubah.');
+                $request->session()->flash('alert-success', 'Data kontrak berhasil diperbarui.');
                 return redirect('home');
             }
             else{
-                $request->session()->flash('alert-danger', 'Data kontrak gagal diubah.');
+                $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui.');
                 return redirect('/home');
             }
         }
@@ -436,11 +435,11 @@ class DetilKontrakController extends Controller
                         'tgl_selesai' => $request['tgl_selesai'],
                         'slg' => $request['slg']]);
             if($upd){
-                $request->session()->flash('alert-success', 'Data kontrak berhasil diubah.');
+                $request->session()->flash('alert-success', 'Data kontrak berhasil diperbarui.');
                 return redirect('home');
             }
             else{
-                $request->session()->flash('alert-danger', 'Data kontrak gagal diubah.');
+                $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui.');
                 return redirect('/home');
             }
         }
@@ -458,13 +457,10 @@ class DetilKontrakController extends Controller
             $lk = new layanan_kontrak;
             $lk->id_detil = $detil->id_detil;
             $lk->id_layanan = $lyn[$i];
+            $s = $lk->save();
 
-            if($lk->save()){
-                $request->session()->flash('alert-success', 'Data kontrak berhasil diubah');
-                return redirect('home');
-            }
-            else{
-                $request->session()->flash('alert-danger', 'Data kontrak gagal diubah');
+            if(!($s)){
+                $request->session()->flash('alert-danger', 'Data kontrak gagal diperbarui');
                 return redirect('/home');
             }
         }

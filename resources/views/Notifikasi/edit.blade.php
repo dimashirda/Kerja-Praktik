@@ -8,15 +8,23 @@
 
 @section('content')
 	<div class="row">
-		@if(Session::has('alert-edit'))
-			<div class="col-md-12">
-				<div class="alert alert-success alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<h4><i class="icon fa fa-check"></i> Sukses!</h4>
-					{{Session::get('alert-edit')}}. <a href="{{url('notifikasi')}}">Kembali</a>
-				</div>
-			</div>
-		@endif
+		@if(Session::has('alert-danger'))
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                    {{Session::get('alert-danger')}}
+                </div>
+            </div>
+        @elseif(Session::has('alert-warning'))
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> File Salah!</h4>
+                    {{Session::get('alert-warning')}}
+                </div>
+            </div>
+        @endif
 		<div class="col-md-12">
 			<div class="box box-danger">
 				<div class="box-header">

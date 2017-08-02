@@ -11,6 +11,10 @@ use App\Layanan;
 use App\Notifikasi;
 use App\Http\Controllers\DetilKontrakController;
 use Illuminate\Http\Request;
+use Validator;
+use Redirect;
+use Input;
+
 class NotifikasiController extends Controller
 {
     protected $allNotif;
@@ -93,10 +97,18 @@ class NotifikasiController extends Controller
         $keterangan = $request->input('keterangan');
         if (! isset($request['flag'])) $flag=0;
         else $flag = $request->input('flag');
-        DB::table('Notifikasis')
+        if(DB::table('Notifikasis')
             ->where('id_notifikasi','=',$request['id_notif'])
             ->update(['keterangan' => $keterangan,
-                'flag' => $flag]);
+                'flag' => $flag]))
+        {
+            $notif = 1;
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Notifikasi gagal diperbarui.');
+            return redirect('/notifikasi');
+        }
+
         if (isset($request['image'])) {
             $detil->id_detil = $request['id'];
             $detil->judul_kontrak = $request['nama'];
@@ -115,7 +127,9 @@ class NotifikasiController extends Controller
             $validator = Validator::make($file, $rules);
             if ($validator->fails()) {
                 // send back to the page with the input data and errors
-                return Redirect::to('kontrak/edit/'.$request['id'])->withInput()->withErrors($validator);
+                $request->session()->flash('alert-warning', 'File yang diunggah tidak sesuai.');
+                // return Redirect::to('/notifikasi');
+                return Redirect::to('notifikasi/'.$request['id_notif'])->withInput()->withErrors($validator);
             }
             else {
                 // checking file is valid.
@@ -128,22 +142,26 @@ class NotifikasiController extends Controller
                         Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
                         // sending back with message
                         $detil->nama_dokumen = $depan;
-                        Session::flash('success', 'Upload successfully');
-                        //return Redirect::to('/kontrak');
                     } else {
-                        Session::flash('error', 'uploaded file is not valid');
-                        return Redirect::to('/home');
+                        $request->session()->flash('alert-warning', 'File yang diunggah tidak sesuai.');
+                        return Redirect::to('/notifikasi');
                     }
                 } else {
                     // sending back with error message.
-                    Session::flash('error', 'uploaded file is not valid');
-                    return Redirect::to('/home');
+                    $request->session()->flash('alert-warning', 'File yang diunggah tidak sesuai.');
+                    return Redirect::to('/notifikasi');
                 }
             }
-            $detil->save();
+            if($detil->save()){
+                $notif = 1;
+            }
+            else{
+                $request->session()->flash('alert-danger', 'Notifikasi gagal diperbarui B.');
+                return redirect('/notifikasi');
+            }
         }
         else {
-            DB::table('detil_kontraks')
+            if($upd = DB::table('detil_kontraks')
                 ->where('id_detil', $request['id'])
                 ->update(['judul_kontrak' => $request['nama'],
                     'id_am' => $request['id_am'],
@@ -151,7 +169,10 @@ class NotifikasiController extends Controller
                     'id_perusahaan' => $request['id_perusahaan'],
                     'tgl_mulai' => $request['tgl_mulai'],
                     'tgl_selesai' => $request['tgl_selesai'],
-                    'slg' => $request['slg']]);
+                    'slg' => $request['slg']]))
+            {
+                $notif = 1;
+            }
         }
 
         $lyn = $request->input('name');
@@ -167,12 +188,19 @@ class NotifikasiController extends Controller
             $lk = new layanan_kontrak;
             $lk->id_detil = $detil->id_detil;
             $lk->id_layanan = $lyn[$i];
-            $lk->save();
-        }
+            $s = $lk->save();
 
-        $request->session()->flash('alert-edit', 'Data kontrak berhasil diubah');
-        return redirect('/notifikasi');
-    }
+            if(!($s)){
+                $request->session()->flash('alert-danger', 'Notifikasi gagal diperbarui D.');
+                return redirect('/notifikasi');
+            }
+        }
+        if($notif==1){
+            $request->session()->flash('alert-success', 'Notifikasi berhasil diperbarui.');          
+            return redirect('/notifikasi');
+        }
+     }
+
     public function index()
     {
         $datenow = date('Y-m-d');

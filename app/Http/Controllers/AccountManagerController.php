@@ -49,7 +49,7 @@ class AccountManagerController extends Controller
 
     public function store(Request $req)
     {
-        $cek = DB::table('account_managers')->where('id_am', '=', $req->input('id_accm'));
+        $cek = DB::table('account_managers')->where('id_am', '=', $req->input('id_accm'))->get();
         if(count($cek)){
             $req->session()->flash('alert-danger', 'Data Account Manager gagal ditambahkan. NIK Account Manager sudah digunakan.');
             return redirect ('/accmgr/create');
@@ -92,11 +92,11 @@ class AccountManagerController extends Controller
                     'email_am' => $email]);
             
         if($upd){
-            $req->session()->flash('alert-success', 'Data Account Manager berhasil diubah.');
+            $req->session()->flash('alert-success', 'Data Account Manager berhasil diperbarui.');
             return redirect ('/accmgr');
         }
         else{
-            $req->session()->flash('alert-danger', 'Data Account Manager gagal diubah.');
+            $req->session()->flash('alert-danger', 'Data Account Manager gagal diperbarui.');
             return redirect ('/accmgr');   
         }
     }
