@@ -50,9 +50,9 @@
                                             <select name="kategori" class="form-control input-sm">
                                                 <option value="sid">SID</option>
                                                 <option value="perusahaan">Nama Anak Perusahaan</option>
+                                                <option value="alamat">Alamat SID</option>
                                                 <option value="nipnas">NIPNAS</option>
                                                 <option value="pelanggan">Nama Pelanggan</option>
-                                                <option value="layanan">Layanan IMES</option>
                                             </select>
                                             <input type="search" class="form-control input-sm" name="search" placeholder aria-controls="example1">
                                             <button type="submit" class="btn btn-info btn-flat input-sm">Search</button>

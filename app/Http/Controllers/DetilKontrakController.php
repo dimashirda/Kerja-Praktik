@@ -208,13 +208,19 @@ class DetilKontrakController extends Controller
 
         }
         else if($kategori=='tgl_akhir') {
+            $tanggal = date("Y-m-d", strtotime($search2));
             $query = DB::table('Detil_kontraks')
                 ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
                 ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
                 ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
                     'Anak_perusahaans.id_perusahaan')
-                ->where('tgl_selesai', '<=', $search2)
+                // >whereBetween('Detil_kontraks.tgl_selesai',[$awal,$search2])
+                // ->whereDate('Detil_kontraks.tgl_selesai', '<', $search2)
+                ->where('Detil_kontraks.tgl_selesai', '<=', $tanggal)
                 ->get();
+                //bulan tanggal tahun
+
+                // dd($query);
         }
             //dd($query);
         else if($kategori=='status') {

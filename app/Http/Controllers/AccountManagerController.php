@@ -59,7 +59,7 @@ class AccountManagerController extends Controller
         $acc->email_am = $req->input('email_accm');
 
         $acc->save();
-        $request->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
+        $req->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
         return redirect ('/accmgr');
     }
 

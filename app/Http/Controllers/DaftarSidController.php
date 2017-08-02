@@ -39,7 +39,6 @@ class DaftarSidController extends Controller
                     ->where('Daftar_sids.sid', 'like', '%'.$search.'%')
                     ->orderBy('sid')
                     ->paginate(25);
-
         }
         elseif($kategori == "perusahaan")
         {   
@@ -51,7 +50,16 @@ class DaftarSidController extends Controller
                     ->orderBy('sid')
                     ->paginate(25);
         }
-
+        elseif($kategori == "alamat")
+        {
+            $sid = Daftar_sid::select('*')
+                    ->join('Anak_perusahaans', 'Daftar_sids.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
+                    ->join('pelanggans', 'Daftar_sids.nipnas', '=', 'Pelanggans.nipnas')
+                    ->join('Layanan_imes', 'Daftar_sids.id_imes', '=', 'Layanan_imes.id_imes')
+                    ->where('Daftar_sids.alamat_sid', 'like', '%'.$search.'%')
+                    ->orderBy('sid')
+                    ->paginate(25);
+        }
         elseif($kategori == "nipnas")
         {
             $sid = Daftar_sid::select('*')
@@ -185,7 +193,8 @@ class DaftarSidController extends Controller
 
         $dsid->save();
         $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
-        return redirect('/vsat');
+        
+        return redirect('/sid/create');
     }
 
     public function edit(Request $req, $id)
@@ -215,14 +224,28 @@ class DaftarSidController extends Controller
         $edit->save();
         $data->session()->flash('alert-edit', 'Daftar SID berhasil diubah');
 
-        return redirect('/sid');
+        if($data['id_imes'] == 1){
+            return redirect('/vsat');
+        }
+        else if($data['id_imes'] == 2){
+            return redirect('/radio');
+        }
+
     }
 
     public function delete($id)
     {
+        $vsat = DB::table('Layanan_imes')->select('id_imes')->where('nama_imes', '=', 'VSAT')->get();
+        $radio = DB::table('Layanan_imes')->select('id_imes')->where('nama_imes', '=', 'Radio')->get();
         $del = Daftar_sid::find($id);
+        $imes = DB::table('Daftar_sids')->select('id_imes')->where('sid', '=', $id)->get();
         $del->delete();
-        return redirect ('/sid');
+        if($imes == $vsat){
+            return redirect('/vsat');
+        }
+        else if($imes == $radio){
+            return redirect('/radio');
+        }
     }
 
 }

@@ -185,7 +185,7 @@
                                             <label for="JenisImes" class="col-sm-2 control-label">Jenis Layanan IMES</label>
 
                                             <div class="col-sm-10" style="margin-top:20px">
-                                                <select name="flag" class="form-control">
+                                                <select name="flag" class="form-control" id=flagims>
                                                     <option value="Connectivity">Connectivity</option>
                                                     <option value="Non Connectivity">Non Connectivity</option>
                                                 </select>
