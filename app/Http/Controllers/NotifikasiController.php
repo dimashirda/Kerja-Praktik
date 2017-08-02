@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use DB;
+use Mail;
 //use Notifikasi;
 use App\Account_manager;
 use App\Anak_perusahaan;
@@ -18,6 +19,7 @@ class NotifikasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     protected $allNotif;
     public function __construct() {
         $this->allNotif = DB::table('Notifikasis')
@@ -164,18 +166,22 @@ class NotifikasiController extends Controller
         $isi = DB::table('Notifikasis')->select('*')->get();
         $notif = null;//dd($isi);
         $final = array();
+        //$tanda;
         //dd($date);
         if (count($isi) == 0) {
             $notif = DB::table('Detil_kontraks')
-                ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
-                ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
-                ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
+
+                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                     'Anak_perusahaans.id_perusahaan')
                 //->join('Notifikasis','Notifikasis.id_detil','!=','Detil_kontraks.id_detil')
                 ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
                 ->get();
 
-            if (count($notif) > 0) {
+
+            if(count($notif) > 0){
+
                 foreach ($notif as $tmp) {
                     $note = new Notifikasi;
                     $note->id_detil = $tmp->id_detil;
@@ -186,23 +192,24 @@ class NotifikasiController extends Controller
                 }
                 //dd($notif);
             }
-        } else {
+        } 
+      else {
             $cek = DB::select("SELECT tanggal 
                         FROM Notifikasis ORDER BY tanggal DESC LIMIT 1");
-//            dd($datenow);
-//            dd($cek[0]->tanggal);
-            if ($datenow > $cek[0]->tanggal) {
+
+            if($datenow > $cek[0]->tanggal) {
                 $notif = DB::table('Detil_kontraks')
                     ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
                     ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
                     ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=', 'Anak_perusahaans.id_perusahaan')
-                    ->whereNotIn('Detil_kontraks.id_detil', function ($q) {
+                    ->whereNotIn('Detil_kontraks.id_detil', function($q){
                         $q->select('id_detil')->from('notifikasis');
-                    })
-                    ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
+                        })
+                    ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                     ->get();
-
-                if (count($notif) > 0) {
+                    $tanda = 1;
+              
+                if(count($notif) > 0){
                     foreach ($notif as $tmp) {
                         $note = new Notifikasi;
                         $note->id_detil = $tmp->id_detil;
@@ -211,13 +218,32 @@ class NotifikasiController extends Controller
                         $note->keterangan = 'Belum ditindaklanjuti';
                         $note->save();
                     }
-                }
-                //return $this->show();
 
-            } else {
-                //return $this->show();
-            }
+                    $datebefore = date('Y-m-d',strtotime("-7 days"));
+                    $tgl = DB::table('Notifikasis')
+                        ->where('Notifikasis.tanggal','<=',$datebefore)
+                        ->where('Notifikasis.flag','=','0')
+                        ->get();
+                //dd($tgl);
+                    $jumlah = array('banyak' => count($tgl), );
+                    Mail::send('coba',$jumlah,function($message){
+                        $message->from('dimas0308@gmail.com','Nyoba');
+                        $message->to('inadewi4@gmail.com')
+                        ->subject('Notifikasi Kontrak Terbengkalai');
+                        });
+                }
+               else{
+                    $note = new Notifikasi;
+                    $note->id_detil = null;
+                    $note->tanggal = date('Y-m-d');
+                    $note->flag = 0;
+                    $note->keterangan = 'NULL';
+                    $note->save();
+               } 
+            }           
         }
+//        dd($notif);
+
     }
      /**
      * Show the form for creating a new resource.

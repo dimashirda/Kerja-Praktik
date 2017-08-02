@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Mail;
 use App\Account_manager;
 use App\Anak_perusahaan;
 use App\Detil_kontrak;
@@ -30,7 +31,9 @@ class DetilKontrakController extends Controller
     }
     public function index()
     {
+
 //        dd($notif);
+
         $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
@@ -299,6 +302,7 @@ class DetilKontrakController extends Controller
     }
     public function render($value)
     {   
+
         app('App\Http\Controllers\NotifikasiController')->index();
         $dk = $value;
         $notif = DB::table('Notifikasis')
@@ -318,9 +322,10 @@ class DetilKontrakController extends Controller
 //            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif]);
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
-        $hijau = date('Y-m-d',strtotime("+90 days"));
+        $hijau = date('Y-m-d',strtotime("+90 days"));        
         return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
             'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif, 'allNotif'=>$this->allNotif]);
+        
     }
     public function notif()
     {
