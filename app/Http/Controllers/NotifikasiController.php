@@ -232,14 +232,7 @@ class NotifikasiController extends Controller
                         ->subject('Notifikasi Kontrak Terbengkalai');
                         });
                 }
-               else{
-                    $note = new Notifikasi;
-                    $note->id_detil = null;
-                    $note->tanggal = date('Y-m-d');
-                    $note->flag = 0;
-                    $note->keterangan = 'NULL';
-                    $note->save();
-               } 
+               /*       */ 
             }           
         }
 //        dd($notif);
