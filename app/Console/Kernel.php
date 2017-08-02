@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Console;
-
+use App\Http\Controllers\NotifikasiController;
 use DB;
 use Notifikasi;
 
@@ -38,6 +38,10 @@ class Kernel extends ConsoleKernel
 //        $query = DB::table('Detil_kontraks')
 //                ->whereBetween('tgl_selesai',[$datenow,$date])->get();
 //        })->command('reminders:send')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\NotifikasiController@email')
+                    ->monthlyOn(5,'05:00')->timezone('Asia/Jakarta');
+        $schedule->call('App\Http\Controllers\NotifikasiController@index')
+                    ->dailyAt('05:00')->timezone('Asia/Jakarta');
     }
 
     /**
