@@ -31,6 +31,9 @@ class DetilKontrakController extends Controller
     }
     public function index()
     {
+
+//        dd($notif);
+
         $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
@@ -147,34 +150,16 @@ class DetilKontrakController extends Controller
         $search2 = $request->input('search2');
         $search3 = $request->input('search3');
         if ($kategori == 'ap') {
-
-                $query = Anak_perusahaan::select('id_perusahaan')
-                        ->where('nama_perusahaan','like','%'.$search.'%')
-                        ->get();
-                //dd($query);
-                $final = array();
-                foreach($query as $tmp){
-                    $id = $tmp->id_perusahaan;
-                    /*$hasil = DB::table('Detil_kontraks')
-                            ->select('*')
-                            ->where('id_perusahaan','=',$id)->get();
-                    */
-                    $hasil = Detil_kontrak::select('*')
-                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=','Anak_perusahaans.id_perusahaan')
-                            ->where('Detil_kontraks.id_perusahaan','=',$id)
-                            ->get();
-                    foreach ($hasil as $h) {
-                        array_push($final,$h);
-                    }
-                    //array_push($final,$hasil);
-                    //$->all();   
-                }
-                //dd($final);
-                return $this->render($final);
-                 
+            $final = Detil_kontrak::select('*')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=','Anak_perusahaans.id_perusahaan')
+                    ->where('nama_perusahaan','like','%'.$search1.'%')
+                    ->get();
+                    
+            return $this->render($final);
         }
+
         else if ($kategori == 'nama') {
             $hasil = DB::table('Detil_kontraks')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
@@ -185,86 +170,40 @@ class DetilKontrakController extends Controller
                     ->get();
             return $this->render($hasil);
         }
-        else if ($kategori == 'am'){
-            $query = DB::table('Account_managers')
-                ->where('nama_am','like','%'.$search1.'%')
-                ->get();
-            $final = array();
-                foreach($query as $tmp){
-                    $id = $tmp->id_am;
-                    /*$hasil = DB::table('Detil_kontraks')
-                            ->select('*')
-                            ->where('id_perusahaan','=',$id)->get();
-                    */
-                    $hasil = Detil_kontrak::select('*')
-                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                                'Anak_perusahaans.id_perusahaan')
-                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                            ->where('Detil_kontraks.id_am','=',$id)
-                            ->get();
-                    foreach ($hasil as $h) {
-                        array_push($final,$h);
-                    }
-                    //array_push($final,$hasil);
-                    //$->all();   
-                }
-                //dd($final);
-                return $this->render($final);
-        }
-        else if($kategori == 'pelanggan'){
-            $query = DB::table('Pelanggans')
-                ->where('nama_pelanggan','like','%'.$search1.'%')
-                ->get();
-            $final = array();
-                foreach($query as $tmp){
-                    $id = $tmp->nipnas;
-                    /*$hasil = DB::table('Detil_kontraks')
-                            ->select('*')
-                            ->where('id_perusahaan','=',$id)->get();
-                    */
-                    $hasil = Detil_kontrak::select('*')
-                            ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                                'Anak_perusahaans.id_perusahaan')
-                            ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
-                            ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                            ->where('Detil_kontraks.nipnas','=',$id)
-                            ->get();
-                    foreach ($hasil as $h) {
-                        array_push($final,$h);
-                    }
-                    //array_push($final,$hasil);
-                    //$->all();   
-                }
-                //dd($final);
-                return $this->render($final);
 
+        else if ($kategori == 'am'){
+            $final = Detil_kontrak::select('*')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                                'Anak_perusahaans.id_perusahaan')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->where('nama_am','like','%'.$search1.'%')
+                    ->get();
+                    
+            return $this->render($final);
         }
+
+        else if($kategori == 'pelanggan'){
+            $final = Detil_kontrak::select('*')
+                    ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                                'Anak_perusahaans.id_perusahaan')
+                    ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                    ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                    ->where('nama_pelanggan','like','%'.$search1.'%')
+                    ->get();
+                    
+            return $this->render($final);
+        }
+
         else if($kategori=='nipnas'){
-            $query = DB::table('Pelanggans')
-                ->where('nipnas','like','%'.$search1.'%')
-                ->get();
-            $final = array();
-            foreach($query as $tmp){
-                $id = $tmp->nipnas;
-                /*$hasil = DB::table('Detil_kontraks')
-                        ->select('*')
-                        ->where('id_perusahaan','=',$id)->get();
-                */
-                $hasil = Detil_kontrak::select('*')
+            $final = Detil_kontrak::select('*')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
-                    ->where('Detil_kontraks.nipnas','=',$id)
+                    ->where('Detil_kontraks.nipnas','like','%'.$search1.'%')
                     ->get();
-                foreach ($hasil as $h) {
-                    array_push($final,$h);
-                }
-                //array_push($final,$hasil);
-                //$->all();
-            }
-            //dd($final);
+                
             return $this->render($final);
 
         }
