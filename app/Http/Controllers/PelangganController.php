@@ -16,6 +16,7 @@ class PelangganController extends Controller
             ->where('notifikasis.flag','=','0')
             ->get();
     }
+
     public function index()
     {
         $search = \Request::get('search');
@@ -49,48 +50,73 @@ class PelangganController extends Controller
         }
         return view('pelanggan.index',['pelanggan'=>$pelanggan, 'allNotif'=>$this->allNotif]);
     }
+
     public function create()
     {
     	return view('pelanggan.create', ['allNotif'=>$this->allNotif]);
     }
+
     public function store(Request $request)
-    {	
-    	//dd($request);
-    	$pelanggan = new Pelanggan;
-    	$pelanggan->nipnas = $request->input('nipnas');
-    	$pelanggan->nama_pelanggan = $request->input('nama');
-        $pelanggan->segmen = $request->input('segmen');
-    	$pelanggan->tlp_pelanggan = $request->input('tlp');
-    	$pelanggan->email_pelanggan = $request->input('email');
-    	$pelanggan->save();
-        $request->session()->flash('alert-success', 'Data pelanggan telah ditambahkan');
-    	return redirect('/pelanggan/create');
+    {
+        $cek = DB::table('pelanggans')->where('nipnas', '=', $request->input('nipnas'));
+        if(count($cek)){
+            $request->session()->flash('alert-nipnas', 'Data pelanggan gagal ditambahkan. NIPNAS sudah digunakan.');
+            return redirect('/pelanggan/create');
+        }
+        else{
+            $pelanggan = new Pelanggan;
+            $pelanggan->nipnas = $request->input('nipnas');
+            $pelanggan->nama_pelanggan = $request->input('nama');
+            $pelanggan->segmen = $request->input('segmen');
+            $pelanggan->tlp_pelanggan = $request->input('tlp');
+            $pelanggan->email_pelanggan = $request->input('email');
+
+            if($pelanggan->save()){
+                $request->session()->flash('alert-success', 'Data pelanggan telah ditambahkan');
+                return redirect('/pelanggan/create');
+            }
+            else{
+                $request->session()->flash('alert-danger', 'Data pelanggan gagal ditambahkan');
+                return redirect('/pelanggan/create');
+            }
+        }  
     }
+
     public function edit($nipnas)
     {
     	$plg = pelanggan::find($nipnas);
-    	//dd($plg);
     	return view('pelanggan.edit',['pelanggan' => $plg, 'allNotif'=>$this->allNotif]);
     }
+
     public function save(Request $data, $nipnas)
     {	
-    	//dd($data);
         $edit = pelanggan::where('nipnas',$nipnas)->first();
-//
+
     	$edit->nama_pelanggan = $data['name'];
     	$edit->tlp_pelanggan = $data['tlp'];
     	$edit->email_pelanggan = $data['email'];
-    	$edit->save();
+    	
+        if($edit->save()){
             $data->session()->flash('alert-edit', 'Data pelanggan berhasil diubah');
-
-        return redirect('/pelanggan');
+            return redirect('/pelanggan');
+        }
+        else{
+            $data->session()->flash('alertgagal-edit', 'Data pelanggan gagal diubah');
+            return redirect('/pelanggan');
+        }
     }
+
     public function delete(Request $request, $nipnas)
     {
     	$del = pelanggan::where('nipnas',$nipnas);
-    	$del->delete();
-        $request->session()->flash('alert-hapus', 'Data pelanggan berhasil dihapus');
-    	return redirect ('/pelanggan');
+        if($del->delete()){
+            $request->session()->flash('alert-hapus', 'Data pelanggan berhasil dihapus');
+            return redirect ('/pelanggan');
+        }
+        else {
+            $request->session()->flash('alert-gagalhapus', 'Data pelanggan berhasil dihapus');
+            return redirect ('/pelanggan');
+        }
     }
 }
  

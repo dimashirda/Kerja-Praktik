@@ -16,6 +16,22 @@
                 {{Session::get('alert-success')}}. <a href="{{url('pelanggan')}}">Kembali</a>
             </div>
         </div>
+        @elseif(Session::has('alert-danger'))
+        <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                {{Session::get('alert-danger')}}. <a href="{{url('pelanggan')}}">Kembali</a>
+            </div>
+        </div>
+        @elseif(Session::has('alert-nipnas'))
+        <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                {{Session::get('alert-nipnas')}}. <a href="{{url('pelanggan')}}">Kembali</a>
+            </div>
+        </div>
         @endif
         <div class="col-md-12">
             <div class="box box-danger">
@@ -42,10 +58,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="SegmenPelanggan" class="col-sm-2 control-label">Segmen <span style="color: red">*</span></label>
+                                <label for="SegmenPelanggan" class="col-sm-2 control-label">Segmen</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Segmen" name="segmen" required>
+                                    <input type="text" class="form-control" placeholder="Segmen" name="segmen">
                                 </div>
                             </div>
                             <div class="form-group">
