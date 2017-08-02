@@ -19,36 +19,20 @@
 
     </style>
     <div class="row">
-        @if(Session::has('alert-edit'))
+        @if(Session::has('alert-success'))
             <div class="col-md-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                    {{Session::get('alert-edit')}}.
+                    {{Session::get('alert-success')}}
                 </div>
             </div>
-        @elseif(Session::has('alert-gagaledit'))
+        @elseif(Session::has('alert-danger'))
             <div class="col-md-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
-                    {{Session::get('alert-gagaledit')}}. <a href="{{url('home')}}">Kembali</a>
-                </div>
-            </div>
-        @elseif(Session::has('alert-hapus'))
-            <div class="col-md-12">
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                    {{Session::get('alert-hapus')}}.
-                </div>
-            </div>
-        @elseif(Session::has('alert-gagalhapus'))
-            <div class="col-md-12">
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-times"></i> Gagal!</h4>
-                    {{Session::get('alert-gagalhapus')}}. <a href="{{url('home')}}">Kembali</a>
+                    {{Session::get('alert-danger')}}
                 </div>
             </div>
         @endif

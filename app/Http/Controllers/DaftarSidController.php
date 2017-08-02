@@ -11,20 +11,13 @@ use Illuminate\Http\Request;
 
 class DaftarSidController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-  
-     protected $allNotif;
-     public function __construct() {
-         $this->allNotif = DB::table('Notifikasis')
-             ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
-             ->where('notifikasis.flag','=','0')
-             ->get();
-
-     }
+    protected $allNotif;
+    public function __construct() {
+    $this->allNotif = DB::table('Notifikasis')
+         ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
+         ->where('notifikasis.flag','=','0')
+         ->get();
+    }
 
     public function vsat()
     {
@@ -158,12 +151,6 @@ class DaftarSidController extends Controller
         return view('daftar_sid.index', ['sid'=>$sid, 'allNotif'=>$this->allNotif]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
@@ -175,36 +162,37 @@ class DaftarSidController extends Controller
         return view('daftar_sid.create', ['ap'=>$ap, 'lynconn'=>$lynconn, 'lynnon'=>$lynnon, 'plg'=>$plg, 'allNotif'=>$this->allNotif]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $dsid = new Daftar_sid();
+        $cek = DB::table('daftar_sids')->where('sid', '=', $request->input('sid'));
 
-        $dsid->sid = $request->input('sid');
-        $dsid->id_perusahaan = $request->input('id_perusahaan');
-        $dsid->nipnas = $request->input('nipnas');
-        $dsid->alamat_sid = $request->input('alamat_sid');
-        $dsid->id_imes = $request->input('id_imes');
+        if(count($cek)){
+            $request->session()->flash('alert-danger', 'Daftar SID gagal ditambahkan. SID sudah digunakan.');
+            return redirect('/sid/create');
+        }
+        else{
+            $dsid = new Daftar_sid();
+            $dsid->sid = $request->input('sid');
+            $dsid->id_perusahaan = $request->input('id_perusahaan');
+            $dsid->nipnas = $request->input('nipnas');
+            $dsid->alamat_sid = $request->input('alamat_sid');
+            $dsid->id_imes = $request->input('id_imes');
 
-        $dsid->save();
-        $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
-        
-        return redirect('/sid/create');
+            if($dsid->save()){
+                $request->session()->flash('alert-success', 'Daftar SID telah ditambahkan');
+                return redirect('/sid/create');
+            }
+            else{
+                $request->session()->flash('alert-danger', 'Daftar SID gagal ditambahkan');
+                return redirect('/sid/create');   
+            }
+        }
     }
 
     public function edit(Request $req, $id)
     {
         $s = Daftar_sid::find($id);
-        // $s = DB::table('Daftar_sids')->select('sid', 'id_perusahaan', 'nipnas', 'alamat_sid', 'id_imes')
-        //                                 ->where('sid', $id)->get();
-
-        // dd($s);
-
+        
         $ap = DB::table('Anak_perusahaans')->select('id_perusahaan','nama_perusahaan')->get();
         $lyn = DB::table('Layanan_imes')->select('id_imes','nama_imes', 'flag')->get();
         $plg = DB::table('Pelanggans')->select('nipnas','nama_pelanggan')->get();
@@ -215,14 +203,17 @@ class DaftarSidController extends Controller
     public function save(Request $data, $id)
     {
         $edit = Daftar_sid::where('sid',$id)->first();
-//      dd($edit);
         $edit->id_perusahaan = $data['id_perusahaan'];
         $edit->nipnas = $data['nipnas'];
         $edit->alamat_sid = $data['alamat_sid'];
         $edit->id_imes = $data['id_imes'];
  
-        $edit->save();
-        $data->session()->flash('alert-edit', 'Daftar SID berhasil diubah');
+        if($edit->save()){
+            $data->session()->flash('alert-success', 'Daftar SID berhasil diubah.');    
+        }
+        else{
+            $data->session()->flash('alert-danger', 'Daftar SID gagal diubah.');    
+        }
 
         if($data['id_imes'] == 1){
             return redirect('/vsat');
@@ -230,16 +221,22 @@ class DaftarSidController extends Controller
         else if($data['id_imes'] == 2){
             return redirect('/radio');
         }
-
     }
 
-    public function delete($id)
+    public function delete(Request $data, $id)
     {
         $vsat = DB::table('Layanan_imes')->select('id_imes')->where('nama_imes', '=', 'VSAT')->get();
         $radio = DB::table('Layanan_imes')->select('id_imes')->where('nama_imes', '=', 'Radio')->get();
         $del = Daftar_sid::find($id);
         $imes = DB::table('Daftar_sids')->select('id_imes')->where('sid', '=', $id)->get();
-        $del->delete();
+
+        if($del->delete()){
+            $data->session()->flash('alert-success', 'Daftar SID berhasil dihapus.'); 
+        }
+        else{
+            $data->session()->flash('alert-danger', 'Daftar SID gagal dihapus.');   
+        }
+        
         if($imes == $vsat){
             return redirect('/vsat');
         }
@@ -247,5 +244,4 @@ class DaftarSidController extends Controller
             return redirect('/radio');
         }
     }
-
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Anak_perusahaan;
-
 use Illuminate\Http\Request;
 
 class AnakPerusahaanController extends Controller
@@ -41,7 +40,6 @@ class AnakPerusahaanController extends Controller
             $acc = DB::table('anak_perusahaans')->paginate(25);
         }
     	return view('anak_perusahaans.index',['acc'=>$acc, 'allNotif'=>$this->allNotif]);
-      
     }
     
     public function create()
@@ -53,7 +51,7 @@ class AnakPerusahaanController extends Controller
     {
         $cek = DB::table('anak_perusahaans')->where('id_perusahaan', '=', $req->input('id_anakperu'));
         if(count($cek)){
-            $req->session()->flash('alert-id', 'Data anak perusahaan gagal ditambahkan. ID Perusahaan sudah digunakan.');
+            $req->session()->flash('alert-danger', 'Data anak perusahaan gagal ditambahkan. ID Perusahaan sudah digunakan.');
             return redirect ('/perusahaan/create');
         }
         else{
@@ -64,11 +62,11 @@ class AnakPerusahaanController extends Controller
             $a->email_perusahaan = $req->input('email_anakperu');
 
             if($a->save()){
-                $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
+                $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan.');
                 return redirect ('/perusahaan/create');
             }
             else{
-                $req->session()->flash('alert-danger', 'Data anak perusahaan gagal ditambahkan');
+                $req->session()->flash('alert-danger', 'Data anak perusahaan gagal ditambahkan.');
                 return redirect ('/perusahaan/create');
             }
         }
@@ -87,11 +85,11 @@ class AnakPerusahaanController extends Controller
     	$edit->tlp_perusahaan = $data['tlp_anakperu'];
     	$edit->email_perusahaan = $data['email_anakperu'];
     	if($edit->save()){
-            $data->session()->flash('alert-edit', 'Data anak perusahaan berhasil diubah');
+            $data->session()->flash('alert-success', 'Data anak perusahaan berhasil diubah.');
             return redirect('/perusahaan');
         }
         else{
-            $data->session()->flash('alert-gagaledit', 'Data anak perusahaan gagal diubah');
+            $data->session()->flash('alert-danger', 'Data anak perusahaan gagal diubah.');
             return redirect('/perusahaan');
         }
     }
@@ -99,15 +97,13 @@ class AnakPerusahaanController extends Controller
     public function delete(Request $data, $id_perusahaan)
     {
     	$del = Anak_perusahaan::where('id_perusahaan',$id_perusahaan);
-    	if($del->delete()){        {
-            $data->session()->flash('alert-hapus', 'Data anak perusahaan berhasil dihapus');
+    	if($del->delete()){        
+            $data->session()->flash('alert-success', 'Data anak perusahaan berhasil dihapus.');
             return redirect ('/perusahaan');
         }
         else{
-            $data->session()->flash('alert-gagalhapus', 'Data anak perusahaan gagal dihapus');
+            $data->session()->flash('alert-danger', 'Data anak perusahaan gagal dihapus.');
             return redirect ('/perusahaan');
         }
-
-        
     }
 }

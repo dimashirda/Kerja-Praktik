@@ -25,24 +25,23 @@
         }
     </style>
     <div class="row">
-        @if(Session::has('alert-edit'))
+        @if(Session::has('alert-success'))
             <div class="col-md-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                    {{Session::get('alert-edit')}}.
+                    {{Session::get('alert-success')}}
+                </div>
+            </div>
+        @elseif(Session::has('alert-danger'))
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                    {{Session::get('alert-danger')}}
                 </div>
             </div>
         @endif
-            @if(Session::has('alert-hapus'))
-                <div class="col-md-12">
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                        {{Session::get('alert-hapus')}}.
-                    </div>
-                </div>
-            @endif
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header">

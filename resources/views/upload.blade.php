@@ -13,7 +13,7 @@
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-                    {{Session::get('alert-success')}}. <a href="{{url('home')}}">Kembali</a>
+                    {{Session::get('alert-success')}} <a href="{{url('home')}}">Kembali</a>
                 </div>
             </div>
         @elseif(Session::has('alert-danger'))
@@ -21,7 +21,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
-                    {{Session::get('alert-danger')}}. <a href="{{url('home')}}">Kembali</a>
+                    {{Session::get('alert-danger')}} <a href="{{url('home')}}">Kembali</a>
                 </div>
             </div>
         @endif

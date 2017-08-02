@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Account_manager;
-
 use Illuminate\Http\Request;
 
 class AccountManagerController extends Controller
@@ -19,7 +18,6 @@ class AccountManagerController extends Controller
 
     public function index()
     {
-        //$acc = DB::table('anak_perusahaans')->oldest()->get();
         $search = \Request::get('search');
         $category = \Request::get('kategori');
         if($category == "nama")
@@ -51,22 +49,32 @@ class AccountManagerController extends Controller
 
     public function store(Request $req)
     {
-        $acc = new Account_manager();
-
-        $acc->id_am = $req->input('id_accm');
-        $acc->nama_am = $req->input('nama_accm');
-        $acc->tlp_am = $req->input('tlp_accm');
-        $acc->email_am = $req->input('email_accm');
-
-        $acc->save();
-        $req->session()->flash('alert-success', 'Data Account Manager telah ditambahkan');
-        return redirect ('/accmgr');
+        $cek = DB::table('account_managers')->where('id_am', '=', $req->input('id_accm'));
+        if(count($cek)){
+            $req->session()->flash('alert-danger', 'Data Account Manager gagal ditambahkan. NIK Account Manager sudah digunakan.');
+            return redirect ('/accmgr/create');
+        }
+        else{
+            $acc = new Account_manager();
+            $acc->id_am = $req->input('id_accm');
+            $acc->nama_am = $req->input('nama_accm');
+            $acc->tlp_am = $req->input('tlp_accm');
+            $acc->email_am = $req->input('email_accm');
+            
+            if($acc->save()){
+                $req->session()->flash('alert-success', 'Data Account Manager telah ditambahkan.');
+                return redirect ('/accmgr/create');        
+            }
+            else{
+                $req->session()->flash('alert-danger', 'Data Account Manager gagal ditambahkan.');
+                return redirect ('/accmgr/create');
+            }
+        }
     }
 
     public function edit($id)
     {
         $acc = DB::table('account_managers')->where('id_am', $id)->first();
-        // $acc = account_manager::find($id);
         return view ('account_manager.edit', ['acc' => $acc, 'allNotif'=>$this->allNotif]);
     }
 
@@ -76,34 +84,36 @@ class AccountManagerController extends Controller
         $nama = $req->input('nama_accm');
         $tlp = $req->input('tlp_accm');
         $email = $req->input('email_accm');
-        
-        // $edit = Account_manager::where('id_am', $id)->first();
-        // $edit->nama_am = $nama;
-        // $edit->tlp_am = $tlp;
-        // $edit->email_am = $email;
-        // $edit->save();
-
-        DB::table('account_managers')
+       
+        $upd = DB::table('account_managers')
             ->where('id_am', $id_accmgr)
             ->update(['nama_am' => $nama,
                     'tlp_am' => $tlp,
                     'email_am' => $email]);
-        $req->session()->flash('alert-edit', 'Data Account Manager berhasil diubah');
-
-        return redirect ('/accmgr');
+            
+        if($upd){
+            $req->session()->flash('alert-success', 'Data Account Manager berhasil diubah.');
+            return redirect ('/accmgr');
+        }
+        else{
+            $req->session()->flash('alert-danger', 'Data Account Manager gagal diubah.');
+            return redirect ('/accmgr');   
+        }
     }
 
     public function delete(Request $request, $id_accmgr)
     {
-        DB::table('account_managers')
+        $del = DB::table('account_managers')
             ->where('id_am', $id_accmgr)
             ->delete();
 
-        // $del = account_manager::find($accm);
-        // $del->delete();
-        $request->session()->flash('alert-hapus', 'Data Account Manager berhasil dihapus');
-
-        return redirect ('/accmgr');
-
+        if($del){
+            $request->session()->flash('alert-success', 'Data Account Manager berhasil dihapus.');
+            return redirect ('/accmgr');    
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Data Account Manager gagal dihapus.');
+            return redirect ('/accmgr');    
+        }
     }
 }

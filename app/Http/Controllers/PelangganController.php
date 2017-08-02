@@ -60,7 +60,7 @@ class PelangganController extends Controller
     {
         $cek = DB::table('pelanggans')->where('nipnas', '=', $request->input('nipnas'));
         if(count($cek)){
-            $request->session()->flash('alert-nipnas', 'Data pelanggan gagal ditambahkan. NIPNAS sudah digunakan.');
+            $request->session()->flash('alert-danger', 'Data pelanggan gagal ditambahkan. NIPNAS sudah digunakan.');
             return redirect('/pelanggan/create');
         }
         else{
@@ -72,11 +72,11 @@ class PelangganController extends Controller
             $pelanggan->email_pelanggan = $request->input('email');
 
             if($pelanggan->save()){
-                $request->session()->flash('alert-success', 'Data pelanggan telah ditambahkan');
+                $request->session()->flash('alert-success', 'Data pelanggan telah ditambahkan.');
                 return redirect('/pelanggan/create');
             }
             else{
-                $request->session()->flash('alert-danger', 'Data pelanggan gagal ditambahkan');
+                $request->session()->flash('alert-danger', 'Data pelanggan gagal ditambahkan.');
                 return redirect('/pelanggan/create');
             }
         }  
@@ -97,11 +97,11 @@ class PelangganController extends Controller
     	$edit->email_pelanggan = $data['email'];
     	
         if($edit->save()){
-            $data->session()->flash('alert-edit', 'Data pelanggan berhasil diubah');
+            $data->session()->flash('alert-success', 'Data pelanggan berhasil diubah.');
             return redirect('/pelanggan');
         }
         else{
-            $data->session()->flash('alertgagal-edit', 'Data pelanggan gagal diubah');
+            $data->session()->flash('alert-danger', 'Data pelanggan gagal diubah.');
             return redirect('/pelanggan');
         }
     }
@@ -110,14 +110,12 @@ class PelangganController extends Controller
     {
     	$del = pelanggan::where('nipnas',$nipnas);
         if($del->delete()){
-            $request->session()->flash('alert-hapus', 'Data pelanggan berhasil dihapus');
+            $request->session()->flash('alert-success', 'Data pelanggan berhasil dihapus.');
             return redirect ('/pelanggan');
         }
         else {
-            $request->session()->flash('alert-gagalhapus', 'Data pelanggan berhasil dihapus');
+            $request->session()->flash('alert-danger', 'Data pelanggan berhasil dihapus.');
             return redirect ('/pelanggan');
         }
     }
 }
- 
-

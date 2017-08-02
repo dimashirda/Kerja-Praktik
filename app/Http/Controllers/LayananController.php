@@ -16,6 +16,7 @@ class LayananController extends Controller
             ->where('notifikasis.flag','=','0')
             ->get();
     }
+    
     public function index()
     {
         $search = \Request::get('search');
@@ -45,44 +46,55 @@ class LayananController extends Controller
     {
     	return view('layanan.create', ['allNotif'=>$this->allNotif]);
     }
+    
     public function store(Request $request)
     {	
-    	//dd($request);
     	$layanan = new layanan;
-    	$layanan->id_layanan = $request->input('id');
     	$layanan->nama_layanan = $request->input('nama');
-
-    	//$layanan->deskripsi = $request->input('desk');
-
-    	$layanan->save();
-        $request->session()->flash('alert-success', 'Layanan telah ditambahkan');
-    	return redirect('/layanan');
+    	
+        if($layanan->save()){
+            $request->session()->flash('alert-success', 'Layanan telah ditambahkan.');
+            return redirect('/layanan');
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Layanan gagal ditambahkan.');
+            return redirect('/layanan'); 
+        }
     }
+
     public function edit($id)
     {
     	$lyn = layanan::find($id);
-    	//dd($plg);
     	return view('layanan.edit',['layanan' => $lyn, 'allNotif'=>$this->allNotif]);
     }
+
     public function save(Request $data, $id)
     {	
-//    	dd($data);
     	$edit = layanan::where('id_layanan',$id)->first();
-//    	dd($edit);
     	$edit->nama_layanan = $data['nama'];
-    	//$edit->deskripsi = $data['desk'];
-    	//$edit->email_pelanggan = $data['email'];
-    	$edit->save();
-        $data->session()->flash('alert-edit', 'Layanan berhasil diubah');
 
-        return redirect('/layanan');
+        if($edit->save()){
+            $data->session()->flash('alert-success', 'Layanan berhasil diubah.');
+            return redirect('/layanan');
+        }
+        else{
+            $data->session()->flash('alert-danger', 'Layanan gagal diubah.');
+            return redirect('/layanan');
+        }
     }
+
     public function delete(Request $data, $id)
     {
     	$del = layanan::find($id);
-    	$del->delete();
-        $data->session()->flash('alert-hapus', 'Layanan berhasil dihapus');
-        return redirect ('/layanan');
+    	if($del->delete())
+        {
+            $data->session()->flash('alert-success', 'Layanan berhasil dihapus.');
+            return redirect ('/layanan');
+        }
+        else{
+            $data->session()->flash('alert-danger', 'Layanan gagal dihapus.');
+            return redirect ('/layanan');
+        }
+        
     }
 }
-
