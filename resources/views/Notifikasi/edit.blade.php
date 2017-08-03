@@ -20,7 +20,7 @@
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-times"></i> File Salah!</h4>
+                    <h4><i class="icon fa fa-exclamation"></i> File Salah!</h4>
                     {{Session::get('alert-warning')}}
                 </div>
             </div>

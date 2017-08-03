@@ -70,6 +70,7 @@ class DetilKontrakController extends Controller
         // doing the validation, passing post data, rules and the messages
         $validator = Validator::make($file, $rules);
         if ($validator->fails()) {
+            $request->session()->flash('alert-danger', 'Data kontrak gagal ditambahkan. File yang diunggah tidak sesuai.');
             // send back to the page with the input data and errors
             return Redirect::to('upload')->withInput()->withErrors($validator);
         }
