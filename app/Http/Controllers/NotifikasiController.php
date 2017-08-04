@@ -207,14 +207,34 @@ class NotifikasiController extends Controller
         $date = date('Y-m-d', strtotime("+90 days"));
         $notif = null;//dd($isi);
         $final = array();
-        $notif = DB::table('Detil_kontraks')
+        $table = DB::table('Notifikasis')->select('id_detil')->get();
+        //dd($table);
+        if(count($table) > 0)
+        {   
+            $notif = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                     'Anak_perusahaans.id_perusahaan')
+                ->whereNotIn('Detil_kontraks.id_detil',function($q){
+                    $q->select('id_detil')->from('Notifikasis');
+                })
                 ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
                 ->get();
-
+           
+        }
+        else{
+            $notif = DB::table('Detil_kontraks')
+                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+                ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
+                ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
+                    'Anak_perusahaans.id_perusahaan')
+                #->whereNotIn('Detil_kontraks.id_detil',[$table->id_detil])
+                ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
+                ->get();
+        
+        }
+        //dd($notif);
             if(count($notif) > 0){
                 foreach ($notif as $tmp) {
                     $note = new Notifikasi;
