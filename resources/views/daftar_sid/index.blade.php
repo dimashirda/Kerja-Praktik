@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Daftar SID')
 
 @section('content_header')
     <h1>Daftar SID</h1>

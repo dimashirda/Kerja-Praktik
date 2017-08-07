@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Perbarui Daftar SID')
 
 @section('content_header')
     <h1>Daftar SID</h1>
@@ -61,10 +61,19 @@
 
                                 <div class="col-sm-9">
                                     <select name="id_imes" class="form-control select2">
-                                            <option value="{{$s->daftar_imes->id_imes}}">{{$s->daftar_imes->flag}} - {{$s->daftar_imes->nama_imes}}</option>
-                                        @foreach($lyn as $l)
-                                            <option value="{{$l->id_imes}}">{{$l->flag}} - {{$l->nama_imes}}</option>
-                                        @endforeach
+                                        <option value="{{$s->daftar_imes->id_imes}}">{{$s->daftar_imes->flag}} - {{$s->daftar_imes->nama_imes}}</option>
+
+                                        <optgroup label="Connectivity">
+                                            @foreach($lynconn as $l)
+                                                <option value="{{$l->id_imes}}">{{$l->nama_imes}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        <optgroup label="Non Connectivity">
+                                            @foreach($lynnon as $l)
+                                                <option value="{{$l->id_imes}}">{{$l->nama_imes}}</option>
+                                            @endforeach
+                                        </optgroup>
+
                                     </select>
                                 </div>
                             </div>
@@ -72,7 +81,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a href="{{route('accmgr')}}">
+                            <a href="{{route('home')}}">
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>

@@ -78,8 +78,13 @@ Route::middleware(['auth'])->group(function() {
     
     Route::get('/imes', 'LayananImesController@index')->name('imes');
     
-    Route::get('/vsat', 'DaftarSidController@vsat')->name('vsat');
-    Route::get('/radio', 'DaftarSidController@radio')->name('radio');
+    Route::get('/vsat', 'DaftarSidController@sid')->name('vsat');
+    Route::get('/radio', 'DaftarSidController@sid')->name('radio');
+    Route::get('/device', 'DaftarSidController@sid')->name('device');
+    Route::get('/network', 'DaftarSidController@sid')->name('network');
+    Route::get('/application', 'DaftarSidController@sid')->name('application');
+    Route::get('/platform', 'DaftarSidController@sid')->name('platform');
+    Route::get('/services', 'DaftarSidController@sid')->name('services');
     
     Route::get('pelanggan/search', 'SearchController@pelanggan');
 

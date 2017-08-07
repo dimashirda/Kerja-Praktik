@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Tambah Anak Perusahaan')
 
 @section('content_header')
     <h1>Anak Perusahaan</h1>

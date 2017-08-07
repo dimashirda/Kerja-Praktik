@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Account Manager')
 
 @section('content_header')
     <h1>Account Manager</h1>
