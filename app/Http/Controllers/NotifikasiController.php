@@ -28,26 +28,43 @@ class NotifikasiController extends Controller
     public function email()
     {
         $datebefore = date('Y-m-d',strtotime("+30 days"));
-        $dk = DB::table('Detil_kontraks')
+/*        $dk = DB::table('Detil_kontraks')
             ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
             ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
             ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                 'Anak_perusahaans.id_perusahaan')
             ->where('Detil_kontraks.tgl_selesai','<=',$datebefore)
-            ->get();
-
-        $jumlah = array(
+            ->get();*/
+        //dd($datebefore);
+        $dk = DB::select ("SELECT Detil_kontraks.judul_kontrak as jk, Account_managers.nama_am as am, 
+            Pelanggans.nama_pelanggan as np
+            FROM Detil_kontraks, Account_managers, Pelanggans, Notifikasis 
+            WHERE Detil_kontraks.id_am=Account_managers.id_am 
+            AND Detil_kontraks.nipnas=Pelanggans.nipnas
+            AND Detil_kontraks.id_detil=Notifikasis.id_detil
+            AND Detil_kontraks.tgl_selesai <= '".$datebefore."'
+            AND Notifikasis.flag = '0' ");
+        //dd($dk);
+        if(count($dk) > 0){
+            $jumlah = array(
             'banyak'=>count($dk),
-            'nama' => $nama = array(),
+            'judul' => $nama = array(),
+            #'manager' => $manager = array(),
+            #'pelanggan' => $pelanggan = array(),
             );
         foreach ($dk as $tmp) {
-            array_push($jumlah['nama'],$tmp->judul_kontrak);
+            array_push($jumlah['judul'],$tmp->jk);
+            #array_push($jumlah['manager'],$tmp->am);
+            #array_push($jumlah['pelanggan'],$tmp->np);
         }
+        //dd($jumlah);
         Mail::send('coba',$jumlah,function($message){
-            $message->from('dimas0308@gmail.com','Nyoba');
+            $message->from('dimas0308@gmail.com','ImesTelkom');
             $message->to('inadewi4@gmail.com')
-            ->subject('Notifikasi Kontrak Terbengkalai');
-            });
+            ->subject('Notifikasi Kontrak');
+            });    
+        }
+        
     }
     
     public function render($val)
@@ -61,12 +78,17 @@ class NotifikasiController extends Controller
     
     public function showwhole()
     {
-        $notif = DB::table('Notifikasis')
+        /*$notif = DB::table('Notifikasis')
                     ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
                     ->orderBy('Notifikasis.flag', 'ASC')
                     ->orderBy('Notifikasis.updated_at', 'DESC')
-                    ->get();
-
+                    ->get();*/                
+        $notif = DB::select("SELECT detil_kontraks.judul_kontrak, detil_kontraks.id_detil, 
+                    notifikasis.id_notifikasi, detil_kontraks.tgl_selesai, 
+                    notifikasis.keterangan, notifikasis.flag 
+                    FROM detil_kontraks, notifikasis 
+                    WHERE detil_kontraks.id_detil = notifikasis.id_detil 
+                    ORDER BY notifikasis.flag ASC");
         return $this->render($notif);
     }
     
@@ -211,12 +233,12 @@ class NotifikasiController extends Controller
         //dd($table);
         if(count($table) > 0)
         {   
-            $notif = DB::table('Detil_kontraks')
-                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            $notif = DB::table('Detil_kontraks')->select('id_detil')
+                /*->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                     'Anak_perusahaans.id_perusahaan')
-                ->whereNotIn('Detil_kontraks.id_detil',function($q){
+                */->whereNotIn('Detil_kontraks.id_detil',function($q){
                     $q->select('id_detil')->from('Notifikasis');
                 })
                 ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
@@ -224,11 +246,11 @@ class NotifikasiController extends Controller
            
         }
         else{
-            $notif = DB::table('Detil_kontraks')
-                ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
+            $notif = DB::table('Detil_kontraks')->select('id_detil')
+            /*  ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
-                    'Anak_perusahaans.id_perusahaan')
+                    'Anak_perusahaans.id_perusahaan')*/
                 #->whereNotIn('Detil_kontraks.id_detil',[$table->id_detil])
                 ->whereBetween('Detil_kontraks.tgl_selesai', [$datenow, $date])
                 ->get();

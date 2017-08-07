@@ -31,13 +31,23 @@ class DetilKontrakController extends Controller
 
     public function index()
     {
-        $dk = DB::table('Detil_kontraks')
+/*        $dk = DB::table('Detil_kontraks')
                 ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                 ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                 ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                 ->orderBy(DB::raw('LENGTH(Detil_kontraks.nipnas), Detil_kontraks.nipnas'))
-                ->get();
+                ->get();*/
+        $dk = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+            pelanggans.nama_pelanggan, 
+            anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+            Account_managers.id_am, Account_managers.nama_am 
+            FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+            WHERE detil_kontraks.nipnas = pelanggans.nipnas
+            AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+            AND detil_kontraks.id_am = Account_managers.id_am
+            ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
+
         return $this->render($dk);
     }
 
@@ -159,114 +169,203 @@ class DetilKontrakController extends Controller
         $search2 = $request->input('search2');
         $search3 = $request->input('search3');
         if ($kategori == 'ap') {
-            $final = Detil_kontrak::select('*')
+/*            $final = Detil_kontrak::select('*')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=','Anak_perusahaans.id_perusahaan')
                     ->where('nama_perusahaan','like','%'.$search1.'%')
-                    ->get();
-                    
+                    ->get();*/
+            $final = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND anak_perusahaans.nama_perusahaan LIKE '%".$search1."%'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");                    
             return $this->render($final);
         }
 
         else if ($kategori == 'nama') {
-            $hasil = DB::table('Detil_kontraks')
+            /*$hasil = DB::table('Detil_kontraks')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->where('judul_kontrak','like','%'.$search1.'%')
-                    ->get();
+                    ->get();*/
+            $hasil = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND detil_kontraks.judul_kontrak LIKE '%".$search1."%'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
+
             return $this->render($hasil);
         }
 
         else if ($kategori == 'am'){
-            $final = Detil_kontrak::select('*')
+/*            $final = Detil_kontrak::select('*')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                                 'Anak_perusahaans.id_perusahaan')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->where('nama_am','like','%'.$search1.'%')
-                    ->get();
+                    ->get();*/
+            $final = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND Account_managers.nama_am LIKE '%".$search1."%'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
                     
             return $this->render($final);
         }
 
         else if($kategori == 'pelanggan'){
-            $final = Detil_kontrak::select('*')
+            /*$final = Detil_kontrak::select('*')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                                 'Anak_perusahaans.id_perusahaan')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->where('nama_pelanggan','like','%'.$search1.'%')
-                    ->get();
+                    ->get();*/
+            $final = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND Pelanggans.nama_pelanggan LIKE '%".$search1."%'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
                     
             return $this->render($final);
         }
 
         else if($kategori=='nipnas'){
-            $final = Detil_kontrak::select('*')
+            /*$final = Detil_kontrak::select('*')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->where('Detil_kontraks.nipnas','like','%'.$search1.'%')
-                    ->get();
-                
+                    ->get();*/
+             $final = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND Pelanggans.nipnas LIKE '%".$search1."%'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");   
             return $this->render($final);
 
         }
         else if($kategori=='tgl_akhir') {
             $tanggal = date("Y-m-d", strtotime($search2));
-            $query = DB::table('Detil_kontraks')
+            /*$query = DB::table('Detil_kontraks')
                 ->join('Account_managers', 'Detil_kontraks.id_am', '=', 'Account_managers.id_am')
                 ->join('Pelanggans', 'Detil_kontraks.nipnas', '=', 'Pelanggans.nipnas')
                 ->join('Anak_perusahaans', 'Detil_kontraks.id_perusahaan', '=',
                     'Anak_perusahaans.id_perusahaan')
                 ->where('Detil_kontraks.tgl_selesai', '<=', $tanggal)
-                ->get();
+                ->get();*/
+            $query = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND detil_kontraks.tgl_selesai <= '".$tanggal."'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
         }
         else if($kategori=='status') {
             if($search3=='satu') {
-                $datenow = date('Y-m-d');
+                //$datenow = date('Y-m-d');
                 $date = date('Y-m-d', strtotime("+30 days"));
-                $query = DB::table('Detil_kontraks')
+                /*$query = DB::table('Detil_kontraks')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->where('Detil_kontraks.tgl_selesai','<=',$date)
-                    ->get();
+                    ->get();*/
+                $query = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND detil_kontraks.tgl_selesai <= '".$date."'
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
             }
             else if ($search3=='dua') {
                 $datenow = date('Y-m-d',strtotime("+31 days"));
                 $date = date('Y-m-d', strtotime("+60 days"));
 
-                $query = DB::table('Detil_kontraks')
+                /*$query = DB::table('Detil_kontraks')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                    ->get();
+                    ->get();*/
+                $query = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND (detil_kontraks.tgl_selesai BETWEEN '".$datenow."' AND '".$date."')
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
             }
             else if ($search3=='tiga') {
                 $datenow = date('Y-m-d',strtotime("+61 days"));
                 $date = date('Y-m-d', strtotime("+90 days"));
-                $query = DB::table('Detil_kontraks')
+                /*$query = DB::table('Detil_kontraks')
                     ->join('Account_managers','Detil_kontraks.id_am','=','Account_managers.id_am')
                     ->join('Pelanggans','Detil_kontraks.nipnas','=','Pelanggans.nipnas')
                     ->join('Anak_perusahaans','Detil_kontraks.id_perusahaan','=',
                         'Anak_perusahaans.id_perusahaan')
                     ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
-                    ->get();
+                    ->get();*/
+                $query = DB::select("SELECT detil_kontraks.*, pelanggans.nipnas, 
+                    pelanggans.nama_pelanggan, 
+                    anak_perusahaans.id_perusahaan, anak_perusahaans.nama_perusahaan,
+                    Account_managers.id_am, Account_managers.nama_am 
+                    FROM detil_kontraks, pelanggans, anak_perusahaans, Account_managers
+                    WHERE detil_kontraks.nipnas = pelanggans.nipnas
+                    AND detil_kontraks.id_perusahaan = anak_perusahaans.id_perusahaan
+                    AND detil_kontraks.id_am = Account_managers.id_am
+                    AND (detil_kontraks.tgl_selesai BETWEEN '".$datenow."' AND '".$date."')
+                    ORDER BY LENGTH(Detil_kontraks.nipnas) ASC");
             }
         }
             return $this->render($query);
 
     }
 
-    public function hijau()
+    /*public function hijau()
     {
         $datenow = date('Y-m-d',strtotime("+61 days"));
         $date = date('Y-m-d', strtotime("+90 days"));
@@ -307,32 +406,38 @@ class DetilKontrakController extends Controller
             ->where('Detil_kontraks.tgl_selesai','<=',$date)
             ->get();
         return $this->render($dk);
-    }
+    }*/
 
     public function render($value)
     {   
         $dk = $value;
-        $notif = DB::table('Notifikasis')
+        /*$notif = DB::table('Notifikasis')
                 ->join('Detil_kontraks','Detil_kontraks.id_detil','=','Notifikasis.id_detil')
                 ->where('Notifikasis.flag','=','0')
-                ->get();
-        $dt = DB::table('layanan_kontraks')
+                ->get();*/
+        /*$dt = DB::table('layanan_kontraks')
                 ->join('Layanans','Layanans.id_layanan','=','layanan_kontraks.id_layanan')
                 ->join('Detil_kontraks','layanan_kontraks.id_detil','=','Detil_kontraks.id_detil')
-                ->get();        
-        $pluckacc = Account_manager::pluck('id_am','nama_am'); 
+                ->get();*/
+        $dt = DB::select("SELECT layanan_kontraks.id_layanan_kontrak, 
+                layanans.id_layanan, layanans.nama_layanan,
+                Detil_kontraks.id_detil 
+                FROM layanan_kontraks, layanans, detil_kontraks 
+                WHERE detil_kontraks.id_detil = layanan_kontraks.id_detil 
+                AND layanans.id_layanan = layanan_kontraks.id_layanan");       
+        /*$pluckacc = Account_manager::pluck('id_am','nama_am'); 
         $pluckplg = Pelanggan::pluck('nipnas','nama_pelanggan');
         $pluckap = Anak_perusahaan::pluck('id_perusahaan','nama_perusahaan');
         $pluckly = layanan::pluck('id_layanan','nama_layanan');
-        
+        */
         $merah = date('Y-m-d',strtotime("+30 days"));
         $kuning = date('Y-m-d',strtotime("+60 days"));
         $hijau = date('Y-m-d',strtotime("+90 days"));        
         return view('home',['merah'=>$merah, 'kuning'=>$kuning, 'hijau'=>$hijau,
-            'dk'=>$dk, 'dt'=>$dt, 'notif'=>$notif, 'allNotif'=>$this->allNotif]);
+            'dk'=>$dk, 'dt'=>$dt, /*'notif'=>$notif,*/ 'allNotif'=>$this->allNotif]);
     }
 
-    public function notif()
+    /*public function notif()
     {
         $datenow = date('Y-m-d');
         $date = date('Y-m-d', strtotime("+30 days"));
@@ -344,7 +449,7 @@ class DetilKontrakController extends Controller
                 ->whereBetween('Detil_kontraks.tgl_selesai',[$datenow,$date])
                 ->get();
         return $this->render($notif);
-    }
+    }*/
 
     public function edit($id_detil)
     {

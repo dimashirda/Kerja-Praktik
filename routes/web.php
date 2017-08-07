@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/home', 'DetilKontrakController@index')->name('home');
     Route::get('kontrak/download/{nama_dokumen}','DetilKontrakController@download');
     Route::get('home/search','DetilKontrakController@search');
-    Route::get('kontrak/notifikasi','DetilKontrakController@notif');
+    //Route::get('kontrak/notifikasi','DetilKontrakController@notif');
 
     Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan');
     

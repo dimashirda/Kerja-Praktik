@@ -1,13 +1,13 @@
 <html>
 	<head>
 		<body>
-			<h1>ada {{$banyak}} kontrak yang belum ditindaklanjuti</h1>
+			<h1>Terdapat {{$banyak}} kontrak yang belum ditindaklanjuti</h1>
 			<ol>
-				@foreach($nama as $tmp)
-				<li>Kontrak {{$tmp}} akan habis dalam 30 hari</li>
+				@foreach($judul as $tmp)
+				<li>Kontrak {{$tmp}} akan habis kurang dari 30 hari</li>
 				@endforeach
 			</ol>
-			<p>Silahkan buka aplikasi untuk lebih detailnya.</p>
+			<p>Silahkan buka aplikasi kontrak untuk lebih detailnya.</p>
 		</body>
 	</head>
 </html>
