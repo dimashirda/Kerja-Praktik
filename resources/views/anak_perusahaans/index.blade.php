@@ -24,7 +24,7 @@
     </style>
     <div class="row">
         @if(Session::has('alert-success'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         @elseif(Session::has('alert-danger'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
@@ -40,7 +40,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Anak Perusahaan</h3>
@@ -49,7 +49,7 @@
                 <div class="box-body">
                     <form action="{{url('perusahaan')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
                                         <label>Cari berdasarkan:
@@ -68,49 +68,51 @@
                     <br>
                     @if(Auth::User()->role == 1)
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-xs-6">
                             <a href="{{route('addprshn')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
                     <br>
                     @if($acc->count())
-                    <table class="table table-new table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama Perusahaan</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
-                            @if(Auth::User()->role == 1)
-                            <th style="text-align: center" colspan="2">Action</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($acc as $a)
-                        <tr>
-                            <td>{{ $a->id_perusahaan }}</td>
-                            <td>{{ $a->nama_perusahaan }}</td>
-                            <td>{{ $a->tlp_perusahaan }}</td>
-                            <td>{{ $a->email_perusahaan }}</td>
-                            @if(Auth::User()->role == 1)
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_perusahaan}}" data-name="{{$a->nama_perusahaan}}" data-telp="{{$a->tlp_perusahaan}}" data-email="{{$a->email_perusahaan}}">
-                                    Edit
-                                </button>
-                            </td>
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_perusahaan}}" data-id="{{$a->id_perusahaan}}" data-toggle="modal" data-target="#modal-danger">
-                                    Hapus
-                                </button>
-                            </td>
+                    <div style="overflow-x:auto;">
+                        <table class="table table-new table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Perusahaan</th>
+                                <th>No. Telepon</th>
+                                <th>Email</th>
+                                @if(Auth::User()->role == 1)
+                                <th style="text-align: center" colspan="2">Action</th>
                                 @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($acc as $a)
+                            <tr>
+                                <td>{{ $a->id_perusahaan }}</td>
+                                <td>{{ $a->nama_perusahaan }}</td>
+                                <td>{{ $a->tlp_perusahaan }}</td>
+                                <td>{{ $a->email_perusahaan }}</td>
+                                @if(Auth::User()->role == 1)
+                                <td align="center" width="30px">
+                                    <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_perusahaan}}" data-name="{{$a->nama_perusahaan}}" data-telp="{{$a->tlp_perusahaan}}" data-email="{{$a->email_perusahaan}}">
+                                        Edit
+                                    </button>
+                                </td>
+                                <td align="center" width="30px">
+                                    <button type="button" class="btn btn-danger delete-button" data-name="{{$a->nama_perusahaan}}" data-id="{{$a->id_perusahaan}}" data-toggle="modal" data-target="#modal-danger">
+                                        Hapus
+                                    </button>
+                                </td>
+                                    @endif
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     {{$acc->render()}}
+                    </div>
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">

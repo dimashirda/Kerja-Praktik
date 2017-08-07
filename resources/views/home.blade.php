@@ -20,7 +20,7 @@
     </style>
     <div class="row">
         @if(Session::has('alert-success'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
@@ -28,7 +28,7 @@
                 </div>
             </div>
         @elseif(Session::has('alert-danger'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Kontrak</h3>
@@ -45,7 +45,7 @@
                 <div class="box-body">
                     <form action="{{url('home/search')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <div id="i" class="form-inline">
                                     <div class="form-group">
                                         <label>Cari berdasarkan:
@@ -82,7 +82,7 @@
                     <br>
                     @if(Auth::User()->role == 1)
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-xs-6">
                             <a href="{{route('upload')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
 
@@ -90,77 +90,79 @@
                     @endif
                     <br>
                     @if(count($dk) > 0)
-                    <table class="table table-new table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="vertical-align: middle;"></th>
-                                <th style="vertical-align: middle;">NIPNAS</th>
-                                <th style="vertical-align: middle;">Pelanggan</th>
-                                <th style="vertical-align: middle;">Nama Kontrak</th>
-                                <th style="vertical-align: middle;">Anak Perusahaan</th>
-                                <th style="vertical-align: middle;">Tanggal Mulai</th>
-                                <th style="vertical-align: middle;">Tanggal Akhir</th>
-                                <th style="vertical-align: middle;">Layanan</th>
-                                <th style="vertical-align: middle;">SLG (%)</th>
-                                <th style="vertical-align: middle;">Account Manager</th>
-                                <th style="vertical-align: middle; text-align: center" colspan="3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($dk as $d)
-                            <tr>
-                                @if($merah > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #ff3300; font-size: 19px;"></span></td>
-                                @elseif($kuning > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #fde61c; font-size: 19px"></span></td>
-                                @elseif($hijau > $d->tgl_selesai)
-                                <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #00e600; font-size: 19px"></span></td>
-                                @else
-                                <td style="text-align: center"><span></span></td>
-                                @endif
-                                <td>{{$d->nipnas}}</td>
-                                <td>{{$d->nama_pelanggan}}</td>
-                                <td>{{$d->judul_kontrak}}</td>
-                                <td>{{$d->nama_perusahaan}}</td>
-                                <td>{{$d->tgl_mulai}}</td>
-                                <td>{{$d->tgl_selesai}}</td>
-                                <td><ul class="b">
-                                    @foreach($dt as $ld)
-                                        @if($d->id_detil == $ld->id_detil)
-                                            <li class="a">{{$ld->nama_layanan}}</li><br>
-                                        @endif
-                                    @endforeach
-                                    </ul></td>
-                                <td>{{$d->slg}}</td>
+                    <div style="overflow-x:auto;">
+                        <table class="table table-new table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: middle;"></th>
+                                    <th style="vertical-align: middle;">NIPNAS</th>
+                                    <th style="vertical-align: middle;">Pelanggan</th>
+                                    <th style="vertical-align: middle;">Nama Kontrak</th>
+                                    <th style="vertical-align: middle;">Anak Perusahaan</th>
+                                    <th style="vertical-align: middle;">Tanggal Mulai</th>
+                                    <th style="vertical-align: middle;">Tanggal Akhir</th>
+                                    <th style="vertical-align: middle;">Layanan</th>
+                                    <th style="vertical-align: middle;">SLG (%)</th>
+                                    <th style="vertical-align: middle;">Account Manager</th>
+                                    <th style="vertical-align: middle; text-align: center" colspan="3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($dk as $d)
+                                <tr>
+                                    @if($merah > $d->tgl_selesai)
+                                    <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #ff3300; font-size: 19px;"></span></td>
+                                    @elseif($kuning > $d->tgl_selesai)
+                                    <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #fde61c; font-size: 19px"></span></td>
+                                    @elseif($hijau > $d->tgl_selesai)
+                                    <td style="text-align: center"><span class="fa fa-exclamation-circle" style="color: #00e600; font-size: 19px"></span></td>
+                                    @else
+                                    <td style="text-align: center"><span></span></td>
+                                    @endif
+                                    <td>{{$d->nipnas}}</td>
+                                    <td>{{$d->nama_pelanggan}}</td>
+                                    <td>{{$d->judul_kontrak}}</td>
+                                    <td>{{$d->nama_perusahaan}}</td>
+                                    <td>{{$d->tgl_mulai}}</td>
+                                    <td>{{$d->tgl_selesai}}</td>
+                                    <td><ul class="b">
+                                        @foreach($dt as $ld)
+                                            @if($d->id_detil == $ld->id_detil)
+                                                <li class="a">{{$ld->nama_layanan}}</li><br>
+                                            @endif
+                                        @endforeach
+                                        </ul></td>
+                                    <td>{{$d->slg}}</td>
 
-                                <td>{{$d->nama_am}}</td>
-                                <td align="center" width="30px">
-                                    <a href="{{url('kontrak/download', $d->nama_dokumen)}}">
-                                        <button type="button" title="Download" class="btn btn-default">
-                                            <i class="fa fa-download"></i>
+                                    <td>{{$d->nama_am}}</td>
+                                    <td align="center" width="30px">
+                                        <a href="{{url('kontrak/download', $d->nama_dokumen)}}">
+                                            <button type="button" title="Download" class="btn btn-default">
+                                                <i class="fa fa-download"></i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    @if (Auth::User()->role==1)
+                                    <td align="center" width="30px">
+                                        <a href="{{url('kontrak/edit', $d->id_detil)}}">
+                                            <button type="button" title="Edit" class="btn btn-default">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td align="center" width="30px">
+                                        <button type="button" class="btn btn-default delete-button" title="Hapus" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
+                                            <i class="fa fa-trash"></i>
+
                                         </button>
-                                    </a>
-                                </td>
-                                @if (Auth::User()->role==1)
-                                <td align="center" width="30px">
-                                    <a href="{{url('kontrak/edit', $d->id_detil)}}">
-                                        <button type="button" title="Edit" class="btn btn-default">
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                    </a>
-                                </td>
-                                <td align="center" width="30px">
-                                    <button type="button" class="btn btn-default delete-button" title="Hapus" data-name="{{$d->judul_kontrak}}" data-id="{{$d->id_detil}}" data-toggle="modal" data-target="#modal-danger">
-                                        <i class="fa fa-trash"></i>
+                                    </td>
+                                    @endif
 
-                                    </button>
-                                </td>
-                                @endif
-
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div id="modal-danger" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
