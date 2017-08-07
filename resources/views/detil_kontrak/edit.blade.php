@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Perbarui Data Kontrak')
 
 @section('content_header')
     <h1>Edit Data Kontrak</h1>

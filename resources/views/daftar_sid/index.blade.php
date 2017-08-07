@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Daftar SID')
 
 @section('content_header')
     <h1>Daftar SID</h1>
@@ -26,7 +26,7 @@
     </style>
     <div class="row">
         @if(Session::has('alert-success'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         @elseif(Session::has('alert-danger'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Daftar SID</h3>
@@ -51,7 +51,7 @@
                 <div class="box-body">
                     <form action="{{url('vsat')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
                                         <label>Search by:
@@ -73,55 +73,57 @@
                     <br>
                     @if(Auth::User()->role == 1)
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-xs-6">
                             <a href="{{route('addsid')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
                     @endif
                     <br>
                     @if(count($sid)>0)
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>SID</th>
-                            <th>Nama Anak Perusahaan</th>
-                            <th>Alamat SID</th>
-                            <th>NIPNAS</th>
-                            <th>Nama Pelanggan</th>
-                            <th>Layanan IMES</th>
-                            @if(Auth::User()->role == 1)
-                            <th style="text-align: center" colspan="2">Action</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($sid as $s)
-                        <tr>
-                            <td>{{$s->sid}}</td>
-                            <td>{{$s->nama_perusahaan}}</td>
-                            <td>{{$s->alamat_sid}}</td>
-                            <td>{{$s->nipnas}}</td>
-                            <td>{{$s->nama_pelanggan}}</td>
-                            <td>{{$s->nama_imes}}</td>
-                            
-                            @if(Auth::User()->role == 1)
-                            <td align="center" width="30px">
-                                <a href="{{url('sid/edit',$s->sid)}}" class='btn btn-default'> Edit</a>
-                                <!-- <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-sid="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
-                                    Edit
-                                </button> -->
-                            </td>
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-sid="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
-                                    Hapus
-                                </button>
-                            </td>
-                            @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div style="overflow-x:auto;">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>SID</th>
+                                <th>Nama Anak Perusahaan</th>
+                                <th>Alamat SID</th>
+                                <th>NIPNAS</th>
+                                <th>Nama Pelanggan</th>
+                                <th>Layanan IMES</th>
+                                @if(Auth::User()->role == 1)
+                                <th style="text-align: center" colspan="2">Action</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($sid as $s)
+                            <tr>
+                                <td>{{$s->sid}}</td>
+                                <td>{{$s->nama_perusahaan}}</td>
+                                <td>{{$s->alamat_sid}}</td>
+                                <td>{{$s->nipnas}}</td>
+                                <td>{{$s->nama_pelanggan}}</td>
+                                <td>{{$s->nama_imes}}</td>
+                                
+                                @if(Auth::User()->role == 1)
+                                <td align="center" width="30px">
+                                    <a href="{{url('sid/edit',$s->sid)}}" class='btn btn-default'> Edit</a>
+                                    <!-- <button type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-sid="{{$s->sid}}" data-perusahaan="{{$s->daftar_perusahaan->nama_perusahaan}}" data-alamat="{{$s->alamat_sid}}" data-nipnas="{{$s->daftar_pelanggan->nipnas}}" data-pelanggan="{{$s->daftar_pelanggan->nama_pelanggan}}" data-imes="{{$s->daftar_imes->nama_imes}}">
+                                        Edit
+                                    </button> -->
+                                </td>
+                                <td align="center" width="30px">
+                                    <button type="button" class="btn btn-danger delete-button" data-alamat="{{$s->alamat_sid}}" data-sid="{{$s->sid}}" data-toggle="modal" data-target="#modal-danger">
+                                        Hapus
+                                    </button>
+                                </td>
+                                @endif
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                         {{$sid->render()}}
+                    </div>
                 </div>
                 <!--  -->
                 <div id="modal-danger" class="modal fade" style="display: none;">

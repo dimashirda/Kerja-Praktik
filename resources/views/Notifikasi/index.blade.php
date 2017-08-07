@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Notifikasi')
 
 @section('content_header')
 	<h1>Pemberitahuan</h1>

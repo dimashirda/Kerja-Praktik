@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Layanan')
 
 @section('content_header')
     <h1>Layanan</h1>
@@ -26,7 +26,7 @@
     </style>
     <div class="row">
         @if(Session::has('alert-success'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         @elseif(Session::has('alert-danger'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-times"></i> Gagal!</h4>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Layanan yang Tersedia</h3>
@@ -51,7 +51,7 @@
                 <div class="box-body">
                 <form action="{{url('layanan')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
                                         <label>Cari berdasarkan:
@@ -70,7 +70,7 @@
                     <br>
                     <div class="row">
                         @if(Auth::User()->role == 1)
-                        <div class="col-md-6">
+                        <div class="col-xs-6">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-layanan"><i class="fa fa-plus-circle"></i> Tambah baru</button>
                         </div>
                         @endif
@@ -107,36 +107,38 @@
                     <br>
                     @if(count($layanan) > 0)
                         <?php $i=1 ?>
-                    <table class="table table-new table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Layanan</th>
-                            @if(Auth::User()->role == 1)
-                            <th colspan="2" style="text-align: center">Action</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($layanan as $l)
-                        <tr>
-                            <td>{{$l->id_layanan}}</td>
-                            <td>{{$l->nama_layanan}}</td>
-                            @if(Auth::User()->role == 1)
-                            <td align="center" width="30px">
-                                <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$l->id_layanan}}" data-name="{{$l->nama_layanan}}">
-                                    Edit
-                                </button>
-                            </td>
-                            <td align="center" width="30px">
-                                <button type="button" class="btn btn-danger delete-button" data-name="{{$l->nama_layanan}}" data-id="{{$l->id_layanan}}" data-toggle="modal" data-target="#modal-danger">Hapus</button>
-                            </td>
-                            @endif
-                        </tr>
-                            <?php $i++;?>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div style="overflow-x:auto;">    
+                        <table class="table table-new table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Layanan</th>
+                                @if(Auth::User()->role == 1)
+                                <th colspan="2" style="text-align: center">Action</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($layanan as $l)
+                            <tr>
+                                <td>{{$l->id_layanan}}</td>
+                                <td>{{$l->nama_layanan}}</td>
+                                @if(Auth::User()->role == 1)
+                                <td align="center" width="30px">
+                                    <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$l->id_layanan}}" data-name="{{$l->nama_layanan}}">
+                                        Edit
+                                    </button>
+                                </td>
+                                <td align="center" width="30px">
+                                    <button type="button" class="btn btn-danger delete-button" data-name="{{$l->nama_layanan}}" data-id="{{$l->id_layanan}}" data-toggle="modal" data-target="#modal-danger">Hapus</button>
+                                </td>
+                                @endif
+                            </tr>
+                                <?php $i++;?>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">

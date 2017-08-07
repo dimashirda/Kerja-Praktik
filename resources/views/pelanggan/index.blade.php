@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Pelanggan')
 
 @section('content_header')
     <h1>Pelanggan</h1>
@@ -26,7 +26,7 @@
     </style>
     <div class="row">
         @if(Session::has('alert-success'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Sukses!</h4>
@@ -35,7 +35,7 @@
             </div>
         @endif
         @if(Session::has('alert-danger'))
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><i class="icon fa fa-check"></i> Gagal!</h4>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <h3 class="box-title">Data Pelanggan</h3>
@@ -53,7 +53,7 @@
 
                 <form action="{{url('pelanggan')}}" method="get" role="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <div id="example1_filter" class="form-inline">
                                     <div class="form-group">
                                         <label>Cari berdasarkan:
@@ -73,7 +73,7 @@
                     <br>
                     @if(Auth::User()->role == 1)
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-xs-6">
                             <a href="{{url('pelanggan/create')}}" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah baru</a>
                         </div>
                     </div>
@@ -81,45 +81,47 @@
                     <br>
                     @if(count($pelanggan) > 0)
                         <?php $no=1 ?>
-                    <table id="tabel" class="table table-new table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>NIPNAS</th>
-                            <th>Pelanggan</th>
-                            <th>Segmen</th>
-                            <th>No. Telepon</th>
-                            <th>Email</th>
-                            @if(Auth::User()->role == 1)
-                            <th style="text-align: center" colspan="2">Action</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            @foreach($pelanggan as $p)
-                                <tr>
-                                    <td>{{$p->nipnas}}</td>
-                                    <td>{{$p->nama_pelanggan}}</td>
-                                    <td>{{$p->segmen}}</td>
-                                    <td>{{$p->tlp_pelanggan}}</td>
-                                    <td>{{$p->email_pelanggan}}</td>
-                                    @if(Auth::User()->role == 1)
-                                    <td align="center" width="30px">
-                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-segmen="{{$p->segmen}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
-                                            Edit
-                                        </button>
-                                    </td>
-                                    <td align="center" width="30px">
-                                        <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
-                                            Hapus
-                                        </button>
-                                    </td>
-                                    @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div style="overflow-x:auto;">    
+                        <table id="tabel" class="table table-new table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>NIPNAS</th>
+                                <th>Pelanggan</th>
+                                <th>Segmen</th>
+                                <th>No. Telepon</th>
+                                <th>Email</th>
+                                @if(Auth::User()->role == 1)
+                                <th style="text-align: center" colspan="2">Action</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                @foreach($pelanggan as $p)
+                                    <tr>
+                                        <td>{{$p->nipnas}}</td>
+                                        <td>{{$p->nama_pelanggan}}</td>
+                                        <td>{{$p->segmen}}</td>
+                                        <td>{{$p->tlp_pelanggan}}</td>
+                                        <td>{{$p->email_pelanggan}}</td>
+                                        @if(Auth::User()->role == 1)
+                                        <td align="center" width="30px">
+                                            <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$p->nipnas}}" data-name="{{$p->nama_pelanggan}}" data-segmen="{{$p->segmen}}" data-email="{{$p->email_pelanggan}}" data-telp="{{$p->tlp_pelanggan}}">
+                                                Edit
+                                            </button>
+                                        </td>
+                                        <td align="center" width="30px">
+                                            <button type="button" class="btn btn-danger delete-button" data-name="{{$p->nama_pelanggan}}" data-id="{{$p->nipnas}}" data-toggle="modal" data-target="#modal-danger">
+                                                Hapus
+                                            </button>
+                                        </td>
+                                        @endif
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                         {{$pelanggan->render()}}
+                    </div>
                 </div>
                 <div id="modal-default" class="modal fade" style="display: none;">
                     <div class="modal-dialog">

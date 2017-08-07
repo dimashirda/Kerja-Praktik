@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Tambah Daftar SID')
 
 @section('content_header')
     <h1>Daftar SID</h1>
@@ -93,12 +93,10 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a href="{{route('accmgr')}}">
+                            <a href="{{route('home')}}">
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>
-
-
                         </div>
                         <!-- /.box-footer -->
                     </form>

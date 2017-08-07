@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'SIKontrak')
+@section('title', 'SIKontrak - Struktur Organisasi')
 
 @section('content_header')
 
@@ -15,7 +15,7 @@
         }
     </style>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="box box-danger">
                 <div class="box-header">
                     <center>
@@ -25,12 +25,12 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12 centerImage">
-                        <center>
-                            {{ Html::image('image/struktur_org.png', 'Struktur Organisasi C3', array( 'width' => 900, 'height' => 523, 'align'=>'middle', 'class'=>'centerImage')) }}
-
-                        </center>
-
+                        <div style="overflow-x:auto;">
+                            <div class="col-xs-12 centerImage">
+                                <center>
+                                    {{ Html::image('image/struktur_org.png', 'Struktur Organisasi C3', array( 'width' => 900, 'height' => 523, 'align'=>'middle', 'class'=>'centerImage')) }}
+                                </center>
+                            </div>
                         </div>
                     </div>
                 </div>
